@@ -7,6 +7,8 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
     <style>
       :root {
         --bg: #000;
@@ -19,6 +21,8 @@
         --soft-text: #e8e8e8;
         --icon-border: #333;
         --icon-bg: rgba(255, 255, 255, 0.06);
+        --toggle-border: rgba(255, 255, 255, 0.15);
+        --toggle-hover-bg: rgba(255, 255, 255, 0.12);
         --soft-border: rgba(255, 255, 255, 0.08);
         --hover-border: #3a3a3a;
         --overlay-bg: rgba(0, 0, 0, 0.9);
@@ -43,6 +47,10 @@
         overflow-x: hidden;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       .app {
         position: relative;
         min-height: 100vh;
@@ -60,7 +68,9 @@
         --subtle-text: #d6d6d6;
         --soft-text: #e8e8e8;
         --icon-border: #333;
-        --icon-bg: rgba(255, 255, 255, 0.06);
+        --icon-bg: rgba(255, 255, 255, 0.05);
+        --toggle-border: rgba(255, 255, 255, 0.15);
+        --toggle-hover-bg: rgba(255, 255, 255, 0.12);
         --soft-border: rgba(255, 255, 255, 0.08);
         --hover-border: #3a3a3a;
         --overlay-bg: rgba(0, 0, 0, 0.9);
@@ -77,9 +87,11 @@
         --soft-text: #222;
         --icon-border: #c7c7c2;
         --icon-bg: rgba(0, 0, 0, 0.04);
+        --toggle-border: rgba(0, 0, 0, 0.22);
+        --toggle-hover-bg: rgba(0, 0, 0, 0.08);
         --soft-border: rgba(0, 0, 0, 0.12);
         --hover-border: #bababa;
-        --overlay-bg: rgba(245, 245, 240, 0.6);
+        --overlay-bg: rgba(245, 245, 240, 0.9);
       }
 
       .canvas-bg {
@@ -105,30 +117,32 @@
       }
 
       .icon-toggle {
-        width: 32px;
-        height: 32px;
-        border: 1px solid var(--icon-border);
-        border-radius: 8px;
+        width: 28px;
+        height: 28px;
+        border: 1px solid var(--toggle-border);
+        border-radius: 50%;
         background: var(--icon-bg);
         color: var(--text);
         cursor: pointer;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        transition: background 0.2s ease, border-color 0.2s ease;
       }
 
-      .burst-icon {
-        width: 16px;
-        height: 16px;
+      .icon-toggle:hover {
+        background: var(--toggle-hover-bg);
+      }
+
+      .theme-icon,
+      .diamond-icon {
+        width: 18px;
+        height: 18px;
         stroke: currentColor;
         fill: none;
-        stroke-width: 1.8;
+        stroke-width: 1.5;
         stroke-linecap: round;
-      }
-
-      .burst-icon circle {
-        fill: currentColor;
-        stroke: none;
+        stroke-linejoin: round;
       }
 
       .layout {
@@ -312,6 +326,46 @@
         background-position: center;
       }
 
+      .places-map {
+        width: 100%;
+        height: 400px;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+      }
+
+      .map-marker {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--text);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+      }
+
+      .theme-light .map-marker {
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
+      }
+
+      .mapboxgl-popup-content {
+        border-radius: 8px;
+        background: #1a1a1a;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        font-size: 13px;
+        padding: 6px 12px;
+        box-shadow: none !important;
+      }
+
+      .mapboxgl-popup-tip {
+        display: none;
+      }
+
+      .map-fallback {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 10px;
+      }
+
       .work-tabs {
         display: flex;
         gap: 20px;
@@ -411,6 +465,124 @@
         opacity: 1;
       }
 
+      .list-cards {
+        display: grid;
+        gap: 10px;
+      }
+
+      .list-card {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid var(--card-border);
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 10px 12px;
+      }
+
+      .list-card-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .list-title {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .list-title:hover {
+        text-decoration: underline;
+      }
+
+      .mini-pill {
+        display: inline-block;
+        font-size: 10px;
+        border-radius: 999px;
+        padding: 2px 8px;
+        background: rgba(80, 140, 255, 0.2);
+        border: 1px solid rgba(80, 140, 255, 0.4);
+      }
+
+      .list-date {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .watch-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .watch-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      .watch-title {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+
+      .watch-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: var(--subtle-text);
+      }
+
+      .watch-type {
+        border: 1px solid var(--card-border);
+        border-radius: 999px;
+        padding: 2px 8px;
+        text-transform: lowercase;
+      }
+
+      .media-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .media-card {
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--card-bg);
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      .media-thumb {
+        height: 140px;
+      }
+
+      .media-body {
+        padding: 12px;
+      }
+
+      .media-title {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+
+      .media-foot {
+        display: flex;
+        justify-content: space-between;
+        color: var(--subtle-text);
+        font-size: 12px;
+      }
+
       .mobile-topbar {
         display: none;
         position: fixed;
@@ -439,51 +611,280 @@
         gap: 10px;
       }
 
-      .light-ray-overlay {
+      .fade-slide {
+        opacity: 0;
+        transform: translateY(28px);
+        animation-name: fadeSlideUp;
+        animation-timing-function: ease-out;
+        animation-fill-mode: both;
+      }
+
+      .fade-600 {
+        animation-duration: 600ms;
+      }
+
+      .fade-700 {
+        animation-duration: 700ms;
+      }
+
+      .fade-800 {
+        animation-duration: 800ms;
+      }
+
+      .delay-0 {
+        animation-delay: 0ms;
+      }
+
+      .delay-150 {
+        animation-delay: 150ms;
+      }
+
+      .delay-200 {
+        animation-delay: 200ms;
+      }
+
+      .delay-300 {
+        animation-delay: 300ms;
+      }
+
+      .delay-450 {
+        animation-delay: 450ms;
+      }
+
+      .delay-500 {
+        animation-delay: 500ms;
+      }
+
+      .delay-600 {
+        animation-delay: 600ms;
+      }
+
+      .delay-700 {
+        animation-delay: 700ms;
+      }
+
+      @keyframes fadeSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .diamond-overlay {
         position: fixed;
         inset: 0;
         z-index: 9999;
         pointer-events: none;
         overflow: hidden;
-        animation: overlay-fade 1000ms linear forwards;
+        animation: diamond-overlay-fade 1100ms linear forwards;
       }
 
-      .light-ray {
+      .shockwave-ring {
         position: absolute;
-        top: -24vh;
-        left: -120vw;
-        width: 48vw;
-        height: 170vh;
-        transform: skewX(-18deg);
-        background: linear-gradient(
-          105deg,
-          transparent 0%,
-          rgba(255, 240, 180, 0) 30%,
-          rgba(255, 240, 180, 0.55) 50%,
-          rgba(255, 240, 180, 0) 70%,
-          transparent 100%
-        );
-        filter: blur(1px);
-        animation: ray-sweep 800ms ease-out forwards;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        transform: translate(-50%, -50%);
+        animation: shockwave-expand 400ms ease-out forwards;
       }
 
-      @keyframes ray-sweep {
+      .shockwave-ring.ring-2 {
+        animation-delay: 60ms;
+      }
+
+      .shockwave-ring.ring-3 {
+        animation-delay: 120ms;
+      }
+
+      .diamond-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      .diamond-core {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80px;
+        height: 80px;
+        border: 2px solid rgba(255, 255, 255, 0.95);
+        transform: translate(-50%, -50%) rotate(45deg) scale(0);
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
+        animation: diamond-core-burst 450ms forwards;
+        animation-delay: 150ms;
+      }
+
+      .diamond-core::after {
+        content: "";
+        position: absolute;
+        inset: 16px;
+        border: 1.5px solid rgba(255, 255, 255, 0.8);
+      }
+
+      .diamond-shard {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 34px;
+        height: 34px;
+        background: rgba(255, 255, 255, 0.95);
+        clip-path: polygon(50% 0%, 100% 50%, 50% 100%);
+        transform: translate(-50%, -50%) rotate(45deg);
+        opacity: 0;
+        animation: shard-fly 350ms ease-in forwards;
+        animation-delay: 350ms;
+      }
+
+      .diamond-shard.shard-tl {
+        --dx: -200px;
+        --dy: -200px;
+      }
+
+      .diamond-shard.shard-tr {
+        --dx: 200px;
+        --dy: -200px;
+      }
+
+      .diamond-shard.shard-bl {
+        --dx: -200px;
+        --dy: 200px;
+      }
+
+      .diamond-shard.shard-br {
+        --dx: 200px;
+        --dy: 200px;
+      }
+
+      .diamond-particle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 3px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.92);
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) rotate(0deg);
+        opacity: 0;
+        animation: particle-fly var(--duration) ease-out forwards;
+        animation-delay: calc(300ms + var(--delay));
+      }
+
+      @keyframes shockwave-expand {
         from {
-          transform: translateX(-100vw) skewX(-18deg);
+          width: 0;
+          height: 0;
+          opacity: 0.6;
         }
         to {
-          transform: translateX(220vw) skewX(-18deg);
+          width: 120vw;
+          height: 120vw;
+          opacity: 0;
         }
       }
 
-      @keyframes overlay-fade {
+      @keyframes diamond-core-burst {
+        0% {
+          transform: translate(-50%, -50%) rotate(45deg) scale(0);
+          opacity: 0;
+        }
+        45% {
+          transform: translate(-50%, -50%) rotate(45deg) scale(1.08);
+          opacity: 1;
+        }
+        67% {
+          transform: translate(-50%, -50%) rotate(45deg) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) rotate(45deg) scale(0.7);
+          opacity: 0;
+        }
+      }
+
+      @keyframes shard-fly {
+        from {
+          transform: translate(-50%, -50%) rotate(45deg);
+          opacity: 0;
+        }
+        to {
+          transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(225deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes particle-fly {
+        0% {
+          transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist)) rotate(var(--spin));
+          opacity: 0;
+        }
+      }
+
+      @keyframes diamond-overlay-fade {
         0%,
-        80% {
+        81% {
           opacity: 1;
         }
         100% {
           opacity: 0;
         }
+      }
+
+      .contact-form {
+        max-width: 520px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .contact-input,
+      .contact-textarea {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: white;
+        font-size: 14px;
+        width: 100%;
+        outline: none;
+      }
+
+      .contact-input:focus,
+      .contact-textarea:focus {
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .contact-textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .contact-submit {
+        width: fit-content;
+        border: 1px solid white;
+        border-radius: 999px;
+        background: transparent;
+        color: white;
+        padding: 8px 18px;
+        cursor: pointer;
+        transition: background 200ms ease, color 200ms ease;
+      }
+
+      .contact-submit:hover {
+        background: white;
+        color: black;
       }
 
       @media (max-width: 767px) {
@@ -514,7 +915,9 @@
           min-height: 280px;
         }
 
-        .work-grid {
+        .work-grid,
+        .watch-grid,
+        .media-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -555,19 +958,7 @@
           const randInt = (min, max) => Math.floor(rand(min, max + 1));
           const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
-          const createNode = ({
-            x,
-            y,
-            parentId = null,
-            seedId,
-            startX = x,
-            startY = y,
-            targetX = x,
-            targetY = y,
-            growStart = 0,
-            growDuration = 0,
-            animated = false,
-          }) => ({
+          const createNode = ({ x, y, parentId = null, seedId }) => ({
             id: nextId++,
             x,
             y,
@@ -576,13 +967,6 @@
             radius: rand(1.5, 3.5),
             parentId,
             seedId,
-            startX,
-            startY,
-            targetX,
-            targetY,
-            growStart,
-            growDuration,
-            animated,
           });
 
           const addRecursiveChildren = (parentNode, depth, seedId) => {
@@ -596,50 +980,23 @@
               const distance = rand(minDist, maxDist);
               const childX = clamp(parentNode.x + Math.cos(angle) * distance, 0, width);
               const childY = clamp(parentNode.y + Math.sin(angle) * distance, 0, height);
-              const child = createNode({
-                x: childX,
-                y: childY,
-                parentId: parentNode.id,
-                seedId,
-              });
+              const child = createNode({ x: childX, y: childY, parentId: parentNode.id, seedId });
               nodes.push(child);
               addRecursiveChildren(child, depth + 1, seedId);
             }
           };
 
-          const spawnSeedCluster = (seedX, seedY, animatedFirstBranch = false) => {
+          const spawnSeedCluster = (seedX, seedY) => {
             const seed = createNode({ x: seedX, y: seedY, seedId: nextId });
             seed.seedId = seed.id;
             nodes.push(seed);
-
-            if (animatedFirstBranch) {
-              const now = performance.now();
-              const childCount = randInt(3, 4);
-              for (let i = 0; i < childCount; i += 1) {
-                const angle = rand(0, Math.PI * 2);
-                const distance = rand(60, 120);
-                const targetX = clamp(seed.x + Math.cos(angle) * distance, 0, width);
-                const targetY = clamp(seed.y + Math.sin(angle) * distance, 0, height);
-                nodes.push(
-                  createNode({
-                    x: seed.x,
-                    y: seed.y,
-                    parentId: seed.id,
-                    seedId: seed.id,
-                    startX: seed.x,
-                    startY: seed.y,
-                    targetX,
-                    targetY,
-                    growStart: now,
-                    growDuration: 400,
-                    animated: true,
-                  })
-                );
-              }
-              return;
-            }
-
             addRecursiveChildren(seed, 1, seed.id);
+          };
+
+          const spawnSingleNode = (x, y) => {
+            const node = createNode({ x: clamp(x, 0, width), y: clamp(y, 0, height), seedId: nextId });
+            node.seedId = node.id;
+            nodes.push(node);
           };
 
           const resize = () => {
@@ -653,8 +1010,6 @@
             for (const node of nodes) {
               node.x = clamp(node.x, 0, width);
               node.y = clamp(node.y, 0, height);
-              node.targetX = clamp(node.targetX, 0, width);
-              node.targetY = clamp(node.targetY, 0, height);
             }
           };
 
@@ -679,7 +1034,7 @@
             ctx.stroke();
           };
 
-          const tick = (now) => {
+          const tick = () => {
             ctx.clearRect(0, 0, width, height);
             const dark = isDarkModeRef.current;
             const lineRgb = dark ? "255,255,255" : "0,0,0";
@@ -687,21 +1042,14 @@
 
             for (let i = 0; i < nodes.length; i += 1) {
               const node = nodes[i];
-              if (node.animated) {
-                const t = clamp((now - node.growStart) / node.growDuration, 0, 1);
-                node.x = node.startX + (node.targetX - node.startX) * t;
-                node.y = node.startY + (node.targetY - node.startY) * t;
-                if (t >= 1) node.animated = false;
-              } else {
-                node.x += node.vx;
-                node.y += node.vy;
+              node.x += node.vx;
+              node.y += node.vy;
 
-                if (node.x <= 0 || node.x >= width) node.vx *= -1;
-                if (node.y <= 0 || node.y >= height) node.vy *= -1;
+              if (node.x <= 0 || node.x >= width) node.vx *= -1;
+              if (node.y <= 0 || node.y >= height) node.vy *= -1;
 
-                node.x = clamp(node.x, 0, width);
-                node.y = clamp(node.y, 0, height);
-              }
+              node.x = clamp(node.x, 0, width);
+              node.y = clamp(node.y, 0, height);
 
               for (let j = i + 1; j < nodes.length; j += 1) {
                 drawLine(node, nodes[j], lineRgb, maxOpacity);
@@ -752,31 +1100,31 @@
             mouseRef.current.active = false;
           };
 
-          const onCanvasClick = (event) => {
+          const onMouseDown = (event) => {
             const rect = canvas.getBoundingClientRect();
             const x = event.clientX - rect.left;
             const y = event.clientY - rect.top;
-            spawnSeedCluster(x, y, true);
+            spawnSingleNode(x, y);
           };
 
           resize();
           const initialSeeds = randInt(6, 8);
           for (let i = 0; i < initialSeeds; i += 1) {
-            spawnSeedCluster(rand(0, width), rand(0, height), false);
+            spawnSeedCluster(rand(0, width), rand(0, height));
           }
           tick();
 
           window.addEventListener("resize", resize);
           window.addEventListener("mousemove", onMouseMove);
           window.addEventListener("mouseout", onMouseLeave);
-          canvas.addEventListener("click", onCanvasClick);
+          canvas.addEventListener("mousedown", onMouseDown);
 
           return () => {
             cancelAnimationFrame(rafId);
             window.removeEventListener("resize", resize);
             window.removeEventListener("mousemove", onMouseMove);
             window.removeEventListener("mouseout", onMouseLeave);
-            canvas.removeEventListener("click", onCanvasClick);
+            canvas.removeEventListener("mousedown", onMouseDown);
           };
         }, []);
 
@@ -787,7 +1135,7 @@
         return (
           <>
             <aside className="sidebar">
-              <nav className="sidebar-nav">
+              <nav className="sidebar-nav fade-slide fade-600 delay-0">
                 {items.map((item) => (
                   <a
                     key={item.id}
@@ -847,33 +1195,57 @@
             <div className="section-title">about</div>
             <div className="about-wrap">
               <div>
-                <h1 className="name">Changwook Lee</h1>
-                <div className="subtitle">
-                  building internet things with friends at <span className="inline-accent">@kaist</span>
+                <h1 className="name fade-slide fade-700 delay-150">Changwook Lee</h1>
+                <div className="fade-slide fade-700 delay-300">
+                  <div className="subtitle">
+                    building internet things with friends at <span className="inline-accent">@kaist</span>
+                  </div>
+                  <ul className="bio-list">
+                    <li>
+                      i ship side quests with <TagPill className="tag-green">@hackclub</TagPill> and care a lot
+                      about <TagPill className="tag-indigo">human-centered tooling</TagPill>.
+                    </li>
+                    <li>
+                      recently obsessed with <TagPill className="tag-teal">ai product loops</TagPill>,
+                      <TagPill className="tag-red">realtime systems</TagPill>, and quick prototypes.
+                    </li>
+                    <li>
+                      probably in a cafe writing,
+                      <TagPill className="tag-yellow">pitching</TagPill>, or editing another launch video.
+                    </li>
+                  </ul>
                 </div>
-                <ul className="bio-list">
-                  <li>
-                    i ship side quests with <TagPill className="tag-green">@hackclub</TagPill> and care a lot
-                    about <TagPill className="tag-indigo">human-centered tooling</TagPill>.
-                  </li>
-                  <li>
-                    recently obsessed with <TagPill className="tag-teal">ai product loops</TagPill>,
-                    <TagPill className="tag-red">realtime systems</TagPill>, and quick prototypes.
-                  </li>
-                  <li>
-                    probably in a cafe writing,
-                    <TagPill className="tag-yellow">pitching</TagPill>, or editing another launch video.
-                  </li>
-                </ul>
-                <div className="socials">
-                  <a className="social-link" href="#">X ↗</a>
-                  <a className="social-link" href="#">GitHub ↗</a>
-                  <a className="social-link" href="#">LinkedIn ↗</a>
-                  <a className="social-link" href="#">email ↗</a>
-                  <a className="social-link" href="#">resume ↗</a>
+                <div className="socials fade-slide fade-600 delay-450">
+                  <a
+                    className="social-link"
+                    href="https://github.com/changwook06"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub ↗
+                  </a>
+                  <a
+                    className="social-link"
+                    href="https://www.linkedin.com/in/changwook-lee-%EC%9D%B4%EC%B0%BD%EC%9A%B1-3246a1331/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn ↗
+                  </a>
+                  <a className="social-link" href="mailto:lee.changwook.eh@gmail.com">
+                    email ↗
+                  </a>
+                  <a
+                    className="social-link"
+                    href="#"
+                    title="Coming soon"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    resume ↗
+                  </a>
                 </div>
 
-                <div className="life-strip">
+                <div className="life-strip fade-slide fade-700 delay-500">
                   <div className="section-title" style={{ marginTop: 30, marginBottom: 12 }}>
                     life
                   </div>
@@ -886,9 +1258,88 @@
               </div>
 
               <div>
-                <div className="portrait" aria-label="Portrait placeholder" />
+                <div className="portrait fade-slide fade-800 delay-200" aria-label="Portrait placeholder" />
               </div>
             </div>
+          </section>
+        );
+      }
+
+      function PlacesSection() {
+        const mapRef = useRef(null);
+        const mapContainerRef = useRef(null);
+        const [isMapReady, setIsMapReady] = useState(true);
+
+        useEffect(() => {
+          if (!window.mapboxgl || !mapContainerRef.current) return;
+
+          // TODO: replace with your Mapbox public token
+          const MAPBOX_TOKEN = "pk.eyJ1IjoiY2hhbmd3b29rMDYiLCJhIjoiY21tNXBsZndqMGFqOTJycHFqemdxeHU3aCJ9.BefiyKZ0Uu00e3E6XWM3dw";
+          const hasToken = MAPBOX_TOKEN && MAPBOX_TOKEN !== "YOUR_MAPBOX_PUBLIC_TOKEN";
+          setIsMapReady(Boolean(hasToken));
+          if (!hasToken) return;
+
+          mapboxgl.accessToken = MAPBOX_TOKEN;
+          const map = new mapboxgl.Map({
+            container: mapContainerRef.current,
+            style: "mapbox://styles/mapbox/dark-v11",
+            center: [70, 38],
+            zoom: 1.8,
+          });
+
+          map.dragRotate.disable();
+          map.touchZoomRotate.disableRotation();
+
+          const places = [
+            { coords: [126.9567, 37.3943], label: "Anyang, South Korea — born here" },
+            { coords: [127.3615, 36.3719], label: "KAIST, Daejeon, South Korea — studying here" },
+            {
+              coords: [46.6753, 24.6877],
+              label: "American International School of Riyadh, Saudi Arabia — high school here",
+            },
+            { coords: [-122.0122, 37.3861], label: "Silicon Valley, USA — future goal" },
+            { coords: [2.3522, 48.8566], label: "Paris, France — want to visit" },
+          ];
+
+          const cleanupFns = [];
+          places.forEach((place) => {
+            const markerEl = document.createElement("div");
+            markerEl.className = "map-marker";
+            const popup = new mapboxgl.Popup({ offset: 14, closeButton: false, closeOnClick: false }).setText(
+              place.label
+            );
+            new mapboxgl.Marker(markerEl).setLngLat(place.coords).addTo(map);
+
+            const onEnter = () => {
+              popup.setLngLat(place.coords).addTo(map);
+            };
+            const onLeave = () => {
+              popup.remove();
+            };
+
+            markerEl.addEventListener("mouseenter", onEnter);
+            markerEl.addEventListener("mouseleave", onLeave);
+            cleanupFns.push(() => {
+              markerEl.removeEventListener("mouseenter", onEnter);
+              markerEl.removeEventListener("mouseleave", onLeave);
+              popup.remove();
+            });
+          });
+
+          mapRef.current = map;
+          return () => {
+            cleanupFns.forEach((fn) => fn());
+            map.remove();
+          };
+        }, []);
+
+        return (
+          <section id="places" className="section fade-slide fade-700 delay-600">
+            <div className="section-title">places</div>
+            <div ref={mapContainerRef} className="places-map" />
+            {!isMapReady && (
+              <div className="map-fallback">Set a Mapbox public token to enable the interactive map.</div>
+            )}
           </section>
         );
       }
@@ -964,7 +1415,7 @@
 
         return (
           <section id="work" className="section">
-            <div className="section-title">work</div>
+            <div className="section-title fade-slide fade-700 delay-700">work</div>
             <div className="work-tabs">
               {tabs.map((item) => (
                 <button
@@ -976,9 +1427,152 @@
                 </button>
               ))}
             </div>
-            <div className="work-grid">
+            <div className="work-grid fade-slide fade-700 delay-700">
               {projects.map((project) => (
                 <ProjectCard key={project.title} project={project} />
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function BlogSection() {
+        const blogs = [
+          {
+            id: 1,
+            title: "What I learned building an AI voice agent",
+            tag: "ai",
+            date: "Jan 2025",
+          },
+          {
+            id: 2,
+            title: "Why I chose KAIST over other programs",
+            tag: "life",
+            date: "Nov 2024",
+          },
+          {
+            id: 3,
+            title: "Autonomous systems and the future of robotics",
+            tag: "tech",
+            date: "Sep 2024",
+          },
+          {
+            id: 4,
+            title: "The science of high-pressing football",
+            tag: "football",
+            date: "Aug 2024",
+          },
+        ];
+
+        return (
+          <section id="blog" className="section">
+            <div className="section-title">blog</div>
+            <div className="list-cards">
+              {blogs.map((blog) => (
+                <article key={blog.id} className="list-card">
+                  <div className="list-card-left">
+                    <a
+                      className="list-title"
+                      href={`https://changwook06.github.io/?blogId=${blog.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {blog.title}
+                    </a>
+                    <span className="mini-pill">{blog.tag}</span>
+                  </div>
+                  <div className="list-date">{blog.date}</div>
+                </article>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function WatchlistSection() {
+        const items = [
+          { id: 1, title: "Interstellar", rating: "⭐ 10/10", type: "film" },
+          { id: 2, title: "Severance", rating: "⭐ 9/10", type: "series" },
+          { id: 3, title: "The Social Network", rating: "⭐ 9/10", type: "film" },
+          { id: 4, title: "Oppenheimer", rating: "⭐ 9/10", type: "film" },
+          { id: 5, title: "Succession", rating: "⭐ 10/10", type: "series" },
+          { id: 6, title: "Ex Machina", rating: "⭐ 8/10", type: "film" },
+        ];
+
+        return (
+          <section id="watchlist" className="section">
+            <div className="section-title">watchlist</div>
+            <div className="watch-grid">
+              {items.map((item) => (
+                <a
+                  key={item.id}
+                  className="watch-card"
+                  href={`https://changwook06.github.io/?watchlistId=${item.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <h3 className="watch-title">{item.title}</h3>
+                  <div className="watch-meta">
+                    <span className="watch-type">{item.type}</span>
+                    <span>{item.rating}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function MediaSection() {
+        const items = [
+          {
+            id: 1,
+            title: "Building an AI Voice Agent",
+            type: "video",
+            gradient: "linear-gradient(135deg,#4338ca,#2563eb)",
+          },
+          {
+            id: 2,
+            title: "Demo Day Pitch — Autonomous Systems",
+            type: "video",
+            gradient: "linear-gradient(135deg,#7e22ce,#ec4899)",
+          },
+          {
+            id: 3,
+            title: "Hand-drawn Wireframes to Code",
+            type: "demo",
+            gradient: "linear-gradient(135deg,#0f766e,#22c55e)",
+          },
+          {
+            id: 4,
+            title: "My journey into robotics at KAIST",
+            type: "article",
+            gradient: "linear-gradient(135deg,#f59e0b,#ef4444)",
+          },
+        ];
+
+        return (
+          <section id="media" className="section">
+            <div className="section-title">media</div>
+            <div className="media-grid">
+              {items.map((item) => (
+                <a
+                  key={item.id}
+                  className="media-card"
+                  href={`https://changwook06.github.io/?mediaId=${item.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="media-thumb" style={{ background: item.gradient }} />
+                  <div className="media-body">
+                    <h3 className="media-title">{item.title}</h3>
+                    <div className="media-foot">
+                      <span className="mini-pill">{item.type}</span>
+                      <span>↗</span>
+                    </div>
+                  </div>
+                </a>
               ))}
             </div>
           </section>
@@ -994,6 +1588,68 @@
         );
       }
 
+      function SayHiSection() {
+        return (
+          <section id="say-hi" className="section">
+            <div className="section-title">say hi</div>
+            {/* TODO: replace YOUR_FORM_ID with your Formspree endpoint ID */}
+            <form className="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+              <input className="contact-input" type="text" name="name" placeholder="your name" required />
+              <input className="contact-input" type="email" name="email" placeholder="your email" required />
+              <textarea className="contact-textarea" name="message" placeholder="say something..." required />
+              <button className="contact-submit" type="submit">
+                send it →
+              </button>
+            </form>
+          </section>
+        );
+      }
+
+      function SunIcon() {
+        return (
+          <svg className="theme-icon" viewBox="0 0 18 18" aria-hidden="true">
+            <circle cx="9" cy="9" r="4" />
+            <line x1="9" y1="1" x2="9" y2="3" />
+            <line x1="9" y1="15" x2="9" y2="17" />
+            <line x1="1" y1="9" x2="3" y2="9" />
+            <line x1="15" y1="9" x2="17" y2="9" />
+            <line x1="3.3" y1="3.3" x2="4.8" y2="4.8" />
+            <line x1="13.2" y1="13.2" x2="14.7" y2="14.7" />
+            <line x1="3.3" y1="14.7" x2="4.8" y2="13.2" />
+            <line x1="13.2" y1="4.8" x2="14.7" y2="3.3" />
+          </svg>
+        );
+      }
+
+      function MoonIcon() {
+        return (
+          <svg className="theme-icon" viewBox="0 0 18 18" aria-hidden="true">
+            <defs>
+              <clipPath id="moon-cut">
+                <circle cx="9" cy="9" r="5" />
+                <circle cx="11.6" cy="7.4" r="5" />
+              </clipPath>
+            </defs>
+            <circle cx="9" cy="9" r="5" clipPath="url(#moon-cut)" />
+          </svg>
+        );
+      }
+
+      function DiamondIcon() {
+        return (
+          <svg className="diamond-icon" viewBox="0 0 18 18" aria-hidden="true">
+            <g transform="translate(9 9)">
+              <rect x="-4.5" y="-4.5" width="9" height="9" transform="rotate(45)" />
+              <rect x="-2.5" y="-2.5" width="5" height="5" transform="rotate(45)" />
+            </g>
+            <line x1="9" y1="1.2" x2="9" y2="0" />
+            <line x1="16.8" y1="9" x2="18" y2="9" />
+            <line x1="9" y1="16.8" x2="9" y2="18" />
+            <line x1="1.2" y1="9" x2="0" y2="9" />
+          </svg>
+        );
+      }
+
       function App() {
         const navItems = [
           { id: "about", label: "about" },
@@ -1001,19 +1657,18 @@
           { id: "blog", label: "blog" },
           { id: "media", label: "media" },
           { id: "watchlist", label: "watchlist" },
+          { id: "places", label: "places" },
           { id: "say-hi", label: "say hi" },
         ];
         const [active, setActive] = useState("about");
         const [mobileOpen, setMobileOpen] = useState(false);
         const [isDarkMode, setIsDarkMode] = useState(true);
-        const [rayBurstKey, setRayBurstKey] = useState(0);
-        const [showRayBurst, setShowRayBurst] = useState(false);
+        const [diamondFx, setDiamondFx] = useState({ key: 0, active: false, particles: [] });
+        const fxTimerRef = useRef(null);
 
         useEffect(() => {
-          const ids = ["about", "work", "blog", "media", "watchlist", "say-hi"];
-          const sections = ids
-            .map((id) => document.getElementById(id))
-            .filter(Boolean);
+          const ids = ["about", "work", "blog", "media", "watchlist", "places", "say-hi"];
+          const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
 
           const onScroll = () => {
             const y = window.scrollY + 140;
@@ -1029,6 +1684,12 @@
           return () => window.removeEventListener("scroll", onScroll);
         }, []);
 
+        useEffect(() => {
+          return () => {
+            if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current);
+          };
+        }, []);
+
         return (
           <div className={`app ${isDarkMode ? "theme-dark" : "theme-light"}`}>
             <CanvasBackground isDarkMode={isDarkMode} />
@@ -1040,36 +1701,55 @@
                   aria-label="Toggle light and dark mode"
                   onClick={() => setIsDarkMode((prev) => !prev)}
                 >
-                  {isDarkMode ? "☀️" : "🌙"}
+                  {isDarkMode ? <SunIcon /> : <MoonIcon />}
                 </button>
                 <button
                   className="icon-toggle"
-                  aria-label="Trigger light ray burst"
+                  aria-label="Trigger diamond burst"
                   onClick={() => {
-                    setRayBurstKey((prev) => prev + 1);
-                    setShowRayBurst(true);
+                    const particles = Array.from({ length: 24 }, (_, idx) => ({
+                      id: idx,
+                      angle: Math.round(Math.random() * 360),
+                      dist: Math.round(80 + Math.random() * 140),
+                      spin: Math.round(90 + Math.random() * 270),
+                      duration: Math.round(400 + Math.random() * 300),
+                      delay: Math.round(Math.random() * 120),
+                    }));
+                    setDiamondFx((prev) => ({ key: prev.key + 1, active: true, particles }));
+                    if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current);
+                    fxTimerRef.current = window.setTimeout(() => {
+                      setDiamondFx((prev) => ({ ...prev, active: false }));
+                    }, 1150);
                   }}
                 >
-                  <svg className="burst-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="2.6" />
-                    <line x1="12" y1="1.8" x2="12" y2="5.2" />
-                    <line x1="12" y1="18.8" x2="12" y2="22.2" />
-                    <line x1="1.8" y1="12" x2="5.2" y2="12" />
-                    <line x1="18.8" y1="12" x2="22.2" y2="12" />
-                    <line x1="4.5" y1="4.5" x2="6.9" y2="6.9" />
-                    <line x1="17.1" y1="17.1" x2="19.5" y2="19.5" />
-                    <line x1="4.5" y1="19.5" x2="6.9" y2="17.1" />
-                    <line x1="17.1" y1="6.9" x2="19.5" y2="4.5" />
-                  </svg>
+                  <DiamondIcon />
                 </button>
               </div>
-              {showRayBurst && (
-                <div
-                  key={rayBurstKey}
-                  className="light-ray-overlay"
-                  onAnimationEnd={() => setShowRayBurst(false)}
-                >
-                  <div className="light-ray" />
+              {diamondFx.active && (
+                <div key={diamondFx.key} className="diamond-overlay">
+                  <div className="shockwave-ring ring-1" />
+                  <div className="shockwave-ring ring-2" />
+                  <div className="shockwave-ring ring-3" />
+                  <div className="diamond-center">
+                    <div className="diamond-core" />
+                    <div className="diamond-shard shard-tl" />
+                    <div className="diamond-shard shard-tr" />
+                    <div className="diamond-shard shard-bl" />
+                    <div className="diamond-shard shard-br" />
+                  </div>
+                  {diamondFx.particles.map((p) => (
+                    <span
+                      key={p.id}
+                      className="diamond-particle"
+                      style={{
+                        "--angle": `${p.angle}deg`,
+                        "--dist": `${p.dist}px`,
+                        "--spin": `${p.spin}deg`,
+                        "--duration": `${p.duration}ms`,
+                        "--delay": `${p.delay}ms`,
+                      }}
+                    />
+                  ))}
                 </div>
               )}
 
@@ -1085,26 +1765,11 @@
                 <main className="main">
                   <AboutSection />
                   <WorkSection />
-                  <PlaceholderSection
-                    id="blog"
-                    title="blog"
-                    text="Notes on product decisions, rapid prototyping, and lessons from student launches."
-                  />
-                  <PlaceholderSection
-                    id="media"
-                    title="media"
-                    text="Talks, podcasts, and demo videos where I break down projects from zero to ship."
-                  />
-                  <PlaceholderSection
-                    id="watchlist"
-                    title="watchlist"
-                    text="A rolling list of products and creators currently influencing how I think and build."
-                  />
-                  <PlaceholderSection
-                    id="say-hi"
-                    title="say hi"
-                    text="Email me anytime if you want to build something weird and useful together or just want to chat about cool internet stuff."
-                  />
+                  <BlogSection />
+                  <MediaSection />
+                  <WatchlistSection />
+                  <PlacesSection />
+                  <SayHiSection />
                 </main>
               </div>
             </div>
