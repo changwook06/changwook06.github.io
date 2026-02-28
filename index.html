@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      :root {
+        --bg: #000;
+        --text: #fff;
+        --card-bg: #111;
+        --card-border: #222;
+        --nav-text: rgba(255, 255, 255, 0.6);
+        --muted: #b9b9b9;
+        --subtle-text: #d6d6d6;
+        --soft-text: #e8e8e8;
+        --icon-border: #333;
+        --icon-bg: rgba(255, 255, 255, 0.06);
+        --soft-border: rgba(255, 255, 255, 0.08);
+        --hover-border: #3a3a3a;
+        --overlay-bg: rgba(0, 0, 0, 0.9);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body,
+      #root {
+        margin: 0;
+        width: 100%;
+        min-height: 100%;
+        background: transparent;
+        color: var(--text);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+
+      body {
+        overflow-x: hidden;
+      }
+
+      .app {
+        position: relative;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .app.theme-dark {
+        --bg: #000;
+        --text: #fff;
+        --card-bg: #111;
+        --card-border: #222;
+        --nav-text: rgba(255, 255, 255, 0.6);
+        --muted: #b9b9b9;
+        --subtle-text: #d6d6d6;
+        --soft-text: #e8e8e8;
+        --icon-border: #333;
+        --icon-bg: rgba(255, 255, 255, 0.06);
+        --soft-border: rgba(255, 255, 255, 0.08);
+        --hover-border: #3a3a3a;
+        --overlay-bg: rgba(0, 0, 0, 0.9);
+      }
+
+      .app.theme-light {
+        --bg: #f5f5f0;
+        --text: #111;
+        --card-bg: #fff;
+        --card-border: #ddd;
+        --nav-text: rgba(0, 0, 0, 0.5);
+        --muted: #666;
+        --subtle-text: #3f3f3f;
+        --soft-text: #222;
+        --icon-border: #c7c7c2;
+        --icon-bg: rgba(0, 0, 0, 0.04);
+        --soft-border: rgba(0, 0, 0, 0.12);
+        --hover-border: #bababa;
+        --overlay-bg: rgba(245, 245, 240, 0.6);
+      }
+
+      .canvas-bg {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+
+      .content-layer {
+        position: relative;
+        z-index: 1;
+      }
+
+      .top-left-toggles {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        z-index: 4;
+        display: flex;
+        gap: 8px;
+      }
+
+      .icon-toggle {
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--icon-border);
+        border-radius: 8px;
+        background: var(--icon-bg);
+        color: var(--text);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .burst-icon {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+      }
+
+      .burst-icon circle {
+        fill: currentColor;
+        stroke: none;
+      }
+
+      .layout {
+        display: flex;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 220px;
+        padding: 96px 30px 30px;
+        border-right: 1px solid var(--soft-border);
+        backdrop-filter: blur(2px);
+        z-index: 3;
+      }
+
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .nav-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--nav-text);
+        text-decoration: none;
+        text-transform: lowercase;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        opacity: 0.88;
+      }
+
+      .nav-item:hover {
+        opacity: 1;
+        color: var(--text);
+      }
+
+      .active-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--text);
+        display: inline-block;
+      }
+
+      .main {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+        padding: 74px 56px 80px;
+      }
+
+      .section {
+        margin-bottom: 90px;
+      }
+
+      .section-title {
+        text-transform: lowercase;
+        font-size: 14px;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        margin-bottom: 22px;
+      }
+
+      .about-wrap {
+        display: grid;
+        grid-template-columns: 1.4fr 0.8fr;
+        gap: 34px;
+      }
+
+      .name {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(40px, 8vw, 72px);
+        line-height: 1.02;
+        margin: 0 0 12px;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        color: var(--subtle-text);
+        margin-bottom: 18px;
+      }
+
+      .inline-accent {
+        color: #ff9b3f;
+        font-weight: 600;
+      }
+
+      .bio-list {
+        margin: 0;
+        padding-left: 20px;
+        display: grid;
+        gap: 10px;
+        color: var(--soft-text);
+      }
+
+      .tag {
+        display: inline-block;
+        border-radius: 4px;
+        padding: 1px 6px;
+        font-size: 0.94em;
+        line-height: 1.4;
+        border: 1px solid transparent;
+        margin: 0 2px;
+      }
+
+      .tag-green {
+        background: rgba(58, 199, 114, 0.2);
+        border-color: rgba(58, 199, 114, 0.5);
+        color: #9ef4c1;
+      }
+
+      .tag-indigo {
+        background: rgba(100, 112, 255, 0.2);
+        border-color: rgba(100, 112, 255, 0.45);
+        color: #bec6ff;
+      }
+
+      .tag-teal {
+        background: rgba(47, 207, 193, 0.2);
+        border-color: rgba(47, 207, 193, 0.45);
+        color: #99fff6;
+      }
+
+      .tag-red {
+        background: rgba(255, 95, 95, 0.2);
+        border-color: rgba(255, 95, 95, 0.45);
+        color: #ffc5c5;
+      }
+
+      .tag-yellow {
+        background: rgba(255, 212, 73, 0.2);
+        border-color: rgba(255, 212, 73, 0.45);
+        color: #ffe7a4;
+      }
+
+      .socials {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .social-link {
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid var(--icon-border);
+        border-radius: 999px;
+        padding: 5px 12px;
+        font-size: 12px;
+      }
+
+      .portrait {
+        width: 100%;
+        min-height: 360px;
+        border-radius: 14px;
+        border: 1px solid var(--card-border);
+        background: linear-gradient(145deg, #1b1b1b, #232323 40%, #343434);
+      }
+
+      .life-strip {
+        margin-top: 24px;
+      }
+
+      .life-track {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: 6px;
+      }
+
+      .life-photo {
+        flex: 0 0 190px;
+        height: 112px;
+        border-radius: 10px;
+        border: 1px solid var(--card-border);
+        background-size: cover;
+        background-position: center;
+      }
+
+      .work-tabs {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+
+      .tab {
+        border: none;
+        background: none;
+        color: var(--nav-text);
+        text-transform: lowercase;
+        cursor: pointer;
+        padding: 0 0 8px;
+        border-bottom: 2px solid transparent;
+      }
+
+      .tab.active {
+        color: var(--text);
+        border-bottom-color: var(--text);
+      }
+
+      .work-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .project-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 14px;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--hover-border);
+      }
+
+      .project-preview {
+        height: 140px;
+        border-radius: 10px;
+        margin-bottom: 12px;
+      }
+
+      .project-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .project-title {
+        margin: 0;
+        font-size: 17px;
+      }
+
+      .badge {
+        border-radius: 999px;
+        padding: 2px 10px;
+        font-size: 11px;
+        color: var(--text);
+        white-space: nowrap;
+      }
+
+      .badge-orange {
+        background: #ff8f2d;
+      }
+
+      .badge-gray {
+        background: #5b5b5b;
+      }
+
+      .project-desc {
+        margin: 0 0 11px;
+        color: var(--subtle-text);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .card-links {
+        display: flex;
+        gap: 14px;
+      }
+
+      .card-link {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 12px;
+        opacity: 0.9;
+      }
+
+      .card-link:hover {
+        opacity: 1;
+      }
+
+      .mobile-topbar {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 12px 16px;
+        z-index: 5;
+        border-bottom: 1px solid var(--soft-border);
+        background: var(--overlay-bg);
+      }
+
+      .hamburger {
+        border: 1px solid var(--icon-border);
+        background: transparent;
+        color: var(--text);
+        border-radius: 6px;
+        width: 34px;
+        height: 34px;
+        cursor: pointer;
+      }
+
+      .mobile-menu {
+        margin-top: 10px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .light-ray-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        pointer-events: none;
+        overflow: hidden;
+        animation: overlay-fade 1000ms linear forwards;
+      }
+
+      .light-ray {
+        position: absolute;
+        top: -24vh;
+        left: -120vw;
+        width: 48vw;
+        height: 170vh;
+        transform: skewX(-18deg);
+        background: linear-gradient(
+          105deg,
+          transparent 0%,
+          rgba(255, 240, 180, 0) 30%,
+          rgba(255, 240, 180, 0.55) 50%,
+          rgba(255, 240, 180, 0) 70%,
+          transparent 100%
+        );
+        filter: blur(1px);
+        animation: ray-sweep 800ms ease-out forwards;
+      }
+
+      @keyframes ray-sweep {
+        from {
+          transform: translateX(-100vw) skewX(-18deg);
+        }
+        to {
+          transform: translateX(220vw) skewX(-18deg);
+        }
+      }
+
+      @keyframes overlay-fade {
+        0%,
+        80% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .sidebar {
+          display: none;
+        }
+
+        .mobile-topbar {
+          display: block;
+        }
+
+        .top-left-toggles {
+          top: 14px;
+          left: 64px;
+        }
+
+        .main {
+          margin-left: 0;
+          width: 100%;
+          padding: 88px 18px 50px;
+        }
+
+        .about-wrap {
+          grid-template-columns: 1fr;
+        }
+
+        .portrait {
+          min-height: 280px;
+        }
+
+        .work-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useEffect, useMemo, useRef, useState } = React;
+
+      function TagPill({ className, children }) {
+        return <span className={`tag ${className}`}>{children}</span>;
+      }
+
+      function CanvasBackground({ isDarkMode }) {
+        const canvasRef = useRef(null);
+        const mouseRef = useRef({ x: 0, y: 0, active: false });
+        const isDarkModeRef = useRef(isDarkMode);
+
+        useEffect(() => {
+          isDarkModeRef.current = isDarkMode;
+        }, [isDarkMode]);
+
+        useEffect(() => {
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext("2d");
+          const MAX_STRUCTURED_DIST = 130;
+          const MAX_FREE_DIST = 80;
+          const MAX_DEPTH = 3;
+          let width = 0;
+          let height = 0;
+          let rafId = 0;
+          let nextId = 0;
+          const nodes = [];
+
+          const rand = (min, max) => min + Math.random() * (max - min);
+          const randInt = (min, max) => Math.floor(rand(min, max + 1));
+          const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+          const createNode = ({
+            x,
+            y,
+            parentId = null,
+            seedId,
+            startX = x,
+            startY = y,
+            targetX = x,
+            targetY = y,
+            growStart = 0,
+            growDuration = 0,
+            animated = false,
+          }) => ({
+            id: nextId++,
+            x,
+            y,
+            vx: rand(-0.18, 0.18),
+            vy: rand(-0.18, 0.18),
+            radius: rand(1.5, 3.5),
+            parentId,
+            seedId,
+            startX,
+            startY,
+            targetX,
+            targetY,
+            growStart,
+            growDuration,
+            animated,
+          });
+
+          const addRecursiveChildren = (parentNode, depth, seedId) => {
+            if (depth > MAX_DEPTH) return;
+            const childCount = depth === 1 ? randInt(3, 5) : randInt(2, 3);
+            const minDist = depth === 1 ? 60 : depth === 2 ? 45 : 30;
+            const maxDist = depth === 1 ? 120 : depth === 2 ? 80 : 70;
+
+            for (let i = 0; i < childCount; i += 1) {
+              const angle = rand(0, Math.PI * 2);
+              const distance = rand(minDist, maxDist);
+              const childX = clamp(parentNode.x + Math.cos(angle) * distance, 0, width);
+              const childY = clamp(parentNode.y + Math.sin(angle) * distance, 0, height);
+              const child = createNode({
+                x: childX,
+                y: childY,
+                parentId: parentNode.id,
+                seedId,
+              });
+              nodes.push(child);
+              addRecursiveChildren(child, depth + 1, seedId);
+            }
+          };
+
+          const spawnSeedCluster = (seedX, seedY, animatedFirstBranch = false) => {
+            const seed = createNode({ x: seedX, y: seedY, seedId: nextId });
+            seed.seedId = seed.id;
+            nodes.push(seed);
+
+            if (animatedFirstBranch) {
+              const now = performance.now();
+              const childCount = randInt(3, 4);
+              for (let i = 0; i < childCount; i += 1) {
+                const angle = rand(0, Math.PI * 2);
+                const distance = rand(60, 120);
+                const targetX = clamp(seed.x + Math.cos(angle) * distance, 0, width);
+                const targetY = clamp(seed.y + Math.sin(angle) * distance, 0, height);
+                nodes.push(
+                  createNode({
+                    x: seed.x,
+                    y: seed.y,
+                    parentId: seed.id,
+                    seedId: seed.id,
+                    startX: seed.x,
+                    startY: seed.y,
+                    targetX,
+                    targetY,
+                    growStart: now,
+                    growDuration: 400,
+                    animated: true,
+                  })
+                );
+              }
+              return;
+            }
+
+            addRecursiveChildren(seed, 1, seed.id);
+          };
+
+          const resize = () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * window.devicePixelRatio;
+            canvas.height = height * window.devicePixelRatio;
+            canvas.style.width = width + "px";
+            canvas.style.height = height + "px";
+            ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+            for (const node of nodes) {
+              node.x = clamp(node.x, 0, width);
+              node.y = clamp(node.y, 0, height);
+              node.targetX = clamp(node.targetX, 0, width);
+              node.targetY = clamp(node.targetY, 0, height);
+            }
+          };
+
+          const sharesLineage = (a, b) =>
+            a.parentId === b.id || b.parentId === a.id || (a.parentId !== null && a.parentId === b.parentId);
+
+          const drawLine = (a, b, lineRgb, maxOpacity) => {
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const withinUniversal = dist <= MAX_FREE_DIST;
+            const withinStructured = dist <= MAX_STRUCTURED_DIST && sharesLineage(a, b);
+            if (!withinUniversal && !withinStructured) return;
+
+            const distanceCap = withinUniversal ? MAX_FREE_DIST : MAX_STRUCTURED_DIST;
+            const alpha = (1 - dist / distanceCap) * maxOpacity;
+            ctx.strokeStyle = `rgba(${lineRgb},${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          };
+
+          const tick = (now) => {
+            ctx.clearRect(0, 0, width, height);
+            const dark = isDarkModeRef.current;
+            const lineRgb = dark ? "255,255,255" : "0,0,0";
+            const maxOpacity = dark ? 0.35 : 0.15;
+
+            for (let i = 0; i < nodes.length; i += 1) {
+              const node = nodes[i];
+              if (node.animated) {
+                const t = clamp((now - node.growStart) / node.growDuration, 0, 1);
+                node.x = node.startX + (node.targetX - node.startX) * t;
+                node.y = node.startY + (node.targetY - node.startY) * t;
+                if (t >= 1) node.animated = false;
+              } else {
+                node.x += node.vx;
+                node.y += node.vy;
+
+                if (node.x <= 0 || node.x >= width) node.vx *= -1;
+                if (node.y <= 0 || node.y >= height) node.vy *= -1;
+
+                node.x = clamp(node.x, 0, width);
+                node.y = clamp(node.y, 0, height);
+              }
+
+              for (let j = i + 1; j < nodes.length; j += 1) {
+                drawLine(node, nodes[j], lineRgb, maxOpacity);
+              }
+            }
+
+            ctx.shadowBlur = 0;
+            if (mouseRef.current.active) {
+              const m = mouseRef.current;
+              for (const node of nodes) {
+                const dx = node.x - m.x;
+                const dy = node.y - m.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist <= MAX_FREE_DIST) {
+                  const alpha = (1 - dist / MAX_FREE_DIST) * maxOpacity;
+                  ctx.strokeStyle = `rgba(${lineRgb},${alpha})`;
+                  ctx.lineWidth = 0.8;
+                  ctx.beginPath();
+                  ctx.moveTo(m.x, m.y);
+                  ctx.lineTo(node.x, node.y);
+                  ctx.stroke();
+                }
+              }
+              ctx.fillStyle = dark ? "rgba(255,255,255,0.65)" : "rgba(15,15,15,0.5)";
+              ctx.beginPath();
+              ctx.arc(m.x, m.y, 2, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = dark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.25)";
+            ctx.fillStyle = dark ? "rgba(255,255,255,0.88)" : "rgba(20,20,20,0.8)";
+            for (const node of nodes) {
+              ctx.beginPath();
+              ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.shadowBlur = 0;
+
+            rafId = requestAnimationFrame(tick);
+          };
+
+          const onMouseMove = (e) => {
+            mouseRef.current = { x: e.clientX, y: e.clientY, active: true };
+          };
+
+          const onMouseLeave = () => {
+            mouseRef.current.active = false;
+          };
+
+          const onCanvasClick = (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            spawnSeedCluster(x, y, true);
+          };
+
+          resize();
+          const initialSeeds = randInt(6, 8);
+          for (let i = 0; i < initialSeeds; i += 1) {
+            spawnSeedCluster(rand(0, width), rand(0, height), false);
+          }
+          tick();
+
+          window.addEventListener("resize", resize);
+          window.addEventListener("mousemove", onMouseMove);
+          window.addEventListener("mouseout", onMouseLeave);
+          canvas.addEventListener("click", onCanvasClick);
+
+          return () => {
+            cancelAnimationFrame(rafId);
+            window.removeEventListener("resize", resize);
+            window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("mouseout", onMouseLeave);
+            canvas.removeEventListener("click", onCanvasClick);
+          };
+        }, []);
+
+        return <canvas className="canvas-bg" ref={canvasRef} />;
+      }
+
+      function Sidebar({ items, active, onClick, mobileOpen, setMobileOpen }) {
+        return (
+          <>
+            <aside className="sidebar">
+              <nav className="sidebar-nav">
+                {items.map((item) => (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    className="nav-item"
+                    onClick={() => onClick(item.id)}
+                  >
+                    <span className="active-dot" style={{ opacity: active === item.id ? 1 : 0 }} />
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
+            </aside>
+
+            <div className="mobile-topbar">
+              <button
+                className="hamburger"
+                onClick={() => setMobileOpen((prev) => !prev)}
+                aria-label="Toggle navigation"
+              >
+                {mobileOpen ? "x" : "≡"}
+              </button>
+              {mobileOpen && (
+                <nav className="mobile-menu">
+                  {items.map((item) => (
+                    <a
+                      key={item.id}
+                      className="nav-item"
+                      href={`#${item.id}`}
+                      onClick={() => {
+                        onClick(item.id);
+                        setMobileOpen(false);
+                      }}
+                    >
+                      <span className="active-dot" style={{ opacity: active === item.id ? 1 : 0 }} />
+                      {item.label}
+                    </a>
+                  ))}
+                </nav>
+              )}
+            </div>
+          </>
+        );
+      }
+
+      function AboutSection() {
+        const photos = [
+          "linear-gradient(135deg,#1f2937,#334155)",
+          "linear-gradient(135deg,#3f1d2e,#7c2d12)",
+          "linear-gradient(135deg,#062d2f,#0f766e)",
+          "linear-gradient(135deg,#141e30,#243b55)",
+          "linear-gradient(135deg,#3f3f46,#111827)",
+        ];
+
+        return (
+          <section id="about" className="section">
+            <div className="section-title">about</div>
+            <div className="about-wrap">
+              <div>
+                <h1 className="name">Changwook Lee</h1>
+                <div className="subtitle">
+                  building internet things with friends at <span className="inline-accent">@stanford</span>
+                </div>
+                <ul className="bio-list">
+                  <li>
+                    i ship side quests with <TagPill className="tag-green">@hackclub</TagPill> and care a lot
+                    about <TagPill className="tag-indigo">human-centered tooling</TagPill>.
+                  </li>
+                  <li>
+                    recently obsessed with <TagPill className="tag-teal">ai product loops</TagPill>,
+                    <TagPill className="tag-red">realtime systems</TagPill>, and quick prototypes.
+                  </li>
+                  <li>
+                    probably in a cafe writing,
+                    <TagPill className="tag-yellow">pitching</TagPill>, or editing another launch video.
+                  </li>
+                </ul>
+                <div className="socials">
+                  <a className="social-link" href="#">X ↗</a>
+                  <a className="social-link" href="#">GitHub ↗</a>
+                  <a className="social-link" href="#">LinkedIn ↗</a>
+                  <a className="social-link" href="#">email ↗</a>
+                  <a className="social-link" href="#">resume ↗</a>
+                </div>
+
+                <div className="life-strip">
+                  <div className="section-title" style={{ marginTop: 30, marginBottom: 12 }}>
+                    life
+                  </div>
+                  <div className="life-track">
+                    {photos.map((bg, i) => (
+                      <div key={i} className="life-photo" style={{ background: bg }} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="portrait" aria-label="Portrait placeholder" />
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function ProjectCard({ project }) {
+        return (
+          <article className="project-card">
+            <div className="project-preview" style={{ background: project.preview }} />
+            <div className="project-head">
+              <h3 className="project-title">{project.title}</h3>
+              <span className={`badge ${project.badgeClass}`}>{project.badge}</span>
+            </div>
+            <p className="project-desc">{project.description}</p>
+            <div className="card-links">
+              <a className="card-link" href="#">⧉ Source</a>
+              <a className="card-link" href="#">➜ Devpost</a>
+            </div>
+          </article>
+        );
+      }
+
+      function WorkSection() {
+        const [tab, setTab] = useState("featured");
+        const tabs = ["featured", "all", "projects", "slidedecks"];
+
+        const projects = useMemo(
+          () => [
+            {
+              title: "Pulseboard",
+              badge: "hackathon winner",
+              badgeClass: "badge-orange",
+              description: "Team planning + AI sprint assistant that maps tasks to outcomes in real time.",
+              preview: "linear-gradient(120deg,#0f172a,#155e75)",
+            },
+            {
+              title: "CampusCart",
+              badge: "project",
+              badgeClass: "badge-gray",
+              description: "Peer delivery marketplace for dorm essentials with trust scoring and route batching.",
+              preview: "linear-gradient(120deg,#3f1d2e,#9a3412)",
+            },
+            {
+              title: "Storyline",
+              badge: "project",
+              badgeClass: "badge-gray",
+              description: "Creator analytics dashboard that merges short-form video trends across platforms.",
+              preview: "linear-gradient(120deg,#082f49,#0369a1)",
+            },
+            {
+              title: "ShipNight",
+              badge: "hackathon winner",
+              badgeClass: "badge-orange",
+              description: "A one-night builder challenge with auto-generated judging rubrics and replay clips.",
+              preview: "linear-gradient(120deg,#14532d,#166534)",
+            },
+            {
+              title: "Nook",
+              badge: "project",
+              badgeClass: "badge-gray",
+              description: "Reading tracker with lightweight social circles and weekly recommendation digests.",
+              preview: "linear-gradient(120deg,#312e81,#4f46e5)",
+            },
+            {
+              title: "RoomTone",
+              badge: "project",
+              badgeClass: "badge-gray",
+              description: "Ambient audio mixer for focused study sessions, tuned to room noise profiles.",
+              preview: "linear-gradient(120deg,#3f3f46,#52525b)",
+            },
+          ],
+          []
+        );
+
+        return (
+          <section id="work" className="section">
+            <div className="section-title">work</div>
+            <div className="work-tabs">
+              {tabs.map((item) => (
+                <button
+                  key={item}
+                  className={`tab ${item === tab ? "active" : ""}`}
+                  onClick={() => setTab(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+            <div className="work-grid">
+              {projects.map((project) => (
+                <ProjectCard key={project.title} project={project} />
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function PlaceholderSection({ id, title, text }) {
+        return (
+          <section id={id} className="section">
+            <div className="section-title">{title}</div>
+            <p style={{ color: "var(--subtle-text)", maxWidth: 700 }}>{text}</p>
+          </section>
+        );
+      }
+
+      function App() {
+        const navItems = [
+          { id: "about", label: "about" },
+          { id: "work", label: "work" },
+          { id: "blog", label: "blog" },
+          { id: "media", label: "media" },
+          { id: "watchlist", label: "watchlist" },
+          { id: "say-hi", label: "say hi" },
+        ];
+        const [active, setActive] = useState("about");
+        const [mobileOpen, setMobileOpen] = useState(false);
+        const [isDarkMode, setIsDarkMode] = useState(true);
+        const [rayBurstKey, setRayBurstKey] = useState(0);
+        const [showRayBurst, setShowRayBurst] = useState(false);
+
+        useEffect(() => {
+          const ids = ["about", "work", "blog", "media", "watchlist", "say-hi"];
+          const sections = ids
+            .map((id) => document.getElementById(id))
+            .filter(Boolean);
+
+          const onScroll = () => {
+            const y = window.scrollY + 140;
+            let current = "about";
+            for (const section of sections) {
+              if (section.offsetTop <= y) current = section.id;
+            }
+            setActive(current);
+          };
+
+          onScroll();
+          window.addEventListener("scroll", onScroll);
+          return () => window.removeEventListener("scroll", onScroll);
+        }, []);
+
+        return (
+          <div className={`app ${isDarkMode ? "theme-dark" : "theme-light"}`}>
+            <CanvasBackground isDarkMode={isDarkMode} />
+
+            <div className="content-layer">
+              <div className="top-left-toggles">
+                <button
+                  className="icon-toggle"
+                  aria-label="Toggle light and dark mode"
+                  onClick={() => setIsDarkMode((prev) => !prev)}
+                >
+                  {isDarkMode ? "☀️" : "🌙"}
+                </button>
+                <button
+                  className="icon-toggle"
+                  aria-label="Trigger light ray burst"
+                  onClick={() => {
+                    setRayBurstKey((prev) => prev + 1);
+                    setShowRayBurst(true);
+                  }}
+                >
+                  <svg className="burst-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="2.6" />
+                    <line x1="12" y1="1.8" x2="12" y2="5.2" />
+                    <line x1="12" y1="18.8" x2="12" y2="22.2" />
+                    <line x1="1.8" y1="12" x2="5.2" y2="12" />
+                    <line x1="18.8" y1="12" x2="22.2" y2="12" />
+                    <line x1="4.5" y1="4.5" x2="6.9" y2="6.9" />
+                    <line x1="17.1" y1="17.1" x2="19.5" y2="19.5" />
+                    <line x1="4.5" y1="19.5" x2="6.9" y2="17.1" />
+                    <line x1="17.1" y1="6.9" x2="19.5" y2="4.5" />
+                  </svg>
+                </button>
+              </div>
+              {showRayBurst && (
+                <div
+                  key={rayBurstKey}
+                  className="light-ray-overlay"
+                  onAnimationEnd={() => setShowRayBurst(false)}
+                >
+                  <div className="light-ray" />
+                </div>
+              )}
+
+              <div className="layout">
+                <Sidebar
+                  items={navItems}
+                  active={active}
+                  onClick={setActive}
+                  mobileOpen={mobileOpen}
+                  setMobileOpen={setMobileOpen}
+                />
+
+                <main className="main">
+                  <AboutSection />
+                  <WorkSection />
+                  <PlaceholderSection
+                    id="blog"
+                    title="blog"
+                    text="Notes on product decisions, rapid prototyping, and lessons from student launches."
+                  />
+                  <PlaceholderSection
+                    id="media"
+                    title="media"
+                    text="Talks, podcasts, and demo videos where I break down projects from zero to ship."
+                  />
+                  <PlaceholderSection
+                    id="watchlist"
+                    title="watchlist"
+                    text="A rolling list of products and creators currently influencing how I think and build."
+                  />
+                  <PlaceholderSection
+                    id="say-hi"
+                    title="say hi"
+                    text="Email me anytime if you want to build something weird and useful together."
+                  />
+                </main>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
