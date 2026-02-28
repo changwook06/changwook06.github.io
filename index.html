@@ -1,971 +1,991 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
-      :root {
-        --bg: #000;
-        --text: #fff;
-        --font-serif: "Georgia", "Times New Roman", serif;
-        --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-        --card-bg: #111;
-        --card-border: #222;
-        --nav-text: rgba(255, 255, 255, 0.6);
-        --muted: #b9b9b9;
-        --subtle-text: #d6d6d6;
-        --soft-text: #e8e8e8;
-        --icon-border: #333;
-        --icon-bg: rgba(255, 255, 255, 0.06);
-        --toggle-border: rgba(255, 255, 255, 0.15);
-        --toggle-hover-bg: rgba(255, 255, 255, 0.12);
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --font-serif: "Georgia", "Times New Roman", serif;
+      --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+      --card-bg: #111;
+      --card-border: #222;
+      --nav-text: rgba(255, 255, 255, 0.6);
+      --muted: #b9b9b9;
+      --subtle-text: #d6d6d6;
+      --soft-text: #e8e8e8;
+      --icon-border: #333;
+      --icon-bg: rgba(255, 255, 255, 0.06);
+      --toggle-border: rgba(255, 255, 255, 0.15);
+      --toggle-hover-bg: rgba(255, 255, 255, 0.12);
         --soft-border: rgba(255, 255, 255, 0.08);
         --hover-border: #3a3a3a;
         --overlay-bg: rgba(0, 0, 0, 0.9);
+        --fx-core: rgba(255, 255, 255, 0.95);
+        --fx-soft: rgba(255, 255, 255, 0.8);
+        --fx-ring: rgba(255, 255, 255, 0.6);
       }
 
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        border-radius: 0 !important;
-      }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
 
-      html,
-      body,
-      #root {
-        margin: 0;
-        width: 100%;
-        min-height: 100%;
-        background: transparent;
-        color: var(--text);
-        font-family: var(--font-sans);
-        font-size: 15px;
-        line-height: 1.6;
-        font-weight: 400;
-      }
+    html,
+    body,
+    #root {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
 
-      body {
-        overflow-x: hidden;
-      }
+    body {
+      overflow-x: hidden;
+    }
 
-      html {
-        scroll-behavior: smooth;
-      }
+    html {
+      scroll-behavior: smooth;
+    }
 
-      .app {
-        position: relative;
-        min-height: 100vh;
-        background: var(--bg);
-        color: var(--text);
-        font-family: var(--font-sans);
-      }
+    .app {
+      position: relative;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+    }
 
-      .app.theme-dark {
-        --bg: #000;
-        --text: #fff;
-        --card-bg: #111;
-        --card-border: #222;
-        --nav-text: rgba(255, 255, 255, 0.6);
-        --muted: #b9b9b9;
-        --subtle-text: #d6d6d6;
-        --soft-text: #e8e8e8;
-        --icon-border: #333;
-        --icon-bg: rgba(255, 255, 255, 0.05);
-        --toggle-border: rgba(255, 255, 255, 0.15);
-        --toggle-hover-bg: rgba(255, 255, 255, 0.12);
+    .app.theme-dark {
+      --bg: #000;
+      --text: #fff;
+      --card-bg: #111;
+      --card-border: #222;
+      --nav-text: rgba(255, 255, 255, 0.6);
+      --muted: #b9b9b9;
+      --subtle-text: #d6d6d6;
+      --soft-text: #e8e8e8;
+      --icon-border: #333;
+      --icon-bg: rgba(255, 255, 255, 0.05);
+      --toggle-border: rgba(255, 255, 255, 0.15);
+      --toggle-hover-bg: rgba(255, 255, 255, 0.12);
         --soft-border: rgba(255, 255, 255, 0.08);
         --hover-border: #3a3a3a;
         --overlay-bg: rgba(0, 0, 0, 0.9);
+        --fx-core: rgba(255, 255, 255, 0.95);
+        --fx-soft: rgba(255, 255, 255, 0.8);
+        --fx-ring: rgba(255, 255, 255, 0.6);
       }
 
-      .app.theme-light {
-        --bg: #f5f5f0;
-        --text: #111;
-        --card-bg: #fff;
-        --card-border: #ddd;
-        --nav-text: rgba(0, 0, 0, 0.5);
-        --muted: #666;
-        --subtle-text: #3f3f3f;
-        --soft-text: #222;
-        --icon-border: #c7c7c2;
-        --icon-bg: rgba(0, 0, 0, 0.04);
-        --toggle-border: rgba(0, 0, 0, 0.22);
-        --toggle-hover-bg: rgba(0, 0, 0, 0.08);
+    .app.theme-light {
+      --bg: #f5f5f0;
+      --text: #111;
+      --card-bg: #fff;
+      --card-border: #ddd;
+      --nav-text: rgba(0, 0, 0, 0.5);
+      --muted: #666;
+      --subtle-text: #3f3f3f;
+      --soft-text: #222;
+      --icon-border: #c7c7c2;
+      --icon-bg: rgba(0, 0, 0, 0.04);
+      --toggle-border: rgba(0, 0, 0, 0.22);
+      --toggle-hover-bg: rgba(0, 0, 0, 0.08);
         --soft-border: rgba(0, 0, 0, 0.12);
         --hover-border: #bababa;
         --overlay-bg: rgba(245, 245, 240, 0.9);
+        --fx-core: rgba(0, 0, 0, 0.92);
+        --fx-soft: rgba(0, 0, 0, 0.75);
+        --fx-ring: rgba(0, 0, 0, 0.55);
       }
 
-      .canvas-bg {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-      }
+    .canvas-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
 
-      .content-layer {
-        position: relative;
-        z-index: 1;
-      }
+    .content-layer {
+      position: relative;
+      z-index: 1;
+    }
 
-      .top-left-toggles {
-        position: fixed;
-        top: 16px;
-        left: 16px;
-        z-index: 4;
-        display: flex;
-        gap: 8px;
-      }
+    .top-left-toggles {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 4;
+      display: flex;
+      gap: 8px;
+    }
 
-      .icon-toggle {
-        width: 28px;
-        height: 28px;
-        border: 1px solid var(--toggle-border);
-        border-radius: 50%;
-        background: var(--icon-bg);
-        color: var(--text);
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.2s ease, border-color 0.2s ease;
-      }
+    .icon-toggle {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--toggle-border);
+      border-radius: 50%;
+      background: var(--icon-bg);
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
 
-      .icon-toggle:hover {
-        background: var(--toggle-hover-bg);
-      }
+    .icon-toggle:hover {
+      background: var(--toggle-hover-bg);
+    }
 
-      .theme-icon,
-      .diamond-icon {
-        width: 18px;
-        height: 18px;
-        stroke: currentColor;
-        fill: none;
-        stroke-width: 1.5;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
+    .theme-icon,
+    .diamond-icon {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
-      .layout {
-        display: flex;
-      }
+    .layout {
+      display: flex;
+    }
 
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 220px;
-        padding: 96px 30px 30px;
-        border-right: 1px solid var(--soft-border);
-        backdrop-filter: blur(2px);
-        z-index: 3;
-      }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 220px;
+      padding: 96px 30px 30px;
+      border-right: 1px solid var(--soft-border);
+      backdrop-filter: blur(2px);
+      z-index: 3;
+    }
 
-      .sidebar-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-      .nav-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--nav-text);
-        text-decoration: none;
-        text-transform: lowercase;
-        font-size: 13px;
-        letter-spacing: 0.04em;
-        opacity: 0.88;
-      }
+    .nav-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--nav-text);
+      text-decoration: none;
+      text-transform: lowercase;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      opacity: 0.88;
+    }
 
-      .nav-item:hover {
-        opacity: 1;
-        color: var(--text);
-      }
+    .nav-item:hover {
+      opacity: 1;
+      color: var(--text);
+    }
 
-      .active-dot {
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: var(--text);
-        display: inline-block;
-      }
+    .active-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--text);
+      display: inline-block;
+    }
 
-      .main {
-        margin-left: 220px;
-        width: calc(100% - 220px);
-        padding: 74px 56px 80px;
-      }
+    .main {
+      margin-left: 220px;
+      width: calc(100% - 220px);
+      padding: 74px 56px 80px;
+    }
 
-      .section {
-        margin: 0;
-        padding: 48px 0;
-        max-width: 100%;
-        overflow-x: hidden;
-      }
+    .section {
+      margin: 0;
+      padding: 48px 0;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
 
-      .section-about {
-        padding-top: 64px;
-        padding-bottom: 48px;
-      }
+    .section-about {
+      padding-top: 64px;
+      padding-bottom: 48px;
+    }
 
-      .section-title {
-        text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 0.12em;
-        color: rgba(255, 255, 255, 0.35);
-        margin-bottom: 8px;
-        font-weight: 500;
-      }
+    .section-title {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
 
-      .about-wrap {
-        display: grid;
-        grid-template-columns: 1.4fr 0.8fr;
-        gap: 34px;
-      }
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 34px;
+    }
 
-      .name {
-        font-family: var(--font-serif);
-        font-size: clamp(40px, 8vw, 72px);
-        line-height: 1.02;
-        margin: 0 0 12px;
-        font-weight: 700;
-      }
+    .name {
+      font-family: var(--font-serif);
+      font-size: clamp(40px, 8vw, 72px);
+      line-height: 1.02;
+      margin: 0 0 12px;
+      font-weight: 700;
+    }
 
-      .subtitle {
-        color: var(--subtle-text);
-        margin-bottom: 18px;
-      }
+    .subtitle {
+      color: var(--subtle-text);
+      margin-bottom: 18px;
+    }
 
-      .inline-accent {
-        color: #ff9b3f;
-        font-weight: 600;
-      }
+    .inline-accent {
+      color: #ff9b3f;
+      font-weight: 600;
+    }
 
-      .bio-list {
-        margin: 0;
-        padding-left: 20px;
-        display: grid;
-        gap: 10px;
-        color: var(--soft-text);
-      }
+    .bio-list {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 10px;
+      color: var(--soft-text);
+    }
 
-      .tag {
-        display: inline-block;
-        border-radius: 999px;
-        padding: 2px 8px;
-        font-size: 10px;
-        line-height: 1.4;
-        border: 1px solid transparent;
-        margin: 0 2px;
-        font-weight: 400;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
+    .tag {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 10px;
+      line-height: 1.4;
+      border: 1px solid transparent;
+      margin: 0 2px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
-      .tag-green {
-        background: rgba(58, 199, 114, 0.15);
-        border-color: rgba(58, 199, 114, 0.25);
-        color: #9ef4c1;
-      }
+    .tag-green {
+      background: rgba(58, 199, 114, 0.15);
+      border-color: rgba(58, 199, 114, 0.25);
+      color: #9ef4c1;
+    }
 
-      .tag-indigo {
-        background: rgba(100, 112, 255, 0.15);
-        border-color: rgba(100, 112, 255, 0.25);
-        color: #bec6ff;
-      }
+    .tag-indigo {
+      background: rgba(100, 112, 255, 0.15);
+      border-color: rgba(100, 112, 255, 0.25);
+      color: #bec6ff;
+    }
 
-      .tag-teal {
-        background: rgba(47, 207, 193, 0.15);
-        border-color: rgba(47, 207, 193, 0.25);
-        color: #99fff6;
-      }
+    .tag-teal {
+      background: rgba(47, 207, 193, 0.15);
+      border-color: rgba(47, 207, 193, 0.25);
+      color: #99fff6;
+    }
 
-      .tag-red {
-        background: rgba(255, 95, 95, 0.15);
-        border-color: rgba(255, 95, 95, 0.25);
-        color: #ffc5c5;
-      }
+    .tag-red {
+      background: rgba(255, 95, 95, 0.15);
+      border-color: rgba(255, 95, 95, 0.25);
+      color: #ffc5c5;
+    }
 
-      .tag-yellow {
-        background: rgba(255, 212, 73, 0.15);
-        border-color: rgba(255, 212, 73, 0.25);
-        color: #ffe7a4;
-      }
+    .tag-yellow {
+      background: rgba(255, 212, 73, 0.15);
+      border-color: rgba(255, 212, 73, 0.25);
+      color: #ffe7a4;
+    }
 
-      .socials {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 18px;
-      }
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
 
-      .social-link {
-        color: var(--text);
-        text-decoration: none;
-        border: 1px solid var(--icon-border);
-        border-radius: 999px;
-        padding: 5px 12px;
-        font-size: 12px;
-      }
+    .social-link {
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--icon-border);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 12px;
+    }
 
       .portrait {
         width: 100%;
-        min-height: 360px;
+        height: 430px;
         border-radius: 14px;
         border: 1px solid var(--card-border);
         background: linear-gradient(145deg, #1b1b1b, #232323 40%, #343434);
-      }
-
-      .life-strip {
-        margin-top: 24px;
-        max-width: 100%;
-        overflow-x: hidden;
-        box-sizing: border-box;
-      }
-
-      .life-carousel-wrap {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
         overflow: hidden;
       }
+
+    .life-strip {
+      margin-top: 24px;
+      max-width: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+
+    .life-carousel-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
 
       .life-arrow {
         width: 36px;
         height: 36px;
         border-radius: 50%;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.08);
-        color: white;
-        cursor: pointer;
-        font-size: 18px;
-        line-height: 1;
-        display: flex;
-        align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
         justify-content: center;
       }
 
-      .life-arrow-row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 16px;
-        margin-top: 16px;
-        width: 100%;
-        box-sizing: border-box;
+      .theme-light .life-arrow {
+        color: #111;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        background: rgba(0, 0, 0, 0.08);
       }
 
-      .life-arrow:hover:not(:disabled) {
-        background: rgba(255, 255, 255, 0.18);
+    .life-arrow-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-top: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .life-arrow:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .life-arrow:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+
+    .life-viewport {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      padding: 0;
+      margin: 0;
+      height: 320px;
+    }
+
+    .life-track {
+      display: flex;
+      gap: 12px;
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+      box-sizing: border-box;
+    }
+
+    .life-item {
+      flex: 0 0 auto;
+      box-sizing: border-box;
+    }
+
+    .life-photo-button {
+      border: none;
+      background: transparent;
+      padding: 0;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .life-photo {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      object-fit: cover;
+      display: block;
+    }
+
+    .life-short-caption {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.45);
+      text-align: center;
+      margin-top: 8px;
+      text-transform: lowercase;
+      font-weight: 400;
+    }
+
+    .life-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(0, 0, 0, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 200ms ease-out;
+    }
+
+    .life-lightbox-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .life-lightbox-image {
+      max-height: 75vh;
+      max-width: 88vw;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .life-lightbox-short {
+      color: #fff;
+      font-size: 17px;
+      font-weight: 500;
+      margin-top: 16px;
+      text-transform: lowercase;
+    }
+
+    .life-lightbox-detailed {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.45);
+      max-width: 480px;
+      text-align: center;
+      line-height: 1.6;
+      margin-top: 8px;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+
+    .life-lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.5);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .life-lightbox-close:hover {
+      color: #fff;
+    }
+
+    .life-lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 32px;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      padding: 8px 12px;
+    }
+
+    .life-lightbox-nav.left {
+      left: 16px;
+    }
+
+    .life-lightbox-nav.right {
+      right: 16px;
+    }
+
+    .life-lightbox-nav:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
       }
 
-      .life-arrow:disabled {
-        opacity: 0.25;
-        cursor: not-allowed;
-      }
-
-      .life-viewport {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        overflow: hidden;
-        padding: 0;
-        margin: 0;
-        height: 320px;
-      }
-
-      .life-track {
-        display: flex;
-        gap: 12px;
-        transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-        will-change: transform;
-        box-sizing: border-box;
-      }
-
-      .life-item {
-        flex: 0 0 auto;
-        box-sizing: border-box;
-      }
-
-      .life-photo-button {
-        border: none;
-        background: transparent;
-        padding: 0;
-        width: 100%;
-        cursor: pointer;
-      }
-
-      .life-photo {
-        width: 100%;
-        height: 200px;
-        border-radius: 10px;
-        border: 1px solid var(--card-border);
-        object-fit: cover;
-        display: block;
-      }
-
-      .life-short-caption {
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.45);
-        text-align: center;
-        margin-top: 8px;
-        text-transform: lowercase;
-        font-weight: 400;
-      }
-
-      .life-lightbox {
-        position: fixed;
-        inset: 0;
-        z-index: 10000;
-        background: rgba(0, 0, 0, 0.92);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        animation: fadeIn 200ms ease-out;
-      }
-
-      .life-lightbox-inner {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-
-      .life-lightbox-image {
-        max-height: 75vh;
-        max-width: 88vw;
-        border-radius: 12px;
-        object-fit: contain;
-      }
-
-      .life-lightbox-short {
-        color: #fff;
-        font-size: 17px;
-        font-weight: 500;
-        margin-top: 16px;
-        text-transform: lowercase;
-      }
-
-      .life-lightbox-detailed {
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.45);
-        max-width: 480px;
-        text-align: center;
-        line-height: 1.6;
-        margin-top: 8px;
-        font-weight: 400;
-        letter-spacing: 0.01em;
-      }
-
-      .life-lightbox-close {
-        position: absolute;
-        top: 20px;
-        right: 24px;
-        font-size: 20px;
-        color: rgba(255, 255, 255, 0.5);
-        background: none;
-        border: none;
-        cursor: pointer;
-      }
-
-      .life-lightbox-close:hover {
-        color: #fff;
-      }
-
-      .life-lightbox-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 32px;
-        color: #fff;
-        background: none;
-        border: none;
-        cursor: pointer;
-        line-height: 1;
-        padding: 8px 12px;
-      }
-
-      .life-lightbox-nav.left {
-        left: 16px;
-      }
-
-      .life-lightbox-nav.right {
-        right: 16px;
-      }
-
-      .life-lightbox-nav:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      .places-map {
-        width: 100%;
-        height: 400px;
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid var(--card-border);
-      }
-
-      .map-marker {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: var(--text);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-      }
-
-      .theme-light .map-marker {
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
-      }
-
-      .mapboxgl-popup-content {
-        border-radius: 8px;
-        background: #1a1a1a;
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        font-size: 13px;
-        padding: 6px 12px;
-        box-shadow: none !important;
-        font-family: var(--font-sans);
-        line-height: 1.6;
-        font-weight: 500;
-      }
-
-      .mapboxgl-popup-tip {
-        display: none;
-      }
-
-      .map-fallback {
-        color: var(--muted);
-        font-size: 13px;
-        margin-top: 10px;
-      }
-
-      .work-tabs {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 24px;
-        flex-wrap: wrap;
-      }
-
-      .tab {
-        border: none;
-        background: none;
-        color: var(--nav-text);
-        text-transform: lowercase;
-        cursor: pointer;
-        padding: 0 0 8px;
-        border-bottom: 2px solid transparent;
-      }
-
-      .tab.active {
-        color: var(--text);
-        border-bottom-color: var(--text);
-      }
-
-      .work-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
-      }
-
-      .project-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 14px;
-        padding: 20px;
-        transition: transform 200ms ease, box-shadow 200ms ease;
-      }
-
-      .project-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      }
-
-      .project-preview {
-        height: 140px;
-        border-radius: 10px;
-        margin-bottom: 12px;
-      }
-
-      .project-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 8px;
-      }
-
-      .project-title {
-        margin: 0;
-        font-size: 17px;
-        font-weight: 500;
-      }
-
-      .badge {
-        border-radius: 999px;
-        padding: 2px 8px;
-        font-size: 10px;
-        color: var(--text);
-        white-space: nowrap;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        border: 1px solid transparent;
-      }
-
-      .badge-orange {
-        background: rgba(255, 143, 45, 0.15);
-        border-color: rgba(255, 143, 45, 0.25);
-      }
-
-      .badge-gray {
-        background: rgba(91, 91, 91, 0.15);
-        border-color: rgba(91, 91, 91, 0.25);
-      }
-
-      .project-desc {
-        margin: 0 0 11px;
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 13px;
-        line-height: 1.65;
-        font-weight: 400;
-      }
-
-      .card-links {
-        display: flex;
-        gap: 14px;
-      }
-
-      .card-link {
-        color: var(--text);
-        text-decoration: none;
-        font-size: 12px;
-        opacity: 0.9;
-      }
-
-      .card-link:hover {
+      to {
         opacity: 1;
       }
+    }
 
-      .list-cards {
-        display: grid;
-        gap: 20px;
-      }
+    .places-map {
+      width: 100%;
+      height: 400px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
 
-      .list-card {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: center;
-        gap: 12px;
-        border: 1px solid var(--card-border);
-        background: var(--card-bg);
-        border-radius: 14px;
-        padding: 20px;
-        transition: transform 200ms ease, box-shadow 200ms ease;
-      }
+    .map-marker {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--text);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    }
 
-      .list-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      }
+    .theme-light .map-marker {
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
+    }
 
-      .list-card-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        min-width: 0;
-      }
+    .mapboxgl-popup-content {
+      border-radius: 8px;
+      background: #1a1a1a;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 13px;
+      padding: 6px 12px;
+      box-shadow: none !important;
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      font-weight: 500;
+    }
 
-      .list-title {
-        color: rgba(255, 255, 255, 0.9);
-        text-decoration: none;
-        font-size: 15px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-weight: 500;
-      }
+    .mapboxgl-popup-tip {
+      display: none;
+    }
 
-      button.list-title {
-        background: transparent;
-        border: none;
-        padding: 0;
-        margin: 0;
-        outline: none;
-        -webkit-appearance: none;
-        appearance: none;
-        box-shadow: none;
-      }
+    .map-fallback {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
 
-      .list-title:hover {
-        color: white;
-      }
+    .work-tabs {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
 
-      .blog-title-button {
-        border: none;
-        background: transparent;
-        padding: 0;
-        margin: 0;
-        color: inherit;
-        font: inherit;
-        text-align: left;
-        cursor: pointer;
-      }
+    .tab {
+      border: none;
+      background: none;
+      color: var(--nav-text);
+      text-transform: lowercase;
+      cursor: pointer;
+      padding: 0 0 8px;
+      border-bottom: 2px solid transparent;
+    }
 
-      .blog-title-button:hover {
-        text-decoration: underline;
-      }
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--text);
+    }
 
-      .mini-pill {
-        display: inline-block;
-        font-size: 10px;
-        border-radius: 999px;
-        padding: 2px 8px;
-        background: rgba(80, 140, 255, 0.15);
-        border: 1px solid rgba(80, 140, 255, 0.25);
-        color: rgba(255, 255, 255, 0.45);
-        font-weight: 400;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
 
-      .list-date {
-        color: rgba(255, 255, 255, 0.3);
-        font-size: 12px;
-        font-weight: 400;
-      }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
 
-      .watch-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-      }
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
 
-      .watch-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 14px;
-        padding: 20px;
-        transition: transform 200ms ease, box-shadow 200ms ease;
-      }
+    .project-preview {
+      height: 140px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
 
-      .watch-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      }
+    .project-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
 
-      .watch-title {
-        margin: 0 0 8px;
-        font-size: 15px;
-        font-weight: 500;
-      }
+    .project-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 500;
+    }
 
-      .watch-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.3);
-      }
+    .badge {
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 10px;
+      color: var(--text);
+      white-space: nowrap;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
 
-      .watch-type {
-        border: 1px solid var(--card-border);
-        border-radius: 999px;
-        padding: 2px 8px;
-        text-transform: lowercase;
-      }
+    .badge-orange {
+      background: rgba(255, 143, 45, 0.15);
+      border-color: rgba(255, 143, 45, 0.25);
+    }
 
-      .media-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
+    .badge-gray {
+      background: rgba(91, 91, 91, 0.15);
+      border-color: rgba(91, 91, 91, 0.25);
+    }
 
-      .media-card {
-        border: 1px solid var(--card-border);
-        border-radius: 14px;
-        overflow: hidden;
-        background: var(--card-bg);
-        color: var(--text);
-        text-decoration: none;
-        transition: transform 200ms ease, box-shadow 200ms ease;
-      }
+    .project-desc {
+      margin: 0 0 11px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 400;
+    }
 
-      .media-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      }
+    .card-links {
+      display: flex;
+      gap: 14px;
+    }
 
-      .media-thumb {
-        height: 140px;
-      }
+    .card-link {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 12px;
+      opacity: 0.9;
+    }
 
-      .media-body {
-        padding: 20px;
-      }
+    .card-link:hover {
+      opacity: 1;
+    }
 
-      .media-title {
-        margin: 0 0 8px;
-        font-size: 15px;
-        font-weight: 500;
-      }
+    .list-cards {
+      display: grid;
+      gap: 20px;
+    }
 
-      .media-foot {
-        display: flex;
-        justify-content: space-between;
-        color: rgba(255, 255, 255, 0.3);
-        font-size: 12px;
-      }
+    .list-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
 
-      .mobile-topbar {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 12px 16px;
-        z-index: 5;
-        border-bottom: 1px solid var(--soft-border);
-        background: var(--overlay-bg);
-      }
+    .list-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
 
-      .hamburger {
-        border: 1px solid var(--icon-border);
-        background: transparent;
-        color: var(--text);
-        border-radius: 6px;
-        width: 34px;
-        height: 34px;
-        cursor: pointer;
-      }
+    .list-card-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
 
-      .mobile-menu {
-        margin-top: 10px;
-        display: grid;
-        gap: 10px;
-      }
+    .list-title {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
 
-      .fade-slide {
+    button.list-title {
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      box-shadow: none;
+    }
+
+    .list-title:hover {
+      color: white;
+    }
+
+    .blog-title-button {
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .blog-title-button:hover {
+      text-decoration: underline;
+    }
+
+    .mini-pill {
+      display: inline-block;
+      font-size: 10px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: rgba(80, 140, 255, 0.15);
+      border: 1px solid rgba(80, 140, 255, 0.25);
+      color: rgba(255, 255, 255, 0.45);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .list-date {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .watch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .watch-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .watch-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .watch-title {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .watch-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .watch-type {
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      padding: 2px 8px;
+      text-transform: lowercase;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .media-card {
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--card-bg);
+      color: var(--text);
+      text-decoration: none;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .media-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .media-thumb {
+      height: 140px;
+    }
+
+    .media-body {
+      padding: 20px;
+    }
+
+    .media-title {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .media-foot {
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 12px;
+    }
+
+    .mobile-topbar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px;
+      z-index: 5;
+      border-bottom: 1px solid var(--soft-border);
+      background: var(--overlay-bg);
+    }
+
+    .hamburger {
+      border: 1px solid var(--icon-border);
+      background: transparent;
+      color: var(--text);
+      border-radius: 6px;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+    }
+
+    .mobile-menu {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .fade-slide {
+      opacity: 0;
+      transform: translateY(28px);
+      animation-name: fadeSlideUp;
+      animation-timing-function: ease-out;
+      animation-fill-mode: both;
+    }
+
+    .fade-600 {
+      animation-duration: 600ms;
+    }
+
+    .fade-700 {
+      animation-duration: 700ms;
+    }
+
+    .fade-800 {
+      animation-duration: 800ms;
+    }
+
+    .delay-0 {
+      animation-delay: 0ms;
+    }
+
+    .delay-150 {
+      animation-delay: 150ms;
+    }
+
+    .delay-200 {
+      animation-delay: 200ms;
+    }
+
+    .delay-300 {
+      animation-delay: 300ms;
+    }
+
+    .delay-450 {
+      animation-delay: 450ms;
+    }
+
+    .delay-500 {
+      animation-delay: 500ms;
+    }
+
+    .delay-600 {
+      animation-delay: 600ms;
+    }
+
+    .delay-700 {
+      animation-delay: 700ms;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
         opacity: 0;
         transform: translateY(28px);
-        animation-name: fadeSlideUp;
-        animation-timing-function: ease-out;
-        animation-fill-mode: both;
       }
 
-      .fade-600 {
-        animation-duration: 600ms;
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideDown {
+      from {
+        opacity: 1;
+        transform: translateY(0);
       }
 
-      .fade-700 {
-        animation-duration: 700ms;
+      to {
+        opacity: 0;
+        transform: translateY(20px);
       }
+    }
 
-      .fade-800 {
-        animation-duration: 800ms;
-      }
+    .blog-enter {
+      animation: fadeSlideUp 500ms ease-out both;
+    }
 
-      .delay-0 {
-        animation-delay: 0ms;
-      }
+    .blog-exit {
+      animation: fadeSlideDown 350ms ease-in both;
+    }
 
-      .delay-150 {
-        animation-delay: 150ms;
-      }
+    .page-exit {
+      animation: fadeSlideDown 350ms ease-in both;
+    }
 
-      .delay-200 {
-        animation-delay: 200ms;
-      }
-
-      .delay-300 {
-        animation-delay: 300ms;
-      }
-
-      .delay-450 {
-        animation-delay: 450ms;
-      }
-
-      .delay-500 {
-        animation-delay: 500ms;
-      }
-
-      .delay-600 {
-        animation-delay: 600ms;
-      }
-
-      .delay-700 {
-        animation-delay: 700ms;
-      }
-
-      @keyframes fadeSlideUp {
-        from {
-          opacity: 0;
-          transform: translateY(28px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes fadeSlideDown {
-        from {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        to {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-      }
-
-      .blog-enter {
-        animation: fadeSlideUp 500ms ease-out both;
-      }
-
-      .blog-exit {
-        animation: fadeSlideDown 350ms ease-in both;
-      }
-
-      .page-exit {
-        animation: fadeSlideDown 350ms ease-in both;
-      }
-
-      .diamond-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        pointer-events: none;
-        overflow: hidden;
-        animation: diamond-overlay-fade 1100ms linear forwards;
-      }
+    .diamond-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      overflow: hidden;
+      animation: diamond-overlay-fade 1100ms linear forwards;
+    }
 
       .shockwave-ring {
         position: absolute;
@@ -974,37 +994,37 @@
         width: 0;
         height: 0;
         border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.6);
+        border: 3px solid var(--fx-ring);
         transform: translate(-50%, -50%);
         animation: shockwave-expand 400ms ease-out forwards;
       }
 
-      .shockwave-ring.ring-2 {
-        animation-delay: 60ms;
-      }
+    .shockwave-ring.ring-2 {
+      animation-delay: 60ms;
+    }
 
-      .shockwave-ring.ring-3 {
-        animation-delay: 120ms;
-      }
+    .shockwave-ring.ring-3 {
+      animation-delay: 120ms;
+    }
 
-      .diamond-center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        transform: translate(-50%, -50%);
-      }
+    .diamond-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      transform: translate(-50%, -50%);
+    }
 
       .diamond-core {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 80px;
-        height: 80px;
-        border: 2px solid rgba(255, 255, 255, 0.95);
+        width: 112px;
+        height: 112px;
+        border: 2.5px solid var(--fx-core);
         transform: translate(-50%, -50%) rotate(45deg) scale(0);
-        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
+        filter: drop-shadow(0 0 26px var(--fx-core));
         animation: diamond-core-burst 450ms forwards;
         animation-delay: 150ms;
       }
@@ -1012,760 +1032,770 @@
       .diamond-core::after {
         content: "";
         position: absolute;
-        inset: 16px;
-        border: 1.5px solid rgba(255, 255, 255, 0.8);
+        inset: 22px;
+        border: 1.5px solid var(--fx-soft);
       }
 
       .diamond-shard {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 34px;
-        height: 34px;
-        background: rgba(255, 255, 255, 0.95);
+        width: 48px;
+        height: 48px;
+        background: var(--fx-core);
         clip-path: polygon(50% 0%, 100% 50%, 50% 100%);
         transform: translate(-50%, -50%) rotate(45deg);
         opacity: 0;
         animation: shard-fly 350ms ease-in forwards;
         animation-delay: 350ms;
-      }
+    }
 
       .diamond-shard.shard-tl {
-        --dx: -200px;
-        --dy: -200px;
+        --dx: -280px;
+        --dy: -280px;
       }
 
       .diamond-shard.shard-tr {
-        --dx: 200px;
-        --dy: -200px;
+        --dx: 280px;
+        --dy: -280px;
       }
 
       .diamond-shard.shard-bl {
-        --dx: -200px;
-        --dy: 200px;
+        --dx: -280px;
+        --dy: 280px;
       }
 
       .diamond-shard.shard-br {
-        --dx: 200px;
-        --dy: 200px;
+        --dx: 280px;
+        --dy: 280px;
       }
 
       .diamond-particle {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 3px;
-        height: 3px;
-        background: rgba(255, 255, 255, 0.92);
+        width: 4px;
+        height: 4px;
+        background: var(--fx-core);
         transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) rotate(0deg);
         opacity: 0;
         animation: particle-fly var(--duration) ease-out forwards;
         animation-delay: calc(300ms + var(--delay));
       }
 
-      @keyframes shockwave-expand {
-        from {
-          width: 0;
-          height: 0;
-          opacity: 0.6;
-        }
-        to {
-          width: 120vw;
-          height: 120vw;
-          opacity: 0;
-        }
+    @keyframes shockwave-expand {
+      from {
+        width: 0;
+        height: 0;
+        opacity: 0.6;
       }
 
-      @keyframes diamond-core-burst {
-        0% {
-          transform: translate(-50%, -50%) rotate(45deg) scale(0);
-          opacity: 0;
-        }
-        45% {
-          transform: translate(-50%, -50%) rotate(45deg) scale(1.08);
-          opacity: 1;
-        }
-        67% {
-          transform: translate(-50%, -50%) rotate(45deg) scale(1);
-          opacity: 1;
-        }
-        100% {
-          transform: translate(-50%, -50%) rotate(45deg) scale(0.7);
-          opacity: 0;
-        }
+      to {
+        width: 120vw;
+        height: 120vw;
+        opacity: 0;
+      }
+    }
+
+    @keyframes diamond-core-burst {
+      0% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(0);
+        opacity: 0;
       }
 
-      @keyframes shard-fly {
-        0% {
-          transform: translate(-50%, -50%) rotate(45deg);
-          opacity: 0;
-        }
-        100% {
-          transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(225deg);
-          opacity: 0;
-        }
+      45% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1.08);
+        opacity: 1;
       }
 
-      @keyframes particle-fly {
-        0% {
-          transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) rotate(0deg);
-          opacity: 1;
-        }
-        100% {
-          transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist)) rotate(var(--spin));
-          opacity: 0;
-        }
+      67% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(1);
+        opacity: 1;
       }
 
-      @keyframes diamond-overlay-fade {
-        0%,
-        81% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0;
-        }
+      100% {
+        transform: translate(-50%, -50%) rotate(45deg) scale(0.7);
+        opacity: 0;
+      }
+    }
+
+    @keyframes shard-fly {
+      0% {
+        transform: translate(-50%, -50%) rotate(45deg);
+        opacity: 0;
       }
 
-      .contact-form {
-        max-width: 520px;
-        display: grid;
-        gap: 16px;
+      100% {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(225deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes particle-fly {
+      0% {
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) rotate(0deg);
+        opacity: 1;
       }
 
-      .contact-input,
-      .contact-textarea {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 8px;
-        padding: 10px 14px;
-        color: white;
-        font-size: 14px;
-        width: 100%;
-        outline: none;
-        font-family: var(--font-sans);
-        line-height: 1.6;
-        font-weight: 400;
-        transition: border-color 200ms ease;
+      100% {
+        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist)) rotate(var(--spin));
+        opacity: 0;
+      }
+    }
+
+    @keyframes diamond-overlay-fade {
+
+      0%,
+      81% {
+        opacity: 1;
       }
 
-      .contact-input:focus,
-      .contact-textarea:focus {
-        border-color: rgba(255, 255, 255, 0.5);
-        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .contact-form {
+      max-width: 520px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .contact-input,
+    .contact-textarea {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 14px;
+      width: 100%;
+      outline: none;
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      font-weight: 400;
+      transition: border-color 200ms ease;
+    }
+
+    .contact-input:focus,
+    .contact-textarea:focus {
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+    }
+
+    .contact-textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .contact-submit {
+      width: fit-content;
+      border: 1px solid white;
+      border-radius: 999px;
+      background: transparent;
+      color: white;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: background 200ms ease, color 200ms ease;
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      font-size: 13px;
+    }
+
+    .contact-submit:hover {
+      background: white;
+      color: black;
+    }
+
+    .blog-page {
+      padding: 60px 0 60px 200px;
+    }
+
+    .blog-page-inner {
+      max-width: 900px;
+    }
+
+    .blog-back {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      margin-bottom: 26px;
+    }
+
+    .blog-back:hover {
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .blog-post-title {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 760px;
+      margin: 0 0 14px;
+    }
+
+    .blog-post-date {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: lowercase;
+      margin-bottom: 14px;
+    }
+
+    .blog-post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .blog-post-dot {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .blog-post-content {
+      margin-top: 40px;
+      font-size: 17px;
+      line-height: 1.8;
+      max-width: 680px;
+      color: rgba(255, 255, 255, 0.82);
+      font-family: var(--font-sans);
+    }
+
+    .blog-post-content p {
+      margin: 0 0 20px;
+    }
+
+    .blog-post-image {
+      width: 100%;
+      max-width: 760px;
+      border-radius: 0;
+      margin: 40px 0;
+      display: block;
+    }
+
+    ::selection {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    @media (max-width: 767px) {
+      .sidebar {
+        display: none;
       }
 
-      .contact-textarea {
-        min-height: 140px;
-        resize: vertical;
-      }
-
-      .contact-submit {
-        width: fit-content;
-        border: 1px solid white;
-        border-radius: 999px;
-        background: transparent;
-        color: white;
-        padding: 10px 24px;
-        cursor: pointer;
-        transition: background 200ms ease, color 200ms ease;
-        font-family: var(--font-sans);
-        line-height: 1.6;
-        font-weight: 500;
-        letter-spacing: 0.06em;
-        font-size: 13px;
-      }
-
-      .contact-submit:hover {
-        background: white;
-        color: black;
-      }
-
-      .blog-page {
-        padding: 60px 0 60px 200px;
-      }
-
-      .blog-page-inner {
-        max-width: 900px;
-      }
-
-      .blog-back {
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: transparent;
-        color: white;
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 13px;
-        cursor: pointer;
-        margin-bottom: 26px;
-      }
-
-      .blog-back:hover {
-        border-color: rgba(255, 255, 255, 0.35);
-      }
-
-      .blog-post-title {
-        font-family: var(--font-serif);
-        font-size: clamp(32px, 5vw, 56px);
-        font-weight: 700;
-        line-height: 1.15;
-        max-width: 760px;
-        margin: 0 0 14px;
-      }
-
-      .blog-post-date {
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.4);
-        text-transform: lowercase;
-        margin-bottom: 14px;
-      }
-
-      .blog-post-tags {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .blog-post-dot {
-        color: rgba(255, 255, 255, 0.35);
-      }
-
-      .blog-post-content {
-        margin-top: 40px;
-        font-size: 17px;
-        line-height: 1.8;
-        max-width: 680px;
-        color: rgba(255, 255, 255, 0.82);
-        font-family: var(--font-sans);
-      }
-
-      .blog-post-content p {
-        margin: 0 0 20px;
-      }
-
-      .blog-post-image {
-        width: 100%;
-        max-width: 760px;
-        border-radius: 0;
-        margin: 40px 0;
+      .mobile-topbar {
         display: block;
       }
 
-      ::selection {
-        background: rgba(255, 255, 255, 0.15);
-        color: white;
+      .top-left-toggles {
+        top: 14px;
+        left: 64px;
       }
 
-      @media (max-width: 767px) {
-        .sidebar {
-          display: none;
-        }
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 88px 18px 50px;
+      }
 
-        .mobile-topbar {
-          display: block;
-        }
-
-        .top-left-toggles {
-          top: 14px;
-          left: 64px;
-        }
-
-        .main {
-          margin-left: 0;
-          width: 100%;
-          padding: 88px 18px 50px;
-        }
-
-        .about-wrap {
-          grid-template-columns: 1fr;
-        }
+      .about-wrap {
+        grid-template-columns: 1fr;
+      }
 
         .portrait {
-          min-height: 280px;
+          height: 360px;
         }
 
-        .work-grid,
-        .watch-grid,
-        .media-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .blog-page {
-          padding: 40px 24px;
-        }
+      .work-grid,
+      .watch-grid,
+      .media-grid {
+        grid-template-columns: 1fr;
       }
 
-      @media (max-width: 599px) {
-        .life-photo {
-          height: 200px;
-        }
+      .blog-page {
+        padding: 40px 24px;
       }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
+    }
 
-    <script type="text/babel">
-      const { useEffect, useMemo, useRef, useState } = React;
-
-      function TagPill({ className, children }) {
-        return <span className={`tag ${className}`}>{children}</span>;
+    @media (max-width: 599px) {
+      .life-photo {
+        height: 200px;
       }
+    }
+  </style>
+</head>
 
-      function CanvasBackground({ isDarkMode }) {
-        const canvasRef = useRef(null);
-        const mouseRef = useRef({ x: 0, y: 0, active: false });
-        const isDarkModeRef = useRef(isDarkMode);
+<body>
+  <div id="root"></div>
 
-        useEffect(() => {
-          isDarkModeRef.current = isDarkMode;
-        }, [isDarkMode]);
+  <script type="text/babel">
+    const { useEffect, useMemo, useRef, useState } = React;
 
-        useEffect(() => {
-          const canvas = canvasRef.current;
-          const ctx = canvas.getContext("2d");
-          const MAX_STRUCTURED_DIST = 130;
-          const MAX_FREE_DIST = 80;
-          const MAX_DEPTH = 3;
-          let width = 0;
-          let height = 0;
-          let rafId = 0;
-          let nextId = 0;
-          const nodes = [];
+    function TagPill({ className, children }) {
+      return <span className={`tag ${className}`}>{children}</span>;
+    }
 
-          const rand = (min, max) => min + Math.random() * (max - min);
-          const randInt = (min, max) => Math.floor(rand(min, max + 1));
-          const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+    function CanvasBackground({ isDarkMode }) {
+      const canvasRef = useRef(null);
+      const mouseRef = useRef({ x: 0, y: 0, active: false });
+      const isDarkModeRef = useRef(isDarkMode);
 
-          const createNode = ({ x, y, parentId = null, seedId }) => ({
-            id: nextId++,
-            x,
-            y,
-            vx: rand(-0.18, 0.18),
-            vy: rand(-0.18, 0.18),
-            radius: rand(1.5, 3.5),
-            parentId,
-            seedId,
-          });
+      useEffect(() => {
+        isDarkModeRef.current = isDarkMode;
+      }, [isDarkMode]);
 
-          const addRecursiveChildren = (parentNode, depth, seedId) => {
-            if (depth > MAX_DEPTH) return;
-            const childCount = depth === 1 ? randInt(3, 5) : randInt(2, 3);
-            const minDist = depth === 1 ? 60 : depth === 2 ? 45 : 30;
-            const maxDist = depth === 1 ? 120 : depth === 2 ? 80 : 70;
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+        const MAX_STRUCTURED_DIST = 130;
+        const MAX_FREE_DIST = 80;
+        const MAX_DEPTH = 3;
+        let width = 0;
+        let height = 0;
+        let rafId = 0;
+        let nextId = 0;
+        const nodes = [];
 
-            for (let i = 0; i < childCount; i += 1) {
-              const angle = rand(0, Math.PI * 2);
-              const distance = rand(minDist, maxDist);
-              const childX = clamp(parentNode.x + Math.cos(angle) * distance, 0, width);
-              const childY = clamp(parentNode.y + Math.sin(angle) * distance, 0, height);
-              const child = createNode({ x: childX, y: childY, parentId: parentNode.id, seedId });
-              nodes.push(child);
-              addRecursiveChildren(child, depth + 1, seedId);
-            }
-          };
+        const rand = (min, max) => min + Math.random() * (max - min);
+        const randInt = (min, max) => Math.floor(rand(min, max + 1));
+        const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
-          const spawnSeedCluster = (seedX, seedY) => {
-            const seed = createNode({ x: seedX, y: seedY, seedId: nextId });
-            seed.seedId = seed.id;
-            nodes.push(seed);
-            addRecursiveChildren(seed, 1, seed.id);
-          };
+        const createNode = ({ x, y, parentId = null, seedId }) => ({
+          id: nextId++,
+          x,
+          y,
+          vx: rand(-0.18, 0.18),
+          vy: rand(-0.18, 0.18),
+          radius: rand(1.5, 3.5),
+          parentId,
+          seedId,
+        });
 
-          const spawnSingleNode = (x, y) => {
-            const node = createNode({ x: clamp(x, 0, width), y: clamp(y, 0, height), seedId: nextId });
-            node.seedId = node.id;
-            nodes.push(node);
-          };
+        const addRecursiveChildren = (parentNode, depth, seedId) => {
+          if (depth > MAX_DEPTH) return;
+          const childCount = depth === 1 ? randInt(3, 5) : randInt(2, 3);
+          const minDist = depth === 1 ? 60 : depth === 2 ? 45 : 30;
+          const maxDist = depth === 1 ? 120 : depth === 2 ? 80 : 70;
 
-          const resize = () => {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width * window.devicePixelRatio;
-            canvas.height = height * window.devicePixelRatio;
-            canvas.style.width = width + "px";
-            canvas.style.height = height + "px";
-            ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-            for (const node of nodes) {
-              node.x = clamp(node.x, 0, width);
-              node.y = clamp(node.y, 0, height);
-            }
-          };
-
-          const sharesLineage = (a, b) =>
-            a.parentId === b.id || b.parentId === a.id || (a.parentId !== null && a.parentId === b.parentId);
-
-          const drawLine = (a, b, lineRgb, maxOpacity) => {
-            const dx = a.x - b.x;
-            const dy = a.y - b.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            const withinUniversal = dist <= MAX_FREE_DIST;
-            const withinStructured = dist <= MAX_STRUCTURED_DIST && sharesLineage(a, b);
-            if (!withinUniversal && !withinStructured) return;
-
-            const distanceCap = withinUniversal ? MAX_FREE_DIST : MAX_STRUCTURED_DIST;
-            const alpha = (1 - dist / distanceCap) * maxOpacity;
-            ctx.strokeStyle = `rgba(${lineRgb},${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          };
-
-          const tick = () => {
-            ctx.clearRect(0, 0, width, height);
-            const dark = isDarkModeRef.current;
-            const lineRgb = dark ? "255,255,255" : "0,0,0";
-            const maxOpacity = dark ? 0.35 : 0.15;
-
-            for (let i = 0; i < nodes.length; i += 1) {
-              const node = nodes[i];
-              node.x += node.vx;
-              node.y += node.vy;
-
-              if (node.x <= 0 || node.x >= width) node.vx *= -1;
-              if (node.y <= 0 || node.y >= height) node.vy *= -1;
-
-              node.x = clamp(node.x, 0, width);
-              node.y = clamp(node.y, 0, height);
-
-              for (let j = i + 1; j < nodes.length; j += 1) {
-                drawLine(node, nodes[j], lineRgb, maxOpacity);
-              }
-            }
-
-            ctx.shadowBlur = 0;
-            if (mouseRef.current.active) {
-              const m = mouseRef.current;
-              for (const node of nodes) {
-                const dx = node.x - m.x;
-                const dy = node.y - m.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist <= MAX_FREE_DIST) {
-                  const alpha = (1 - dist / MAX_FREE_DIST) * maxOpacity;
-                  ctx.strokeStyle = `rgba(${lineRgb},${alpha})`;
-                  ctx.lineWidth = 0.8;
-                  ctx.beginPath();
-                  ctx.moveTo(m.x, m.y);
-                  ctx.lineTo(node.x, node.y);
-                  ctx.stroke();
-                }
-              }
-              ctx.fillStyle = dark ? "rgba(255,255,255,0.65)" : "rgba(15,15,15,0.5)";
-              ctx.beginPath();
-              ctx.arc(m.x, m.y, 2, 0, Math.PI * 2);
-              ctx.fill();
-            }
-
-            ctx.shadowBlur = 6;
-            ctx.shadowColor = dark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.25)";
-            ctx.fillStyle = dark ? "rgba(255,255,255,0.88)" : "rgba(20,20,20,0.8)";
-            for (const node of nodes) {
-              ctx.beginPath();
-              ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-              ctx.fill();
-            }
-            ctx.shadowBlur = 0;
-
-            rafId = requestAnimationFrame(tick);
-          };
-
-          const onMouseMove = (e) => {
-            mouseRef.current = { x: e.clientX, y: e.clientY, active: true };
-          };
-
-          const onMouseLeave = () => {
-            mouseRef.current.active = false;
-          };
-
-          const onMouseDown = (event) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            spawnSingleNode(x, y);
-          };
-
-          resize();
-          const initialSeeds = randInt(6, 8);
-          for (let i = 0; i < initialSeeds; i += 1) {
-            spawnSeedCluster(rand(0, width), rand(0, height));
+          for (let i = 0; i < childCount; i += 1) {
+            const angle = rand(0, Math.PI * 2);
+            const distance = rand(minDist, maxDist);
+            const childX = clamp(parentNode.x + Math.cos(angle) * distance, 0, width);
+            const childY = clamp(parentNode.y + Math.sin(angle) * distance, 0, height);
+            const child = createNode({ x: childX, y: childY, parentId: parentNode.id, seedId });
+            nodes.push(child);
+            addRecursiveChildren(child, depth + 1, seedId);
           }
-          tick();
+        };
 
-          window.addEventListener("resize", resize);
-          window.addEventListener("mousemove", onMouseMove);
-          window.addEventListener("mouseout", onMouseLeave);
-          canvas.addEventListener("mousedown", onMouseDown);
+        const spawnSeedCluster = (seedX, seedY) => {
+          const seed = createNode({ x: seedX, y: seedY, seedId: nextId });
+          seed.seedId = seed.id;
+          nodes.push(seed);
+          addRecursiveChildren(seed, 1, seed.id);
+        };
 
-          return () => {
-            cancelAnimationFrame(rafId);
-            window.removeEventListener("resize", resize);
-            window.removeEventListener("mousemove", onMouseMove);
-            window.removeEventListener("mouseout", onMouseLeave);
-            canvas.removeEventListener("mousedown", onMouseDown);
-          };
-        }, []);
+        const spawnSingleNode = (x, y) => {
+          const node = createNode({ x: clamp(x, 0, width), y: clamp(y, 0, height), seedId: nextId });
+          node.seedId = node.id;
+          nodes.push(node);
+        };
 
-        return <canvas className="canvas-bg" ref={canvasRef} />;
-      }
+        const resize = () => {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width * window.devicePixelRatio;
+          canvas.height = height * window.devicePixelRatio;
+          canvas.style.width = width + "px";
+          canvas.style.height = height + "px";
+          ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+          for (const node of nodes) {
+            node.x = clamp(node.x, 0, width);
+            node.y = clamp(node.y, 0, height);
+          }
+        };
 
-      function Sidebar({ items, active, onClick, mobileOpen, setMobileOpen }) {
-        return (
-          <>
-            <aside className="sidebar">
-              <nav className="sidebar-nav fade-slide fade-600 delay-0">
+        const sharesLineage = (a, b) =>
+          a.parentId === b.id || b.parentId === a.id || (a.parentId !== null && a.parentId === b.parentId);
+
+        const drawLine = (a, b, lineRgb, maxOpacity) => {
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const withinUniversal = dist <= MAX_FREE_DIST;
+          const withinStructured = dist <= MAX_STRUCTURED_DIST && sharesLineage(a, b);
+          if (!withinUniversal && !withinStructured) return;
+
+          const distanceCap = withinUniversal ? MAX_FREE_DIST : MAX_STRUCTURED_DIST;
+          const alpha = (1 - dist / distanceCap) * maxOpacity;
+          ctx.strokeStyle = `rgba(${lineRgb},${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        };
+
+        const tick = () => {
+          ctx.clearRect(0, 0, width, height);
+          const dark = isDarkModeRef.current;
+          const lineRgb = dark ? "255,255,255" : "0,0,0";
+          const maxOpacity = dark ? 0.35 : 0.15;
+
+          for (let i = 0; i < nodes.length; i += 1) {
+            const node = nodes[i];
+            node.x += node.vx;
+            node.y += node.vy;
+
+            if (node.x <= 0 || node.x >= width) node.vx *= -1;
+            if (node.y <= 0 || node.y >= height) node.vy *= -1;
+
+            node.x = clamp(node.x, 0, width);
+            node.y = clamp(node.y, 0, height);
+
+            for (let j = i + 1; j < nodes.length; j += 1) {
+              drawLine(node, nodes[j], lineRgb, maxOpacity);
+            }
+          }
+
+          ctx.shadowBlur = 0;
+          if (mouseRef.current.active) {
+            const m = mouseRef.current;
+            for (const node of nodes) {
+              const dx = node.x - m.x;
+              const dy = node.y - m.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist <= MAX_FREE_DIST) {
+                const alpha = (1 - dist / MAX_FREE_DIST) * maxOpacity;
+                ctx.strokeStyle = `rgba(${lineRgb},${alpha})`;
+                ctx.lineWidth = 0.8;
+                ctx.beginPath();
+                ctx.moveTo(m.x, m.y);
+                ctx.lineTo(node.x, node.y);
+                ctx.stroke();
+              }
+            }
+            ctx.fillStyle = dark ? "rgba(255,255,255,0.65)" : "rgba(15,15,15,0.5)";
+            ctx.beginPath();
+            ctx.arc(m.x, m.y, 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = dark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.25)";
+          ctx.fillStyle = dark ? "rgba(255,255,255,0.88)" : "rgba(20,20,20,0.8)";
+          for (const node of nodes) {
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.shadowBlur = 0;
+
+          rafId = requestAnimationFrame(tick);
+        };
+
+        const onMouseMove = (e) => {
+          mouseRef.current = { x: e.clientX, y: e.clientY, active: true };
+        };
+
+        const onMouseLeave = () => {
+          mouseRef.current.active = false;
+        };
+
+        const onMouseDown = (event) => {
+          const rect = canvas.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          spawnSingleNode(x, y);
+        };
+
+        resize();
+        const initialSeeds = randInt(6, 8);
+        for (let i = 0; i < initialSeeds; i += 1) {
+          spawnSeedCluster(rand(0, width), rand(0, height));
+        }
+        tick();
+
+        window.addEventListener("resize", resize);
+        window.addEventListener("mousemove", onMouseMove);
+        window.addEventListener("mouseout", onMouseLeave);
+        canvas.addEventListener("mousedown", onMouseDown);
+
+        return () => {
+          cancelAnimationFrame(rafId);
+          window.removeEventListener("resize", resize);
+          window.removeEventListener("mousemove", onMouseMove);
+          window.removeEventListener("mouseout", onMouseLeave);
+          canvas.removeEventListener("mousedown", onMouseDown);
+        };
+      }, []);
+
+      return <canvas className="canvas-bg" ref={canvasRef} />;
+    }
+
+    function Sidebar({ items, active, onClick, mobileOpen, setMobileOpen }) {
+      return (
+        <>
+          <aside className="sidebar">
+            <nav className="sidebar-nav fade-slide fade-600 delay-0">
+              {items.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className="nav-item"
+                  onClick={() => onClick(item.id)}
+                >
+                  <span className="active-dot" style={{ opacity: active === item.id ? 1 : 0 }} />
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </aside>
+
+          <div className="mobile-topbar">
+            <button
+              className="hamburger"
+              onClick={() => setMobileOpen((prev) => !prev)}
+              aria-label="Toggle navigation"
+            >
+              {mobileOpen ? "x" : "≡"}
+            </button>
+            {mobileOpen && (
+              <nav className="mobile-menu">
                 {items.map((item) => (
                   <a
                     key={item.id}
-                    href={`#${item.id}`}
                     className="nav-item"
-                    onClick={() => onClick(item.id)}
+                    href={`#${item.id}`}
+                    onClick={() => {
+                      onClick(item.id);
+                      setMobileOpen(false);
+                    }}
                   >
                     <span className="active-dot" style={{ opacity: active === item.id ? 1 : 0 }} />
                     {item.label}
                   </a>
                 ))}
               </nav>
-            </aside>
+            )}
+          </div>
+        </>
+      );
+    }
 
-            <div className="mobile-topbar">
-              <button
-                className="hamburger"
-                onClick={() => setMobileOpen((prev) => !prev)}
-                aria-label="Toggle navigation"
-              >
-                {mobileOpen ? "x" : "≡"}
-              </button>
-              {mobileOpen && (
-                <nav className="mobile-menu">
-                  {items.map((item) => (
-                    <a
-                      key={item.id}
-                      className="nav-item"
-                      href={`#${item.id}`}
-                      onClick={() => {
-                        onClick(item.id);
-                        setMobileOpen(false);
-                      }}
-                    >
-                      <span className="active-dot" style={{ opacity: active === item.id ? 1 : 0 }} />
-                      {item.label}
-                    </a>
-                  ))}
-                </nav>
-              )}
-            </div>
-          </>
-        );
-      }
+    function AboutSection() {
+      const photos = [
+        {
+          src: "assets/friends.jpg",
+          caption: "friends",
+          detail:
+            "Hanging out with the crew in Daejeon — the people who make KAIST feel like home. Winter 2024.",
+        },
+        {
+          src: "assets/rocket%20club.jpeg",
+          caption: "rocket club",
+          detail:
+            "Building and launching model rockets with the aerospace club at KAIST. One of the best decisions I've made here. Fall 2024.",
+        },
+        {
+          src: "assets/snow.jpg",
+          caption: "snow day",
+          detail:
+            "First proper snowfall of the season. Everything went quiet and the campus looked unreal. December 2024.",
+        },
+        {
+          src: "assets/friends%20skating.jpg",
+          caption: "skating",
+          detail:
+            "Ice skating in the city with friends — nobody could actually skate but that was half the fun. January 2025.",
+        },
+        {
+          src: "assets/karaoke.jpg",
+          caption: "karaoke",
+          detail:
+            "Late night karaoke session that went way too long. Zero regrets. February 2025.",
+        },
+      ];
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const [lightboxPhoto, setLightboxPhoto] = useState(null);
+      const [visibleCount, setVisibleCount] = useState(() => {
+        if (typeof window === "undefined") return 3;
+        if (window.innerWidth >= 900) return 3;
+        if (window.innerWidth >= 600) return 2;
+        return 1;
+      });
 
-      function AboutSection() {
-        const photos = [
-          {
-            src: "assets/friends.jpg",
-            caption: "friends",
-            detail:
-              "Hanging out with the crew in Daejeon — the people who make KAIST feel like home. Winter 2024.",
-          },
-          {
-            src: "assets/rocket%20club.jpeg",
-            caption: "rocket club",
-            detail:
-              "Building and launching model rockets with the aerospace club at KAIST. One of the best decisions I've made here. Fall 2024.",
-          },
-          {
-            src: "assets/snow.jpg",
-            caption: "snow day",
-            detail:
-              "First proper snowfall of the season. Everything went quiet and the campus looked unreal. December 2024.",
-          },
-          {
-            src: "assets/friends%20skating.jpg",
-            caption: "skating",
-            detail:
-              "Ice skating in the city with friends — nobody could actually skate but that was half the fun. January 2025.",
-          },
-          {
-            src: "assets/karaoke.jpg",
-            caption: "karaoke",
-            detail:
-              "Late night karaoke session that went way too long. Zero regrets. February 2025.",
-          },
-        ];
-        const [currentIndex, setCurrentIndex] = useState(0);
-        const [lightboxPhoto, setLightboxPhoto] = useState(null);
-        const [visibleCount, setVisibleCount] = useState(() => {
-          if (typeof window === "undefined") return 3;
-          if (window.innerWidth >= 900) return 3;
-          if (window.innerWidth >= 600) return 2;
-          return 1;
-        });
+      useEffect(() => {
+        const updateVisibleCount = () => {
+          if (window.innerWidth >= 900) {
+            setVisibleCount(3);
+          } else if (window.innerWidth >= 600) {
+            setVisibleCount(2);
+          } else {
+            setVisibleCount(1);
+          }
+        };
+        updateVisibleCount();
+        window.addEventListener("resize", updateVisibleCount);
+        return () => window.removeEventListener("resize", updateVisibleCount);
+      }, []);
 
-        useEffect(() => {
-          const updateVisibleCount = () => {
-            if (window.innerWidth >= 900) {
-              setVisibleCount(3);
-            } else if (window.innerWidth >= 600) {
-              setVisibleCount(2);
-            } else {
-              setVisibleCount(1);
-            }
-          };
-          updateVisibleCount();
-          window.addEventListener("resize", updateVisibleCount);
-          return () => window.removeEventListener("resize", updateVisibleCount);
-        }, []);
+      useEffect(() => {
+        setCurrentIndex((prev) => Math.min(prev, Math.max(0, photos.length - visibleCount)));
+      }, [visibleCount, photos.length]);
 
-        useEffect(() => {
-          setCurrentIndex((prev) => Math.min(prev, Math.max(0, photos.length - visibleCount)));
-        }, [visibleCount, photos.length]);
+      useEffect(() => {
+        if (!lightboxPhoto) return;
 
-        useEffect(() => {
-          if (!lightboxPhoto) return;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        const onKeyDown = (event) => {
+          if (event.key === "Escape") setLightboxPhoto(null);
+        };
 
-          const previousOverflow = document.body.style.overflow;
-          document.body.style.overflow = "hidden";
-          const onKeyDown = (event) => {
-            if (event.key === "Escape") setLightboxPhoto(null);
-          };
+        window.addEventListener("keydown", onKeyDown);
+        return () => {
+          window.removeEventListener("keydown", onKeyDown);
+          document.body.style.overflow = previousOverflow;
+        };
+      }, [lightboxPhoto]);
 
-          window.addEventListener("keydown", onKeyDown);
-          return () => {
-            window.removeEventListener("keydown", onKeyDown);
-            document.body.style.overflow = previousOverflow;
-          };
-        }, [lightboxPhoto]);
-
-        return (
-          <section id="about" className="section section-about">
-            <div className="section-title">about</div>
-            <div className="about-wrap">
-              <div>
-                <h1 className="name fade-slide fade-700 delay-150">Changwook Lee</h1>
-                <div className="fade-slide fade-700 delay-300">
-                  <div className="subtitle">
-                    building internet things with friends at <span className="inline-accent">@kaist</span>
-                  </div>
-                  <ul className="bio-list">
-                    <li>
-                      i ship side quests with <TagPill className="tag-green">@hackclub</TagPill> and care a lot
-                      about <TagPill className="tag-indigo">human-centered tooling</TagPill>.
-                    </li>
-                    <li>
-                      recently obsessed with <TagPill className="tag-teal">ai product loops</TagPill>,
-                      <TagPill className="tag-red">realtime systems</TagPill>, and quick prototypes.
-                    </li>
-                    <li>
-                      probably in a cafe writing,
-                      <TagPill className="tag-yellow">pitching</TagPill>, or editing another launch video.
-                    </li>
-                  </ul>
-                </div>
-                <div className="socials fade-slide fade-600 delay-450">
+      return (
+        <section id="about" className="section section-about">
+          <div className="section-title">about</div>
+          <div className="about-wrap">
+            <div>
+              <h1 className="name fade-slide fade-700 delay-150">Changwook Lee</h1>
+              <div className="fade-slide fade-700 delay-300">
+                <div className="subtitle">
+                  electrical engineering with a big interest in computer science and robotics 
                   <a
-                    className="social-link"
-                    href="https://github.com/changwook06"
+                    href="https://www.kaist.ac.kr/en/"
                     target="_blank"
                     rel="noopener noreferrer"
+                    style={{ textDecoration: 'none' }}
                   >
-                    GitHub ↗
-                  </a>
-                  <a
-                    className="social-link"
-                    href="https://www.linkedin.com/in/changwook-lee-%EC%9D%B4%EC%B0%BD%EC%9A%B1-3246a1331/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    LinkedIn ↗
-                  </a>
-                  <a className="social-link" href="mailto:lee.changwook.eh@gmail.com">
-                    email ↗
-                  </a>
-                  <a
-                    className="social-link"
-                    href="#"
-                    title="Coming soon"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    resume ↗
+                    <span className="inline-accent"> @kaist</span>
                   </a>
                 </div>
+                <ul className="bio-list">
+                  <li>
+                    i ship side quests with <TagPill className="tag-green">@hackclub</TagPill> and care a lot
+                    about <TagPill className="tag-indigo">human-centered tooling</TagPill>.
+                  </li>
+                  <li>
+                    recently obsessed with <TagPill className="tag-teal">ai product loops</TagPill>,
+                    <TagPill className="tag-red">realtime systems</TagPill>, and quick prototypes.
+                  </li>
+                  <li>
+                    probably in a cafe writing,
+                    <TagPill className="tag-yellow">pitching</TagPill>, or editing another launch video.
+                  </li>
+                </ul>
+              </div>
+              <div className="socials fade-slide fade-600 delay-450">
+                <a
+                  className="social-link"
+                  href="https://github.com/changwook06"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub ↗
+                </a>
+                <a
+                  className="social-link"
+                  href="https://www.linkedin.com/in/changwook-lee-%EC%9D%B4%EC%B0%BD%EC%9A%B1-3246a1331/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  LinkedIn ↗
+                </a>
+                <a className="social-link" href="mailto:lee.changwook.eh@gmail.com">
+                  email ↗
+                </a>
+                <a
+                  className="social-link"
+                  href="#"
+                  title="Coming soon"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  resume ↗
+                </a>
+              </div>
 
-                <div className="life-strip fade-slide fade-700 delay-500">
-                  <div className="section-title" style={{ marginTop: 30, marginBottom: 12 }}>
-                    life
-                  </div>
-                  <div style={{ width: "100%", overflow: "hidden" }}>
-                    <div style={{ overflow: "hidden", width: "100%" }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          transition: "transform 400ms ease",
-                          transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
-                        }}
-                      >
-                        {photos.map((photo) => (
-                          <div
-                            key={photo.src}
-                            style={{
-                              minWidth: `${100 / visibleCount}%`,
-                              padding: "0 8px",
-                              boxSizing: "border-box",
-                            }}
-                          >
-                            <img
-                              src={photo.src}
-                              alt={photo.caption}
-                              loading="lazy"
-                              style={{
-                                width: "100%",
-                                height: "220px",
-                                objectFit: "cover",
-                                display: "block",
-                                cursor: "pointer",
-                              }}
-                              onClick={() => setLightboxPhoto(photo)}
-                            />
-                            <p
-                              style={{
-                                textAlign: "center",
-                                fontSize: "12px",
-                                color: "rgba(255,255,255,0.45)",
-                                marginTop: "8px",
-                              }}
-                            >
-                              {photo.caption}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+              <div className="life-strip fade-slide fade-700 delay-500">
+                <div className="section-title" style={{ marginTop: 30, marginBottom: 12 }}>
+                  life
+                </div>
+                <div style={{ width: "100%", overflow: "hidden" }}>
+                  <div style={{ overflow: "hidden", width: "100%" }}>
                     <div
                       style={{
                         display: "flex",
-                        justifyContent: "center",
-                        gap: "16px",
-                        marginTop: "16px",
+                        transition: "transform 400ms ease",
+                        transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
                       }}
                     >
+                      {photos.map((photo) => (
+                        <div
+                          key={photo.src}
+                          style={{
+                            minWidth: `${100 / visibleCount}%`,
+                            padding: "0 8px",
+                            boxSizing: "border-box",
+                          }}
+                        >
+                          <img
+                            src={photo.src}
+                            alt={photo.caption}
+                            loading="lazy"
+                            style={{
+                              width: "100%",
+                              height: "220px",
+                              objectFit: "cover",
+                              display: "block",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setLightboxPhoto(photo)}
+                          />
+                          <p
+                            style={{
+                              textAlign: "center",
+                              fontSize: "12px",
+                              color: "rgba(255,255,255,0.45)",
+                              marginTop: "8px",
+                            }}
+                          >
+                            {photo.caption}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "16px",
+                      marginTop: "16px",
+                    }}
+                  >
                       <button
                         type="button"
                         onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
                         disabled={currentIndex === 0}
                         style={{
-                          width: "36px",
-                          height: "36px",
-                          borderRadius: "50%",
-                          background: "rgba(255,255,255,0.08)",
-                          border: "1px solid rgba(255,255,255,0.2)",
-                          color: "white",
-                          fontSize: "18px",
-                          cursor: "pointer",
                           opacity: currentIndex === 0 ? 0.25 : 1,
                           pointerEvents: currentIndex === 0 ? "none" : "auto",
                         }}
+                        className="life-arrow"
                       >
                         ←
                       </button>
@@ -1774,687 +1804,697 @@
                         onClick={() => setCurrentIndex((i) => Math.min(i + 1, photos.length - visibleCount))}
                         disabled={currentIndex >= photos.length - visibleCount}
                         style={{
-                          width: "36px",
-                          height: "36px",
-                          borderRadius: "50%",
-                          background: "rgba(255,255,255,0.08)",
-                          border: "1px solid rgba(255,255,255,0.2)",
-                          color: "white",
-                          fontSize: "18px",
-                          cursor: "pointer",
                           opacity: currentIndex >= photos.length - visibleCount ? 0.25 : 1,
                           pointerEvents: currentIndex >= photos.length - visibleCount ? "none" : "auto",
                         }}
+                        className="life-arrow"
                       >
                         →
                       </button>
-                    </div>
                   </div>
                 </div>
               </div>
+            </div>
 
               <div>
-                <div className="portrait fade-slide fade-800 delay-200" aria-label="Portrait placeholder" />
-              </div>
-            </div>
-            {lightboxPhoto && (
-              <div
-                onClick={() => setLightboxPhoto(null)}
-                style={{
-                  position: "fixed",
-                  inset: 0,
-                  background: "rgba(0,0,0,0.92)",
-                  zIndex: 10000,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => setLightboxPhoto(null)}
-                  style={{
-                    position: "absolute",
-                    top: "20px",
-                    right: "24px",
-                    background: "none",
-                    border: "none",
-                    color: "white",
-                    fontSize: "22px",
-                    cursor: "pointer",
-                  }}
-                >
-                  ✕
-                </button>
-                <div onClick={(event) => event.stopPropagation()}>
+                <div className="portrait fade-slide fade-800 delay-200" aria-label="Portrait placeholder">
                   <img
-                    src={lightboxPhoto.src}
-                    alt={lightboxPhoto.caption}
+                    src="assets/mountain%20with%20dad.jpg"
+                    alt="mountain with dad"
                     style={{
-                      maxHeight: "70vh",
-                      maxWidth: "85vw",
-                      objectFit: "contain",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      display: "block",
                     }}
                   />
-                  <div style={{ color: "white", fontSize: "16px", marginTop: "16px", textAlign: "center" }}>
-                    {lightboxPhoto.caption}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "13px",
-                      color: "rgba(255,255,255,0.5)",
-                      maxWidth: "480px",
-                      textAlign: "center",
-                      marginTop: "8px",
-                    }}
-                  >
-                    {lightboxPhoto.detail}
-                  </div>
+                </div>
+                <div
+                  style={{
+                    marginTop: "8px",
+                    fontSize: "12px",
+                    color: "rgba(255,255,255,0.45)",
+                    textAlign: "center",
+                  }}
+                >
+                  Bukhansan Mountain with Dad, 2025 Fall
                 </div>
               </div>
-            )}
-          </section>
-        );
-      }
-
-      function PlacesSection() {
-        const mapRef = useRef(null);
-        const mapContainerRef = useRef(null);
-        const [isMapReady, setIsMapReady] = useState(true);
-
-        useEffect(() => {
-          if (!window.mapboxgl || !mapContainerRef.current) return;
-
-          // TODO: replace with your Mapbox public token
-          const MAPBOX_TOKEN = "pk.eyJ1IjoiY2hhbmd3b29rMDYiLCJhIjoiY21tNXBsZndqMGFqOTJycHFqemdxeHU3aCJ9.BefiyKZ0Uu00e3E6XWM3dw";
-          const hasToken = MAPBOX_TOKEN && MAPBOX_TOKEN !== "YOUR_MAPBOX_PUBLIC_TOKEN";
-          setIsMapReady(Boolean(hasToken));
-          if (!hasToken) return;
-
-          mapboxgl.accessToken = MAPBOX_TOKEN;
-          const map = new mapboxgl.Map({
-            container: mapContainerRef.current,
-            style: "mapbox://styles/mapbox/dark-v11",
-            center: [70, 38],
-            zoom: 1.8,
-          });
-
-          map.dragRotate.disable();
-          map.touchZoomRotate.disableRotation();
-
-          const places = [
-            { coords: [126.9567, 37.3943], label: "Anyang, South Korea — born here" },
-            { coords: [127.3615, 36.3719], label: "KAIST, Daejeon, South Korea — studying here" },
-            {
-              coords: [46.6753, 24.6877],
-              label: "American International School of Riyadh, Saudi Arabia — high school here",
-            },
-            { coords: [-122.0122, 37.3861], label: "Silicon Valley, USA — future goal" },
-            { coords: [2.3522, 48.8566], label: "Paris, France — want to visit" },
-          ];
-
-          const cleanupFns = [];
-          places.forEach((place) => {
-            const markerEl = document.createElement("div");
-            markerEl.className = "map-marker";
-            const popup = new mapboxgl.Popup({ offset: 14, closeButton: false, closeOnClick: false }).setText(
-              place.label
-            );
-            new mapboxgl.Marker(markerEl).setLngLat(place.coords).addTo(map);
-
-            const onEnter = () => {
-              popup.setLngLat(place.coords).addTo(map);
-            };
-
-            const onLeave = () => {
-              popup.remove();
-            };
-
-            markerEl.addEventListener("mouseenter", onEnter);
-            markerEl.addEventListener("mouseleave", onLeave);
-            cleanupFns.push(() => {
-              markerEl.removeEventListener("mouseenter", onEnter);
-              markerEl.removeEventListener("mouseleave", onLeave);
-              popup.remove();
-            });
-          });
-
-          mapRef.current = map;
-          return () => {
-            cleanupFns.forEach((fn) => fn());
-            map.remove();
-          };
-        }, []);
-
-        return (
-          <section id="places" className="section fade-slide fade-700 delay-600">
-            <div className="section-title">places</div>
-            <div ref={mapContainerRef} className="places-map" />
-            {!isMapReady && (
-              <div className="map-fallback">Set a Mapbox public token to enable the interactive map.</div>
-            )}
-          </section>
-        );
-      }
-
-      function ProjectCard({ project }) {
-        return (
-          <article className="project-card">
-            <div className="project-preview" style={{ background: project.preview }} />
-            <div className="project-head">
-              <h3 className="project-title">{project.title}</h3>
-              <span className={`badge ${project.badgeClass}`}>{project.badge}</span>
             </div>
-            <p className="project-desc">{project.description}</p>
-            <div className="card-links">
-              <a className="card-link" href="#">⧉ Source</a>
-              <a className="card-link" href="#">➜ Devpost</a>
-            </div>
-          </article>
-        );
-      }
-
-      function WorkSection() {
-        const [tab, setTab] = useState("featured");
-        const tabs = ["featured", "all", "projects", "slidedecks"];
-
-        const projects = useMemo(
-          () => [
-            {
-              title: "Pulseboard",
-              badge: "hackathon winner",
-              badgeClass: "badge-orange",
-              description: "Team planning + AI sprint assistant that maps tasks to outcomes in real time.",
-              preview: "linear-gradient(120deg,#0f172a,#155e75)",
-            },
-            {
-              title: "CampusCart",
-              badge: "project",
-              badgeClass: "badge-gray",
-              description: "Peer delivery marketplace for dorm essentials with trust scoring and route batching.",
-              preview: "linear-gradient(120deg,#3f1d2e,#9a3412)",
-            },
-            {
-              title: "Storyline",
-              badge: "project",
-              badgeClass: "badge-gray",
-              description: "Creator analytics dashboard that merges short-form video trends across platforms.",
-              preview: "linear-gradient(120deg,#082f49,#0369a1)",
-            },
-            {
-              title: "ShipNight",
-              badge: "hackathon winner",
-              badgeClass: "badge-orange",
-              description: "A one-night builder challenge with auto-generated judging rubrics and replay clips.",
-              preview: "linear-gradient(120deg,#14532d,#166534)",
-            },
-            {
-              title: "Nook",
-              badge: "project",
-              badgeClass: "badge-gray",
-              description: "Reading tracker with lightweight social circles and weekly recommendation digests.",
-              preview: "linear-gradient(120deg,#312e81,#4f46e5)",
-            },
-            {
-              title: "RoomTone",
-              badge: "project",
-              badgeClass: "badge-gray",
-              description: "Ambient audio mixer for focused study sessions, tuned to room noise profiles.",
-              preview: "linear-gradient(120deg,#3f3f46,#52525b)",
-            },
-          ],
-          []
-        );
-
-        return (
-          <section id="work" className="section">
-            <div className="section-title fade-slide fade-700 delay-700">work</div>
-            <div className="work-tabs">
-              {tabs.map((item) => (
-                <button
-                  key={item}
-                  className={`tab ${item === tab ? "active" : ""}`}
-                  onClick={() => setTab(item)}
+          {lightboxPhoto && (
+            <div
+              onClick={() => setLightboxPhoto(null)}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.92)",
+                zIndex: 10000,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setLightboxPhoto(null)}
+                style={{
+                  position: "absolute",
+                  top: "20px",
+                  right: "24px",
+                  background: "none",
+                  border: "none",
+                  color: "white",
+                  fontSize: "22px",
+                  cursor: "pointer",
+                }}
+              >
+                ✕
+              </button>
+              <div onClick={(event) => event.stopPropagation()}>
+                <img
+                  src={lightboxPhoto.src}
+                  alt={lightboxPhoto.caption}
+                  style={{
+                    maxHeight: "70vh",
+                    maxWidth: "85vw",
+                    objectFit: "contain",
+                  }}
+                />
+                <div style={{ color: "white", fontSize: "16px", marginTop: "16px", textAlign: "center" }}>
+                  {lightboxPhoto.caption}
+                </div>
+                <div
+                  style={{
+                    fontSize: "13px",
+                    color: "rgba(255,255,255,0.5)",
+                    maxWidth: "480px",
+                    textAlign: "center",
+                    marginTop: "8px",
+                  }}
                 >
-                  {item}
-                </button>
-              ))}
-            </div>
-            <div className="work-grid fade-slide fade-700 delay-700">
-              {projects.map((project) => (
-                <ProjectCard key={project.title} project={project} />
-              ))}
-            </div>
-          </section>
-        );
-      }
-
-      function BlogSection({ blogPosts, onOpenBlog }) {
-        return (
-          <section id="blog" className="section">
-            <div className="section-title">blog</div>
-            <div className="list-cards">
-              {blogPosts.map((blog) => (
-                <article key={blog.id} className="list-card">
-                  <div className="list-card-left">
-                    <button
-                      type="button"
-                      className="list-title"
-                      onClick={() => onOpenBlog(blog.id)}
-                    >
-                      {blog.title}
-                    </button>
-                    <span className="mini-pill">{blog.tags[0]}</span>
-                  </div>
-                  <div className="list-date">{blog.date}</div>
-                </article>
-              ))}
-            </div>
-          </section>
-        );
-      }
-
-      function WatchlistSection() {
-        const items = [
-          { id: 1, title: "Interstellar", rating: "⭐ 10/10", type: "film" },
-          { id: 2, title: "Severance", rating: "⭐ 9/10", type: "series" },
-          { id: 3, title: "The Social Network", rating: "⭐ 9/10", type: "film" },
-          { id: 4, title: "Oppenheimer", rating: "⭐ 9/10", type: "film" },
-          { id: 5, title: "Succession", rating: "⭐ 10/10", type: "series" },
-          { id: 6, title: "Ex Machina", rating: "⭐ 8/10", type: "film" },
-        ];
-
-        return (
-          <section id="watchlist" className="section">
-            <div className="section-title">watchlist</div>
-            <div className="watch-grid">
-              {items.map((item) => (
-                <a
-                  key={item.id}
-                  className="watch-card"
-                  href={`https://changwook06.github.io/?watchlistId=${item.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <h3 className="watch-title">{item.title}</h3>
-                  <div className="watch-meta">
-                    <span className="watch-type">{item.type}</span>
-                    <span>{item.rating}</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </section>
-        );
-      }
-
-      function BlogPostPage({ post, onBack, isLeaving }) {
-        if (!post) {
-          return (
-            <div className={`blog-page ${isLeaving ? "blog-exit" : "blog-enter"}`}>
-              <div className="blog-page-inner">
-                <button type="button" className="blog-back" onClick={onBack}>
-                  ← back to blog
-                </button>
-                <h1 className="blog-post-title">Post not found</h1>
+                  {lightboxPhoto.detail}
+                </div>
               </div>
             </div>
-          );
-        }
+          )}
+        </section>
+      );
+    }
 
+    function PlacesSection() {
+      const mapRef = useRef(null);
+      const mapContainerRef = useRef(null);
+      const [isMapReady, setIsMapReady] = useState(true);
+
+      useEffect(() => {
+        if (!window.mapboxgl || !mapContainerRef.current) return;
+
+        // TODO: replace with your Mapbox public token
+        const MAPBOX_TOKEN = "pk.eyJ1IjoiY2hhbmd3b29rMDYiLCJhIjoiY21tNXBsZndqMGFqOTJycHFqemdxeHU3aCJ9.BefiyKZ0Uu00e3E6XWM3dw";
+        const hasToken = MAPBOX_TOKEN && MAPBOX_TOKEN !== "YOUR_MAPBOX_PUBLIC_TOKEN";
+        setIsMapReady(Boolean(hasToken));
+        if (!hasToken) return;
+
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+        const map = new mapboxgl.Map({
+          container: mapContainerRef.current,
+          style: "mapbox://styles/mapbox/dark-v11",
+          center: [70, 38],
+          zoom: 1.8,
+        });
+
+        map.dragRotate.disable();
+        map.touchZoomRotate.disableRotation();
+
+        const places = [
+          { coords: [126.9567, 37.3943], label: "Anyang, South Korea — born here" },
+          { coords: [127.3615, 36.3719], label: "KAIST, Daejeon, South Korea — studying here" },
+          {
+            coords: [46.6753, 24.6877],
+            label: "American International School of Riyadh, Saudi Arabia — high school here",
+          },
+          { coords: [-122.0122, 37.3861], label: "Silicon Valley, USA — future goal" },
+          { coords: [2.3522, 48.8566], label: "Paris, France — want to visit" },
+        ];
+
+        const cleanupFns = [];
+        places.forEach((place) => {
+          const markerEl = document.createElement("div");
+          markerEl.className = "map-marker";
+          const popup = new mapboxgl.Popup({ offset: 14, closeButton: false, closeOnClick: false }).setText(
+            place.label
+          );
+          new mapboxgl.Marker(markerEl).setLngLat(place.coords).addTo(map);
+
+          const onEnter = () => {
+            popup.setLngLat(place.coords).addTo(map);
+          };
+
+          const onLeave = () => {
+            popup.remove();
+          };
+
+          markerEl.addEventListener("mouseenter", onEnter);
+          markerEl.addEventListener("mouseleave", onLeave);
+          cleanupFns.push(() => {
+            markerEl.removeEventListener("mouseenter", onEnter);
+            markerEl.removeEventListener("mouseleave", onLeave);
+            popup.remove();
+          });
+        });
+
+        mapRef.current = map;
+        return () => {
+          cleanupFns.forEach((fn) => fn());
+          map.remove();
+        };
+      }, []);
+
+      return (
+        <section id="places" className="section fade-slide fade-700 delay-600">
+          <div className="section-title">places</div>
+          <div ref={mapContainerRef} className="places-map" />
+          {!isMapReady && (
+            <div className="map-fallback">Set a Mapbox public token to enable the interactive map.</div>
+          )}
+        </section>
+      );
+    }
+
+    function ProjectCard({ project }) {
+      return (
+        <article className="project-card">
+          <div className="project-preview" style={{ background: project.preview }} />
+          <div className="project-head">
+            <h3 className="project-title">{project.title}</h3>
+            <span className={`badge ${project.badgeClass}`}>{project.badge}</span>
+          </div>
+          <p className="project-desc">{project.description}</p>
+          <div className="card-links">
+            <a className="card-link" href="#">⧉ Source</a>
+            <a className="card-link" href="#">➜ Devpost</a>
+          </div>
+        </article>
+      );
+    }
+
+    function WorkSection() {
+      const [tab, setTab] = useState("featured");
+      const tabs = ["featured", "all", "projects", "slidedecks"];
+
+      const projects = useMemo(
+        () => [
+          {
+            title: "Pulseboard",
+            badge: "hackathon winner",
+            badgeClass: "badge-orange",
+            description: "Team planning + AI sprint assistant that maps tasks to outcomes in real time.",
+            preview: "linear-gradient(120deg,#0f172a,#155e75)",
+          },
+          {
+            title: "CampusCart",
+            badge: "project",
+            badgeClass: "badge-gray",
+            description: "Peer delivery marketplace for dorm essentials with trust scoring and route batching.",
+            preview: "linear-gradient(120deg,#3f1d2e,#9a3412)",
+          },
+          {
+            title: "Storyline",
+            badge: "project",
+            badgeClass: "badge-gray",
+            description: "Creator analytics dashboard that merges short-form video trends across platforms.",
+            preview: "linear-gradient(120deg,#082f49,#0369a1)",
+          },
+          {
+            title: "ShipNight",
+            badge: "hackathon winner",
+            badgeClass: "badge-orange",
+            description: "A one-night builder challenge with auto-generated judging rubrics and replay clips.",
+            preview: "linear-gradient(120deg,#14532d,#166534)",
+          },
+          {
+            title: "Nook",
+            badge: "project",
+            badgeClass: "badge-gray",
+            description: "Reading tracker with lightweight social circles and weekly recommendation digests.",
+            preview: "linear-gradient(120deg,#312e81,#4f46e5)",
+          },
+          {
+            title: "RoomTone",
+            badge: "project",
+            badgeClass: "badge-gray",
+            description: "Ambient audio mixer for focused study sessions, tuned to room noise profiles.",
+            preview: "linear-gradient(120deg,#3f3f46,#52525b)",
+          },
+        ],
+        []
+      );
+
+      return (
+        <section id="work" className="section">
+          <div className="section-title fade-slide fade-700 delay-700">work</div>
+          <div className="work-tabs">
+            {tabs.map((item) => (
+              <button
+                key={item}
+                className={`tab ${item === tab ? "active" : ""}`}
+                onClick={() => setTab(item)}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <div className="work-grid fade-slide fade-700 delay-700">
+            {projects.map((project) => (
+              <ProjectCard key={project.title} project={project} />
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function BlogSection({ blogPosts, onOpenBlog }) {
+      return (
+        <section id="blog" className="section">
+          <div className="section-title">blog</div>
+          <div className="list-cards">
+            {blogPosts.map((blog) => (
+              <article key={blog.id} className="list-card">
+                <div className="list-card-left">
+                  <button
+                    type="button"
+                    className="list-title"
+                    onClick={() => onOpenBlog(blog.id)}
+                  >
+                    {blog.title}
+                  </button>
+                  <span className="mini-pill">{blog.tags[0]}</span>
+                </div>
+                <div className="list-date">{blog.date}</div>
+              </article>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function WatchlistSection() {
+      const items = [
+        { id: 1, title: "Interstellar", rating: "⭐ 10/10", type: "film" },
+        { id: 2, title: "Severance", rating: "⭐ 9/10", type: "series" },
+        { id: 3, title: "The Social Network", rating: "⭐ 9/10", type: "film" },
+        { id: 4, title: "Oppenheimer", rating: "⭐ 9/10", type: "film" },
+        { id: 5, title: "Succession", rating: "⭐ 10/10", type: "series" },
+        { id: 6, title: "Ex Machina", rating: "⭐ 8/10", type: "film" },
+      ];
+
+      return (
+        <section id="watchlist" className="section">
+          <div className="section-title">watchlist</div>
+          <div className="watch-grid">
+            {items.map((item) => (
+              <a
+                key={item.id}
+                className="watch-card"
+                href={`https://changwook06.github.io/?watchlistId=${item.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <h3 className="watch-title">{item.title}</h3>
+                <div className="watch-meta">
+                  <span className="watch-type">{item.type}</span>
+                  <span>{item.rating}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function BlogPostPage({ post, onBack, isLeaving }) {
+      if (!post) {
         return (
           <div className={`blog-page ${isLeaving ? "blog-exit" : "blog-enter"}`}>
             <div className="blog-page-inner">
               <button type="button" className="blog-back" onClick={onBack}>
                 ← back to blog
               </button>
-              <h1 className="blog-post-title">{post.title}</h1>
-              <div className="blog-post-date">{post.date}</div>
-              <div className="blog-post-tags">
-                {post.tags.map((tag, idx) => (
-                  <React.Fragment key={tag}>
-                    <span className="mini-pill">{tag}</span>
-                    {idx < post.tags.length - 1 && <span className="blog-post-dot">•</span>}
-                  </React.Fragment>
-                ))}
-              </div>
-              {post.image && <img className="blog-post-image" src={post.image} alt={post.title} />}
-              <div className="blog-post-content">
-                {post.body.map((paragraph, idx) => (
-                  <p key={idx}>{paragraph}</p>
-                ))}
-              </div>
+              <h1 className="blog-post-title">Post not found</h1>
             </div>
           </div>
         );
       }
 
-      function PlaceholderSection({ id, title, text }) {
-        return (
-          <section id={id} className="section">
-            <div className="section-title">{title}</div>
-            <p style={{ color: "var(--subtle-text)", maxWidth: 700 }}>{text}</p>
-          </section>
-        );
-      }
+      return (
+        <div className={`blog-page ${isLeaving ? "blog-exit" : "blog-enter"}`}>
+          <div className="blog-page-inner">
+            <button type="button" className="blog-back" onClick={onBack}>
+              ← back to blog
+            </button>
+            <h1 className="blog-post-title">{post.title}</h1>
+            <div className="blog-post-date">{post.date}</div>
+            <div className="blog-post-tags">
+              {post.tags.map((tag, idx) => (
+                <React.Fragment key={tag}>
+                  <span className="mini-pill">{tag}</span>
+                  {idx < post.tags.length - 1 && <span className="blog-post-dot">•</span>}
+                </React.Fragment>
+              ))}
+            </div>
+            {post.image && <img className="blog-post-image" src={post.image} alt={post.title} />}
+            <div className="blog-post-content">
+              {post.body.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
 
-      function SayHiSection() {
-        return (
-          <section id="say-hi" className="section">
-            <div className="section-title">say hi</div>
-            {/* TODO: replace YOUR_FORM_ID with your Formspree endpoint ID */}
-            <form className="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-              <input className="contact-input" type="text" name="name" placeholder="your name" required />
-              <input className="contact-input" type="email" name="email" placeholder="your email" required />
-              <textarea className="contact-textarea" name="message" placeholder="say something..." required />
-              <button className="contact-submit" type="submit">
-                send it →
-              </button>
-            </form>
-          </section>
-        );
-      }
+    function PlaceholderSection({ id, title, text }) {
+      return (
+        <section id={id} className="section">
+          <div className="section-title">{title}</div>
+          <p style={{ color: "var(--subtle-text)", maxWidth: 700 }}>{text}</p>
+        </section>
+      );
+    }
 
-      function SunIcon() {
-        return (
-          <svg className="theme-icon" viewBox="0 0 18 18" aria-hidden="true">
-            <circle cx="9" cy="9" r="4" />
-            <line x1="9" y1="1" x2="9" y2="3" />
-            <line x1="9" y1="15" x2="9" y2="17" />
-            <line x1="1" y1="9" x2="3" y2="9" />
-            <line x1="15" y1="9" x2="17" y2="9" />
-            <line x1="3.3" y1="3.3" x2="4.8" y2="4.8" />
-            <line x1="13.2" y1="13.2" x2="14.7" y2="14.7" />
-            <line x1="3.3" y1="14.7" x2="4.8" y2="13.2" />
-            <line x1="13.2" y1="4.8" x2="14.7" y2="3.3" />
-          </svg>
-        );
-      }
+    function SayHiSection() {
+      return (
+        <section id="say-hi" className="section">
+          <div className="section-title">say hi</div>
+          {/* TODO: replace YOUR_FORM_ID with your Formspree endpoint ID */}
+          <form className="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <input className="contact-input" type="text" name="name" placeholder="your name" required />
+            <input className="contact-input" type="email" name="email" placeholder="your email" required />
+            <textarea className="contact-textarea" name="message" placeholder="say something..." required />
+            <button className="contact-submit" type="submit">
+              send it →
+            </button>
+          </form>
+        </section>
+      );
+    }
+
+    function SunIcon() {
+      return (
+        <svg className="theme-icon" viewBox="0 0 18 18" aria-hidden="true">
+          <circle cx="9" cy="9" r="4" />
+          <line x1="9" y1="1" x2="9" y2="3" />
+          <line x1="9" y1="15" x2="9" y2="17" />
+          <line x1="1" y1="9" x2="3" y2="9" />
+          <line x1="15" y1="9" x2="17" y2="9" />
+          <line x1="3.3" y1="3.3" x2="4.8" y2="4.8" />
+          <line x1="13.2" y1="13.2" x2="14.7" y2="14.7" />
+          <line x1="3.3" y1="14.7" x2="4.8" y2="13.2" />
+          <line x1="13.2" y1="4.8" x2="14.7" y2="3.3" />
+        </svg>
+      );
+    }
 
       function MoonIcon() {
         return (
           <svg className="theme-icon" viewBox="0 0 18 18" aria-hidden="true">
-            <defs>
-              <clipPath id="moon-cut">
-                <circle cx="9" cy="9" r="5" />
-                <circle cx="11.6" cy="7.4" r="5" />
-              </clipPath>
-            </defs>
-            <circle cx="9" cy="9" r="5" clipPath="url(#moon-cut)" />
+            <path d="M11.5 2.6a6.5 6.5 0 1 0 3.9 11.5 6 6 0 1 1-3.9-11.5z" fill="currentColor" />
           </svg>
         );
       }
 
-      function DiamondIcon() {
-        return (
-          <svg className="diamond-icon" viewBox="0 0 18 18" aria-hidden="true">
-            <g transform="translate(9 9)">
-              <rect x="-4.5" y="-4.5" width="9" height="9" transform="rotate(45)" />
-              <rect x="-2.5" y="-2.5" width="5" height="5" transform="rotate(45)" />
-            </g>
-            <line x1="9" y1="1.2" x2="9" y2="0" />
-            <line x1="16.8" y1="9" x2="18" y2="9" />
-            <line x1="9" y1="16.8" x2="9" y2="18" />
-            <line x1="1.2" y1="9" x2="0" y2="9" />
-          </svg>
-        );
-      }
+    function DiamondIcon() {
+      return (
+        <svg className="diamond-icon" viewBox="0 0 18 18" aria-hidden="true">
+          <g transform="translate(9 9)">
+            <rect x="-4.5" y="-4.5" width="9" height="9" transform="rotate(45)" />
+            <rect x="-2.5" y="-2.5" width="5" height="5" transform="rotate(45)" />
+          </g>
+          <line x1="9" y1="1.2" x2="9" y2="0" />
+          <line x1="16.8" y1="9" x2="18" y2="9" />
+          <line x1="9" y1="16.8" x2="9" y2="18" />
+          <line x1="1.2" y1="9" x2="0" y2="9" />
+        </svg>
+      );
+    }
 
-      function App() {
-        const blogPosts = [
-          {
-            id: 1,
-            title: "What I learned building an AI voice agent",
-            date: "january 2025",
-            tags: ["ai", "engineering"],
-            excerpt: "Lessons from shipping a realtime voice agent and chasing latency to the edge.",
-            body: [
-              "I started building an AI voice agent thinking the hardest part would be prompt engineering. It turned out the real challenge was timing. Voice feels magical only when the system responds at conversational speed, and that means your margin for delay is tiny. A text chat can tolerate pauses, but in speech even half a second feels awkward. I spent most of the project reducing friction between microphone capture, transcription, model reasoning, and speech synthesis so each stage handed off without blocking.",
-              "Realtime audio processing exposed problems I had ignored in prototypes. Different microphones introduced inconsistent gain levels, background hum, and clipping, which made transcription quality unpredictable. I added lightweight preprocessing, voice activity detection, and chunked streaming so the recognizer could start working before a sentence ended. That reduced perceived latency, but it also created context fragmentation. The model needed enough history to stay coherent while still answering quickly, so I built a rolling context window that prioritized intent and recent entities over raw transcripts.",
-              "The most interesting lesson was how language models handle spoken context differently from typed context. People interrupt themselves, restart thoughts, and use filler words constantly. If you feed those transcripts directly, the model can overfit to noise. I had better results by extracting structured cues first: user goal, constraints, and emotional tone. This gave the assistant a stable internal state and made responses feel more grounded. I also added explicit turn-taking logic so the agent waited for completion confidence before speaking.",
-              "From a UX perspective, small details mattered more than model sophistication. Audible latency cues, confirmation phrasing, and interruption handling changed user trust dramatically. People forgave occasional factual misses if the interaction rhythm felt natural, but they lost patience quickly when timing broke. If I rebuilt it today, I would design around multimodal feedback from day one and invest earlier in observability for audio pipeline timing. Voice interfaces are less about one perfect model and more about orchestrating many imperfect systems into one smooth conversation.",
-            ],
-          },
-          {
-            id: 2,
-            title: "Why I chose KAIST over other programs",
-            date: "november 2024",
-            tags: ["life", "kaist"],
-            excerpt: "How I weighed research culture, location, and long-term technical goals.",
-            body: [
-              "Choosing KAIST was less a single decision and more a process of narrowing what kind of environment I wanted to grow in. I cared about strong technical training, but I also wanted a place where research felt close to students, not gated behind hierarchy. As I compared programs, KAIST stood out because labs felt approachable and project-based learning seemed baked into the culture. I didn’t want to wait years before touching meaningful problems.",
-              "Being in Korea was another major factor. I wanted to challenge myself outside my comfort zone and build fluency in a different academic and cultural context. Daejeon is quieter than bigger cities, which I initially saw as a tradeoff, but it turned into an advantage. The pace made it easier to focus deeply while still being connected to an active tech and startup ecosystem through events, teams, and student communities.",
-              "Academically, KAIST aligned with my interests in aerospace and robotics more directly than most alternatives. I was looking for a place where autonomy, controls, and systems engineering could overlap in practical ways. What surprised me after arriving was how collaborative the campus felt. People were intense about their work, but also generous with help, feedback, and shared resources. That made the transition much smoother than I expected.",
-              "If someone is deciding between KAIST and other programs, I’d suggest thinking beyond rankings. Ask what kind of daily life you want, what pace helps you do your best work, and how much access you’ll have to mentors and projects early on. For me, KAIST fit because it combined rigor with real opportunities to build things now, not later. Looking back, I’d make the same choice again.",
-            ],
-          },
-          {
-            id: 3,
-            title: "Autonomous systems and the future of robotics",
-            date: "september 2024",
-            tags: ["tech", "robotics"],
-            excerpt: "Why autonomy remains hard, and where the most exciting progress is happening.",
-            body: [
-              "Autonomy looks deceptively solved when you watch polished demos in controlled environments. The hard part starts when systems leave simulation and enter the real world, where uncertainty compounds quickly. Lighting shifts, sensor noise, weather, degraded hardware, and human unpredictability create edge cases that no single model can fully anticipate. The simulation-to-reality gap is still one of the defining bottlenecks in robotics, and bridging it requires both better learning methods and stronger systems engineering discipline.",
-              "Sensor fusion is a good example of this complexity. In theory, combining camera, lidar, IMU, and GPS should produce robust state estimation. In practice, each sensor fails differently and at different timescales. Autonomy stacks need probabilistic reasoning that stays stable when one modality becomes unreliable. It is less about perfect sensing and more about graceful degradation. The best systems are designed with explicit uncertainty handling rather than assuming clean, synchronized inputs.",
-              "What makes autonomy difficult is not just perception or planning in isolation, but the coupling between modules under real-time constraints. Decisions must be made quickly with incomplete data, while safety margins remain strict. That means architecture matters: fallback behaviors, monitoring, and runtime validation are as important as model accuracy. The field has matured from chasing benchmark wins to building end-to-end reliability, which I think is the right direction.",
-              "Over the next five years, I’m most excited about hybrid approaches that combine learned representations with classical control and verification. We’ll likely see more domain-adaptive policies, better onboard compute efficiency, and richer simulation pipelines linked to real-world telemetry. The future of robotics is not one breakthrough algorithm; it is robust integration across perception, planning, control, and operations. When that integration works, autonomy stops feeling like a demo and starts feeling like infrastructure.",
-            ],
-          },
-          {
-            id: 4,
-            title: "The science of high-pressing football",
-            date: "august 2024",
-            tags: ["football", "analysis"],
-            excerpt: "A tactical and physical breakdown of pressing systems and why they are beautiful.",
-            body: [
-              "High pressing is often described as intensity, but the real story is coordination. A successful press is a choreographed sequence of body angles, lane coverage, and trigger recognition executed at speed. One player rarely wins the ball alone; the system forces probability in your favor by compressing options and timing pressure in waves. That is why pressing is both physically demanding and cognitively demanding. It is sustained decision-making under fatigue.",
-              "Liverpool under Klopp became the modern reference point because their press was not just aggressive, it was structured. The front line shaped passing options, midfielders stepped to second balls, and the back line held compact distances to keep pressure connected. Their best pressing moments looked chaotic to opponents but were highly patterned internally. The immediate transition after regains made the model even more dangerous, turning defensive actions into attacking advantages within seconds.",
-              "Data analytics now plays a major role in designing and evaluating pressing systems. Teams model pressure events, recoveries, field tilt, and pass direction changes to identify effective triggers. You can quantify whether a press is forcing low-value outlets or merely creating empty running. Video and tracking data together help coaches refine spacing and timing, especially around weak-side rotations and delayed jumps that are hard to assess with intuition alone.",
-              "What makes high pressing beautiful is the collective precision when everything clicks. It is a tactical idea expressed through trust and timing: one player commits because others will close the next lane. Even in an era of positional play and buildup sophistication, pressing remains a powerful equalizer and a statement of identity. When done well, it feels like controlled chaos, and that tension between order and aggression is why I keep studying it.",
-            ],
-          },
-        ];
+    function App() {
+      const blogPosts = [
+        {
+          id: 1,
+          title: "What I learned building an AI voice agent",
+          date: "january 2025",
+          tags: ["ai", "engineering"],
+          excerpt: "Lessons from shipping a realtime voice agent and chasing latency to the edge.",
+          body: [
+            "I started building an AI voice agent thinking the hardest part would be prompt engineering. It turned out the real challenge was timing. Voice feels magical only when the system responds at conversational speed, and that means your margin for delay is tiny. A text chat can tolerate pauses, but in speech even half a second feels awkward. I spent most of the project reducing friction between microphone capture, transcription, model reasoning, and speech synthesis so each stage handed off without blocking.",
+            "Realtime audio processing exposed problems I had ignored in prototypes. Different microphones introduced inconsistent gain levels, background hum, and clipping, which made transcription quality unpredictable. I added lightweight preprocessing, voice activity detection, and chunked streaming so the recognizer could start working before a sentence ended. That reduced perceived latency, but it also created context fragmentation. The model needed enough history to stay coherent while still answering quickly, so I built a rolling context window that prioritized intent and recent entities over raw transcripts.",
+            "The most interesting lesson was how language models handle spoken context differently from typed context. People interrupt themselves, restart thoughts, and use filler words constantly. If you feed those transcripts directly, the model can overfit to noise. I had better results by extracting structured cues first: user goal, constraints, and emotional tone. This gave the assistant a stable internal state and made responses feel more grounded. I also added explicit turn-taking logic so the agent waited for completion confidence before speaking.",
+            "From a UX perspective, small details mattered more than model sophistication. Audible latency cues, confirmation phrasing, and interruption handling changed user trust dramatically. People forgave occasional factual misses if the interaction rhythm felt natural, but they lost patience quickly when timing broke. If I rebuilt it today, I would design around multimodal feedback from day one and invest earlier in observability for audio pipeline timing. Voice interfaces are less about one perfect model and more about orchestrating many imperfect systems into one smooth conversation.",
+          ],
+        },
+        {
+          id: 2,
+          title: "Why I chose KAIST over other programs",
+          date: "november 2024",
+          tags: ["life", "kaist"],
+          excerpt: "How I weighed research culture, location, and long-term technical goals.",
+          body: [
+            "Choosing KAIST was less a single decision and more a process of narrowing what kind of environment I wanted to grow in. I cared about strong technical training, but I also wanted a place where research felt close to students, not gated behind hierarchy. As I compared programs, KAIST stood out because labs felt approachable and project-based learning seemed baked into the culture. I didn’t want to wait years before touching meaningful problems.",
+            "Being in Korea was another major factor. I wanted to challenge myself outside my comfort zone and build fluency in a different academic and cultural context. Daejeon is quieter than bigger cities, which I initially saw as a tradeoff, but it turned into an advantage. The pace made it easier to focus deeply while still being connected to an active tech and startup ecosystem through events, teams, and student communities.",
+            "Academically, KAIST aligned with my interests in aerospace and robotics more directly than most alternatives. I was looking for a place where autonomy, controls, and systems engineering could overlap in practical ways. What surprised me after arriving was how collaborative the campus felt. People were intense about their work, but also generous with help, feedback, and shared resources. That made the transition much smoother than I expected.",
+            "If someone is deciding between KAIST and other programs, I’d suggest thinking beyond rankings. Ask what kind of daily life you want, what pace helps you do your best work, and how much access you’ll have to mentors and projects early on. For me, KAIST fit because it combined rigor with real opportunities to build things now, not later. Looking back, I’d make the same choice again.",
+          ],
+        },
+        {
+          id: 3,
+          title: "Autonomous systems and the future of robotics",
+          date: "september 2024",
+          tags: ["tech", "robotics"],
+          excerpt: "Why autonomy remains hard, and where the most exciting progress is happening.",
+          body: [
+            "Autonomy looks deceptively solved when you watch polished demos in controlled environments. The hard part starts when systems leave simulation and enter the real world, where uncertainty compounds quickly. Lighting shifts, sensor noise, weather, degraded hardware, and human unpredictability create edge cases that no single model can fully anticipate. The simulation-to-reality gap is still one of the defining bottlenecks in robotics, and bridging it requires both better learning methods and stronger systems engineering discipline.",
+            "Sensor fusion is a good example of this complexity. In theory, combining camera, lidar, IMU, and GPS should produce robust state estimation. In practice, each sensor fails differently and at different timescales. Autonomy stacks need probabilistic reasoning that stays stable when one modality becomes unreliable. It is less about perfect sensing and more about graceful degradation. The best systems are designed with explicit uncertainty handling rather than assuming clean, synchronized inputs.",
+            "What makes autonomy difficult is not just perception or planning in isolation, but the coupling between modules under real-time constraints. Decisions must be made quickly with incomplete data, while safety margins remain strict. That means architecture matters: fallback behaviors, monitoring, and runtime validation are as important as model accuracy. The field has matured from chasing benchmark wins to building end-to-end reliability, which I think is the right direction.",
+            "Over the next five years, I’m most excited about hybrid approaches that combine learned representations with classical control and verification. We’ll likely see more domain-adaptive policies, better onboard compute efficiency, and richer simulation pipelines linked to real-world telemetry. The future of robotics is not one breakthrough algorithm; it is robust integration across perception, planning, control, and operations. When that integration works, autonomy stops feeling like a demo and starts feeling like infrastructure.",
+          ],
+        },
+        {
+          id: 4,
+          title: "The science of high-pressing football",
+          date: "august 2024",
+          tags: ["football", "analysis"],
+          excerpt: "A tactical and physical breakdown of pressing systems and why they are beautiful.",
+          body: [
+            "High pressing is often described as intensity, but the real story is coordination. A successful press is a choreographed sequence of body angles, lane coverage, and trigger recognition executed at speed. One player rarely wins the ball alone; the system forces probability in your favor by compressing options and timing pressure in waves. That is why pressing is both physically demanding and cognitively demanding. It is sustained decision-making under fatigue.",
+            "Liverpool under Klopp became the modern reference point because their press was not just aggressive, it was structured. The front line shaped passing options, midfielders stepped to second balls, and the back line held compact distances to keep pressure connected. Their best pressing moments looked chaotic to opponents but were highly patterned internally. The immediate transition after regains made the model even more dangerous, turning defensive actions into attacking advantages within seconds.",
+            "Data analytics now plays a major role in designing and evaluating pressing systems. Teams model pressure events, recoveries, field tilt, and pass direction changes to identify effective triggers. You can quantify whether a press is forcing low-value outlets or merely creating empty running. Video and tracking data together help coaches refine spacing and timing, especially around weak-side rotations and delayed jumps that are hard to assess with intuition alone.",
+            "What makes high pressing beautiful is the collective precision when everything clicks. It is a tactical idea expressed through trust and timing: one player commits because others will close the next lane. Even in an era of positional play and buildup sophistication, pressing remains a powerful equalizer and a statement of identity. When done well, it feels like controlled chaos, and that tension between order and aggression is why I keep studying it.",
+          ],
+        },
+      ];
 
-        const navItems = [
-          { id: "about", label: "about" },
-          { id: "work", label: "work" },
-          { id: "blog", label: "blog" },
-          { id: "watchlist", label: "watchlist" },
-          { id: "places", label: "places" },
-          { id: "say-hi", label: "say hi" },
-        ];
-        const [active, setActive] = useState("about");
-        const [mobileOpen, setMobileOpen] = useState(false);
-        const [isDarkMode, setIsDarkMode] = useState(true);
-        const [diamondFx, setDiamondFx] = useState({ key: 0, active: false, particles: [] });
-        const fxTimerRef = useRef(null);
-        const [currentPage, setCurrentPage] = useState({ type: "home" });
-        const [blogLeaving, setBlogLeaving] = useState(false);
-        const [pageLeaving, setPageLeaving] = useState(false);
-        const openBlogTimerRef = useRef(null);
-        const backTimerRef = useRef(null);
-        const blogScrollTimerRef = useRef(null);
+      const navItems = [
+        { id: "about", label: "about" },
+        { id: "work", label: "work" },
+        { id: "blog", label: "blog" },
+        { id: "watchlist", label: "watchlist" },
+        { id: "places", label: "places" },
+        { id: "say-hi", label: "say hi" },
+      ];
+      const [active, setActive] = useState("about");
+      const [mobileOpen, setMobileOpen] = useState(false);
+      const [isDarkMode, setIsDarkMode] = useState(true);
+      const [diamondFx, setDiamondFx] = useState({ key: 0, active: false, particles: [] });
+      const fxTimerRef = useRef(null);
+      const [currentPage, setCurrentPage] = useState({ type: "home" });
+      const [blogLeaving, setBlogLeaving] = useState(false);
+      const [pageLeaving, setPageLeaving] = useState(false);
+      const openBlogTimerRef = useRef(null);
+      const backTimerRef = useRef(null);
+      const blogScrollTimerRef = useRef(null);
 
-        useEffect(() => {
-          const syncFromUrl = () => {
-            const params = new URLSearchParams(window.location.search);
-            const blogIdParam = params.get("blogId");
-            const blogId = blogIdParam ? Number(blogIdParam) : NaN;
-            const match = blogPosts.find((post) => post.id === blogId);
-            if (match) {
-              setCurrentPage({ type: "blog", id: match.id });
-            } else {
-              setCurrentPage({ type: "home" });
-            }
-          };
-
-          syncFromUrl();
-          const onPopState = () => syncFromUrl();
-          window.addEventListener("popstate", onPopState);
-          return () => window.removeEventListener("popstate", onPopState);
-        }, []);
-
-        useEffect(() => {
-          const ids = ["about", "work", "blog", "watchlist", "places", "say-hi"];
-          const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
-
-          const onScroll = () => {
-            const y = window.scrollY + 140;
-            let current = "about";
-            for (const section of sections) {
-              if (section.offsetTop <= y) current = section.id;
-            }
-            setActive(current);
-          };
-
-          onScroll();
-          window.addEventListener("scroll", onScroll);
-          return () => window.removeEventListener("scroll", onScroll);
-        }, [currentPage]);
-
-        useEffect(() => {
-          return () => {
-            if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current);
-            if (openBlogTimerRef.current) window.clearTimeout(openBlogTimerRef.current);
-            if (backTimerRef.current) window.clearTimeout(backTimerRef.current);
-            if (blogScrollTimerRef.current) window.clearTimeout(blogScrollTimerRef.current);
-          };
-        }, []);
-
-        useEffect(() => {
-          if (currentPage.type === "blog") {
-            window.scrollTo(0, 0);
+      useEffect(() => {
+        const syncFromUrl = () => {
+          const params = new URLSearchParams(window.location.search);
+          const blogIdParam = params.get("blogId");
+          const blogId = blogIdParam ? Number(blogIdParam) : NaN;
+          const match = blogPosts.find((post) => post.id === blogId);
+          if (match) {
+            setCurrentPage({ type: "blog", id: match.id });
+          } else {
+            setCurrentPage({ type: "home" });
           }
-        }, [currentPage.type]);
-
-        useEffect(() => {
-          setBlogLeaving(false);
-          setPageLeaving(false);
-        }, [currentPage]);
-
-        const openBlogPost = (id) => {
-          setPageLeaving(true);
-          if (openBlogTimerRef.current) window.clearTimeout(openBlogTimerRef.current);
-          openBlogTimerRef.current = window.setTimeout(() => {
-            setCurrentPage({ type: "blog", id });
-            window.history.pushState({}, "", `?blogId=${id}`);
-            window.scrollTo({ top: 0, behavior: "instant" });
-            setPageLeaving(false);
-          }, 350);
         };
 
-        const backToHome = () => {
-          setBlogLeaving(true);
+        syncFromUrl();
+        const onPopState = () => syncFromUrl();
+        window.addEventListener("popstate", onPopState);
+        return () => window.removeEventListener("popstate", onPopState);
+      }, []);
+
+      useEffect(() => {
+        const ids = ["about", "work", "blog", "watchlist", "places", "say-hi"];
+        const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
+
+        const onScroll = () => {
+          const y = window.scrollY + 140;
+          let current = "about";
+          for (const section of sections) {
+            if (section.offsetTop <= y) current = section.id;
+          }
+          setActive(current);
+        };
+
+        onScroll();
+        window.addEventListener("scroll", onScroll);
+        return () => window.removeEventListener("scroll", onScroll);
+      }, [currentPage]);
+
+      useEffect(() => {
+        return () => {
+          if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current);
+          if (openBlogTimerRef.current) window.clearTimeout(openBlogTimerRef.current);
           if (backTimerRef.current) window.clearTimeout(backTimerRef.current);
           if (blogScrollTimerRef.current) window.clearTimeout(blogScrollTimerRef.current);
-          backTimerRef.current = window.setTimeout(() => {
-            setCurrentPage({ type: "home" });
-            window.history.pushState({}, "", window.location.pathname);
-            blogScrollTimerRef.current = window.setTimeout(() => {
-              document.getElementById("blog")?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }, 50);
-          }, 350);
         };
+      }, []);
 
-        const activePost =
-          currentPage.type === "blog" ? blogPosts.find((post) => post.id === currentPage.id) : null;
+      useEffect(() => {
+        if (currentPage.type === "blog") {
+          window.scrollTo(0, 0);
+        }
+      }, [currentPage.type]);
 
-        return (
-          <div className={`app ${isDarkMode ? "theme-dark" : "theme-light"}`}>
-            <CanvasBackground isDarkMode={isDarkMode} />
+      useEffect(() => {
+        setBlogLeaving(false);
+        setPageLeaving(false);
+      }, [currentPage]);
 
-            <div className="content-layer">
-              <div className="top-left-toggles">
+      const openBlogPost = (id) => {
+        setPageLeaving(true);
+        if (openBlogTimerRef.current) window.clearTimeout(openBlogTimerRef.current);
+        openBlogTimerRef.current = window.setTimeout(() => {
+          setCurrentPage({ type: "blog", id });
+          window.history.pushState({}, "", `?blogId=${id}`);
+          window.scrollTo({ top: 0, behavior: "instant" });
+          setPageLeaving(false);
+        }, 350);
+      };
+
+      const backToHome = () => {
+        setBlogLeaving(true);
+        if (backTimerRef.current) window.clearTimeout(backTimerRef.current);
+        if (blogScrollTimerRef.current) window.clearTimeout(blogScrollTimerRef.current);
+        backTimerRef.current = window.setTimeout(() => {
+          setCurrentPage({ type: "home" });
+          window.history.pushState({}, "", window.location.pathname);
+          blogScrollTimerRef.current = window.setTimeout(() => {
+            document.getElementById("blog")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 50);
+        }, 350);
+      };
+
+      const activePost =
+        currentPage.type === "blog" ? blogPosts.find((post) => post.id === currentPage.id) : null;
+
+      return (
+        <div className={`app ${isDarkMode ? "theme-dark" : "theme-light"}`}>
+          <CanvasBackground isDarkMode={isDarkMode} />
+
+          <div className="content-layer">
+            <div className="top-left-toggles">
                 <button
                   className="icon-toggle"
                   aria-label="Toggle light and dark mode"
                   onClick={() => setIsDarkMode((prev) => !prev)}
                 >
-                  {isDarkMode ? <SunIcon /> : <MoonIcon />}
+                  {isDarkMode ? <MoonIcon /> : <SunIcon />}
                 </button>
-                <button
-                  className="icon-toggle"
-                  aria-label="Trigger diamond burst"
-                  onClick={() => {
+              <button
+                className="icon-toggle"
+                aria-label="Trigger diamond burst"
+                onClick={() => {
                     const particles = Array.from({ length: 24 }, (_, idx) => ({
                       id: idx,
                       angle: Math.round(Math.random() * 360),
-                      dist: Math.round(80 + Math.random() * 140),
+                      dist: Math.round(120 + Math.random() * 220),
                       spin: Math.round(90 + Math.random() * 270),
                       duration: Math.round(400 + Math.random() * 300),
                       delay: Math.round(Math.random() * 120),
                     }));
-                    setDiamondFx((prev) => ({ key: prev.key + 1, active: true, particles }));
-                    if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current);
-                    fxTimerRef.current = window.setTimeout(() => {
-                      setDiamondFx((prev) => ({ ...prev, active: false }));
-                    }, 1150);
-                  }}
-                >
-                  <DiamondIcon />
-                </button>
-              </div>
-              {diamondFx.active && (
-                <div key={diamondFx.key} className="diamond-overlay">
-                  <div className="shockwave-ring ring-1" />
-                  <div className="shockwave-ring ring-2" />
-                  <div className="shockwave-ring ring-3" />
-                  <div className="diamond-center">
-                    <div className="diamond-core" />
-                    <div className="diamond-shard shard-tl" />
-                    <div className="diamond-shard shard-tr" />
-                    <div className="diamond-shard shard-bl" />
-                    <div className="diamond-shard shard-br" />
-                  </div>
-                  {diamondFx.particles.map((p) => (
-                    <span
-                      key={p.id}
-                      className="diamond-particle"
-                      style={{
-                        "--angle": `${p.angle}deg`,
-                        "--dist": `${p.dist}px`,
-                        "--spin": `${p.spin}deg`,
-                        "--duration": `${p.duration}ms`,
-                        "--delay": `${p.delay}ms`,
-                      }}
-                    />
-                  ))}
+                  setDiamondFx((prev) => ({ key: prev.key + 1, active: true, particles }));
+                  if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current);
+                  fxTimerRef.current = window.setTimeout(() => {
+                    setDiamondFx((prev) => ({ ...prev, active: false }));
+                  }, 1150);
+                }}
+              >
+                <DiamondIcon />
+              </button>
+            </div>
+            {diamondFx.active && (
+              <div key={diamondFx.key} className="diamond-overlay">
+                <div className="shockwave-ring ring-1" />
+                <div className="shockwave-ring ring-2" />
+                <div className="shockwave-ring ring-3" />
+                <div className="diamond-center">
+                  <div className="diamond-core" />
+                  <div className="diamond-shard shard-tl" />
+                  <div className="diamond-shard shard-tr" />
+                  <div className="diamond-shard shard-bl" />
+                  <div className="diamond-shard shard-br" />
                 </div>
+                {diamondFx.particles.map((p) => (
+                  <span
+                    key={p.id}
+                    className="diamond-particle"
+                    style={{
+                      "--angle": `${p.angle}deg`,
+                      "--dist": `${p.dist}px`,
+                      "--spin": `${p.spin}deg`,
+                      "--duration": `${p.duration}ms`,
+                      "--delay": `${p.delay}ms`,
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="layout">
+              {currentPage.type === "home" && (
+                <Sidebar
+                  items={navItems}
+                  active={active}
+                  onClick={setActive}
+                  mobileOpen={mobileOpen}
+                  setMobileOpen={setMobileOpen}
+                />
               )}
 
-              <div className="layout">
-                {currentPage.type === "home" && (
-                  <Sidebar
-                    items={navItems}
-                    active={active}
-                    onClick={setActive}
-                    mobileOpen={mobileOpen}
-                    setMobileOpen={setMobileOpen}
-                  />
-                )}
-
-                {currentPage.type === "home" ? (
-                  <main className={`main ${pageLeaving ? "page-exit" : ""}`}>
-                    <AboutSection />
-                    <WorkSection />
-                    <BlogSection blogPosts={blogPosts} onOpenBlog={openBlogPost} />
-                    <WatchlistSection />
-                    <PlacesSection />
-                    <SayHiSection />
-                  </main>
-                ) : (
-                  <BlogPostPage post={activePost} onBack={backToHome} isLeaving={blogLeaving} />
-                )}
-              </div>
+              {currentPage.type === "home" ? (
+                <main className={`main ${pageLeaving ? "page-exit" : ""}`}>
+                  <AboutSection />
+                  <WorkSection />
+                  <BlogSection blogPosts={blogPosts} onOpenBlog={openBlogPost} />
+                  <WatchlistSection />
+                  <PlacesSection />
+                  <SayHiSection />
+                </main>
+              ) : (
+                <BlogPostPage post={activePost} onBack={backToHome} isLeaving={blogLeaving} />
+              )}
             </div>
           </div>
-        );
-      }
+        </div>
+      );
+    }
 
-      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-    </script>
-  </body>
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+
 </html>
