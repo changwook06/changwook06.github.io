@@ -32,8 +32,11 @@
         --overlay-bg: rgba(0, 0, 0, 0.9);
       }
 
-      * {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
+        border-radius: 0 !important;
       }
 
       html,
@@ -172,7 +175,7 @@
       .sidebar-nav {
         display: flex;
         flex-direction: column;
-        gap: 14px;
+        gap: 20px;
       }
 
       .nav-item {
@@ -193,8 +196,8 @@
       }
 
       .active-dot {
-        width: 6px;
-        height: 6px;
+        width: 4px;
+        height: 4px;
         border-radius: 50%;
         background: var(--text);
         display: inline-block;
@@ -207,15 +210,23 @@
       }
 
       .section {
-        margin-bottom: 90px;
+        margin: 0;
+        padding: 48px 0;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      .section-about {
+        padding-top: 64px;
+        padding-bottom: 48px;
       }
 
       .section-title {
-        text-transform: lowercase;
-        font-size: 14px;
-        letter-spacing: 0.2em;
-        color: var(--muted);
-        margin-bottom: 22px;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        color: rgba(255, 255, 255, 0.35);
+        margin-bottom: 8px;
         font-weight: 500;
       }
 
@@ -253,42 +264,44 @@
 
       .tag {
         display: inline-block;
-        border-radius: 4px;
-        padding: 1px 6px;
-        font-size: 0.94em;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 10px;
         line-height: 1.4;
         border: 1px solid transparent;
         margin: 0 2px;
         font-weight: 400;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
       }
 
       .tag-green {
-        background: rgba(58, 199, 114, 0.2);
-        border-color: rgba(58, 199, 114, 0.5);
+        background: rgba(58, 199, 114, 0.15);
+        border-color: rgba(58, 199, 114, 0.25);
         color: #9ef4c1;
       }
 
       .tag-indigo {
-        background: rgba(100, 112, 255, 0.2);
-        border-color: rgba(100, 112, 255, 0.45);
+        background: rgba(100, 112, 255, 0.15);
+        border-color: rgba(100, 112, 255, 0.25);
         color: #bec6ff;
       }
 
       .tag-teal {
-        background: rgba(47, 207, 193, 0.2);
-        border-color: rgba(47, 207, 193, 0.45);
+        background: rgba(47, 207, 193, 0.15);
+        border-color: rgba(47, 207, 193, 0.25);
         color: #99fff6;
       }
 
       .tag-red {
-        background: rgba(255, 95, 95, 0.2);
-        border-color: rgba(255, 95, 95, 0.45);
+        background: rgba(255, 95, 95, 0.15);
+        border-color: rgba(255, 95, 95, 0.25);
         color: #ffc5c5;
       }
 
       .tag-yellow {
-        background: rgba(255, 212, 73, 0.2);
-        border-color: rgba(255, 212, 73, 0.45);
+        background: rgba(255, 212, 73, 0.15);
+        border-color: rgba(255, 212, 73, 0.25);
         color: #ffe7a4;
       }
 
@@ -325,6 +338,9 @@
 
       .life-carousel-wrap {
         position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -332,15 +348,11 @@
       }
 
       .life-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 10;
         width: 36px;
         height: 36px;
         border-radius: 50%;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(0, 0, 0, 0.45);
+        background: rgba(255, 255, 255, 0.08);
         color: white;
         cursor: pointer;
         font-size: 18px;
@@ -348,15 +360,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        backdrop-filter: blur(4px);
       }
 
-      .life-arrow.left {
-        left: 8px;
-      }
-
-      .life-arrow.right {
-        right: 8px;
+      .life-arrow-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-top: 16px;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .life-arrow:hover:not(:disabled) {
@@ -373,6 +386,8 @@
         max-width: 100%;
         box-sizing: border-box;
         overflow: hidden;
+        padding: 0;
+        margin: 0;
         height: 320px;
       }
 
@@ -443,7 +458,7 @@
 
       .life-lightbox-short {
         color: #fff;
-        font-size: 16px;
+        font-size: 17px;
         font-weight: 500;
         margin-top: 16px;
         text-transform: lowercase;
@@ -457,6 +472,7 @@
         line-height: 1.6;
         margin-top: 8px;
         font-weight: 400;
+        letter-spacing: 0.01em;
       }
 
       .life-lightbox-close {
@@ -539,7 +555,7 @@
         box-shadow: none !important;
         font-family: var(--font-sans);
         line-height: 1.6;
-        font-weight: 400;
+        font-weight: 500;
       }
 
       .mapboxgl-popup-tip {
@@ -583,14 +599,14 @@
       .project-card {
         background: var(--card-bg);
         border: 1px solid var(--card-border);
-        border-radius: 12px;
-        padding: 14px;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        border-radius: 14px;
+        padding: 20px;
+        transition: transform 200ms ease, box-shadow 200ms ease;
       }
 
       .project-card:hover {
-        transform: translateY(-4px);
-        border-color: var(--hover-border);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       }
 
       .project-preview {
@@ -615,25 +631,30 @@
 
       .badge {
         border-radius: 999px;
-        padding: 2px 10px;
-        font-size: 11px;
+        padding: 2px 8px;
+        font-size: 10px;
         color: var(--text);
         white-space: nowrap;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        border: 1px solid transparent;
       }
 
       .badge-orange {
-        background: #ff8f2d;
+        background: rgba(255, 143, 45, 0.15);
+        border-color: rgba(255, 143, 45, 0.25);
       }
 
       .badge-gray {
-        background: #5b5b5b;
+        background: rgba(91, 91, 91, 0.15);
+        border-color: rgba(91, 91, 91, 0.25);
       }
 
       .project-desc {
         margin: 0 0 11px;
-        color: var(--subtle-text);
-        font-size: 14px;
-        line-height: 1.45;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 13px;
+        line-height: 1.65;
         font-weight: 400;
       }
 
@@ -655,7 +676,7 @@
 
       .list-cards {
         display: grid;
-        gap: 10px;
+        gap: 20px;
       }
 
       .list-card {
@@ -665,8 +686,14 @@
         gap: 12px;
         border: 1px solid var(--card-border);
         background: var(--card-bg);
-        border-radius: 10px;
-        padding: 10px 12px;
+        border-radius: 14px;
+        padding: 20px;
+        transition: transform 200ms ease, box-shadow 200ms ease;
+      }
+
+      .list-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       }
 
       .list-card-left {
@@ -677,7 +704,7 @@
       }
 
       .list-title {
-        color: var(--text);
+        color: rgba(255, 255, 255, 0.9);
         text-decoration: none;
         font-size: 15px;
         white-space: nowrap;
@@ -686,7 +713,33 @@
         font-weight: 500;
       }
 
+      button.list-title {
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        box-shadow: none;
+      }
+
       .list-title:hover {
+        color: white;
+      }
+
+      .blog-title-button {
+        border: none;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        color: inherit;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .blog-title-button:hover {
         text-decoration: underline;
       }
 
@@ -695,14 +748,16 @@
         font-size: 10px;
         border-radius: 999px;
         padding: 2px 8px;
-        background: rgba(80, 140, 255, 0.2);
-        border: 1px solid rgba(80, 140, 255, 0.4);
+        background: rgba(80, 140, 255, 0.15);
+        border: 1px solid rgba(80, 140, 255, 0.25);
         color: rgba(255, 255, 255, 0.45);
         font-weight: 400;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
       }
 
       .list-date {
-        color: rgba(255, 255, 255, 0.45);
+        color: rgba(255, 255, 255, 0.3);
         font-size: 12px;
         font-weight: 400;
       }
@@ -710,14 +765,20 @@
       .watch-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 14px;
+        gap: 16px;
       }
 
       .watch-card {
         background: var(--card-bg);
         border: 1px solid var(--card-border);
-        border-radius: 12px;
-        padding: 12px;
+        border-radius: 14px;
+        padding: 20px;
+        transition: transform 200ms ease, box-shadow 200ms ease;
+      }
+
+      .watch-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       }
 
       .watch-title {
@@ -731,7 +792,7 @@
         justify-content: space-between;
         align-items: center;
         font-size: 12px;
-        color: var(--subtle-text);
+        color: rgba(255, 255, 255, 0.3);
       }
 
       .watch-type {
@@ -749,11 +810,17 @@
 
       .media-card {
         border: 1px solid var(--card-border);
-        border-radius: 12px;
+        border-radius: 14px;
         overflow: hidden;
         background: var(--card-bg);
         color: var(--text);
         text-decoration: none;
+        transition: transform 200ms ease, box-shadow 200ms ease;
+      }
+
+      .media-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       }
 
       .media-thumb {
@@ -761,7 +828,7 @@
       }
 
       .media-body {
-        padding: 12px;
+        padding: 20px;
       }
 
       .media-title {
@@ -773,7 +840,7 @@
       .media-foot {
         display: flex;
         justify-content: space-between;
-        color: var(--subtle-text);
+        color: rgba(255, 255, 255, 0.3);
         font-size: 12px;
       }
 
@@ -866,6 +933,29 @@
           opacity: 1;
           transform: translateY(0);
         }
+      }
+
+      @keyframes fadeSlideDown {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+      }
+
+      .blog-enter {
+        animation: fadeSlideUp 500ms ease-out both;
+      }
+
+      .blog-exit {
+        animation: fadeSlideDown 350ms ease-in both;
+      }
+
+      .page-exit {
+        animation: fadeSlideDown 350ms ease-in both;
       }
 
       .diamond-overlay {
@@ -1056,15 +1146,17 @@
         font-family: var(--font-sans);
         line-height: 1.6;
         font-weight: 400;
+        transition: border-color 200ms ease;
       }
 
       .contact-input:focus,
       .contact-textarea:focus {
         border-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
       }
 
       .contact-textarea {
-        min-height: 120px;
+        min-height: 140px;
         resize: vertical;
       }
 
@@ -1074,17 +1166,95 @@
         border-radius: 999px;
         background: transparent;
         color: white;
-        padding: 8px 18px;
+        padding: 10px 24px;
         cursor: pointer;
         transition: background 200ms ease, color 200ms ease;
         font-family: var(--font-sans);
         line-height: 1.6;
         font-weight: 500;
+        letter-spacing: 0.06em;
+        font-size: 13px;
       }
 
       .contact-submit:hover {
         background: white;
         color: black;
+      }
+
+      .blog-page {
+        padding: 60px 0 60px 200px;
+      }
+
+      .blog-page-inner {
+        max-width: 900px;
+      }
+
+      .blog-back {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: transparent;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        margin-bottom: 26px;
+      }
+
+      .blog-back:hover {
+        border-color: rgba(255, 255, 255, 0.35);
+      }
+
+      .blog-post-title {
+        font-family: var(--font-serif);
+        font-size: clamp(32px, 5vw, 56px);
+        font-weight: 700;
+        line-height: 1.15;
+        max-width: 760px;
+        margin: 0 0 14px;
+      }
+
+      .blog-post-date {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.4);
+        text-transform: lowercase;
+        margin-bottom: 14px;
+      }
+
+      .blog-post-tags {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .blog-post-dot {
+        color: rgba(255, 255, 255, 0.35);
+      }
+
+      .blog-post-content {
+        margin-top: 40px;
+        font-size: 17px;
+        line-height: 1.8;
+        max-width: 680px;
+        color: rgba(255, 255, 255, 0.82);
+        font-family: var(--font-sans);
+      }
+
+      .blog-post-content p {
+        margin: 0 0 20px;
+      }
+
+      .blog-post-image {
+        width: 100%;
+        max-width: 760px;
+        border-radius: 0;
+        margin: 40px 0;
+        display: block;
+      }
+
+      ::selection {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
       }
 
       @media (max-width: 767px) {
@@ -1119,6 +1289,10 @@
         .watch-grid,
         .media-grid {
           grid-template-columns: 1fr;
+        }
+
+        .blog-page {
+          padding: 40px 24px;
         }
       }
 
@@ -1391,78 +1565,70 @@
         const photos = [
           {
             src: "assets/friends.jpg",
-            short: "friends",
-            detailed:
+            caption: "friends",
+            detail:
               "Hanging out with the crew in Daejeon — the people who make KAIST feel like home. Winter 2024.",
           },
           {
+            src: "assets/rocket%20club.jpeg",
+            caption: "rocket club",
+            detail:
+              "Building and launching model rockets with the aerospace club at KAIST. One of the best decisions I've made here. Fall 2024.",
+          },
+          {
             src: "assets/snow.jpg",
-            short: "snow day",
-            detailed:
+            caption: "snow day",
+            detail:
               "First proper snowfall of the season. Everything went quiet and the campus looked unreal. December 2024.",
           },
           {
-            src: "assets/friends skating.jpg",
-            short: "skating",
-            detailed:
+            src: "assets/friends%20skating.jpg",
+            caption: "skating",
+            detail:
               "Ice skating in the city with friends — nobody could actually skate but that was half the fun. January 2025.",
           },
           {
             src: "assets/karaoke.jpg",
-            short: "karaoke",
-            detailed:
+            caption: "karaoke",
+            detail:
               "Late night karaoke session that went way too long. Zero regrets. February 2025.",
           },
-          {
-            src: "assets/rocket club.jpeg",
-            short: "rocket club",
-            detailed:
-              "Building and launching model rockets with the aerospace club at KAIST. One of the best decisions I've made here. Fall 2024.",
-          },
         ];
-        const viewportRef = useRef(null);
-        const [carouselIndex, setCarouselIndex] = useState(0);
+        const [currentIndex, setCurrentIndex] = useState(0);
+        const [lightboxPhoto, setLightboxPhoto] = useState(null);
         const [visibleCount, setVisibleCount] = useState(() => {
           if (typeof window === "undefined") return 3;
-          if (window.innerWidth < 600) return 1;
-          if (window.innerWidth < 900) return 2;
-          return 3;
+          if (window.innerWidth >= 900) return 3;
+          if (window.innerWidth >= 600) return 2;
+          return 1;
         });
-        const [viewportWidth, setViewportWidth] = useState(0);
-        const [lightboxIndex, setLightboxIndex] = useState(null);
-        const gap = 12;
 
         useEffect(() => {
-          const getVisibleCount = (width) => {
-            if (width < 600) return 1;
-            if (width < 900) return 2;
-            return 3;
-          };
-
-          const updateCarouselLayout = () => {
-            setVisibleCount(getVisibleCount(window.innerWidth));
-            if (viewportRef.current) {
-              setViewportWidth(viewportRef.current.clientWidth);
+          const updateVisibleCount = () => {
+            if (window.innerWidth >= 900) {
+              setVisibleCount(3);
+            } else if (window.innerWidth >= 600) {
+              setVisibleCount(2);
+            } else {
+              setVisibleCount(1);
             }
           };
-
-          updateCarouselLayout();
-          window.addEventListener("resize", updateCarouselLayout);
-          return () => window.removeEventListener("resize", updateCarouselLayout);
+          updateVisibleCount();
+          window.addEventListener("resize", updateVisibleCount);
+          return () => window.removeEventListener("resize", updateVisibleCount);
         }, []);
 
         useEffect(() => {
-          const maxIndex = Math.max(0, photos.length - visibleCount);
-          setCarouselIndex((prev) => Math.min(prev, maxIndex));
+          setCurrentIndex((prev) => Math.min(prev, Math.max(0, photos.length - visibleCount)));
         }, [visibleCount, photos.length]);
 
         useEffect(() => {
-          if (lightboxIndex === null) return;
+          if (!lightboxPhoto) return;
 
           const previousOverflow = document.body.style.overflow;
           document.body.style.overflow = "hidden";
           const onKeyDown = (event) => {
-            if (event.key === "Escape") setLightboxIndex(null);
+            if (event.key === "Escape") setLightboxPhoto(null);
           };
 
           window.addEventListener("keydown", onKeyDown);
@@ -1470,21 +1636,10 @@
             window.removeEventListener("keydown", onKeyDown);
             document.body.style.overflow = previousOverflow;
           };
-        }, [lightboxIndex]);
-
-        const maxCarouselIndex = Math.max(0, photos.length - visibleCount);
-        const itemWidth =
-          viewportWidth > 0
-            ? visibleCount === 3
-              ? 280
-              : visibleCount === 2
-                ? Math.max(260, (viewportWidth - gap) / 2)
-                : viewportWidth
-            : 0;
-        const currentLightboxPhoto = lightboxIndex !== null ? photos[lightboxIndex] : null;
+        }, [lightboxPhoto]);
 
         return (
-          <section id="about" className="section">
+          <section id="about" className="section section-about">
             <div className="section-title">about</div>
             <div className="about-wrap">
               <div>
@@ -1542,76 +1697,98 @@
                   <div className="section-title" style={{ marginTop: 30, marginBottom: 12 }}>
                     life
                   </div>
-                  <div className="life-carousel-wrap">
-                    <button
-                      type="button"
-                      className="life-arrow left"
-                      aria-label="Previous life photo"
-                      onClick={() => setCarouselIndex((prev) => Math.max(0, prev - 1))}
-                      disabled={carouselIndex === 0}
-                      style={{
-                        width: "36px",
-                        height: "36px",
-                        zIndex: 10,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "white",
-                        background: "rgba(0,0,0,0.45)",
-                        backdropFilter: "blur(4px)",
-                        opacity: carouselIndex === 0 ? 0.25 : 1,
-                        pointerEvents: carouselIndex === 0 ? "none" : "auto",
-                      }}
-                    >
-                      ←
-                    </button>
-                    <div className="life-viewport" ref={viewportRef}>
+                  <div style={{ width: "100%", overflow: "hidden" }}>
+                    <div style={{ overflow: "hidden", width: "100%" }}>
                       <div
-                        className="life-track"
-                        style={{ transform: `translateX(-${(itemWidth + gap) * carouselIndex}px)` }}
+                        style={{
+                          display: "flex",
+                          transition: "transform 400ms ease",
+                          transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
+                        }}
                       >
-                        {photos.map((photo, i) => (
-                          <div key={photo.src} className="life-item" style={{ width: `${itemWidth}px` }}>
-                            <button
-                              type="button"
-                              className="life-photo-button"
-                              onClick={() => setLightboxIndex(i)}
-                              aria-label={`Open photo ${photo.short}`}
+                        {photos.map((photo) => (
+                          <div
+                            key={photo.src}
+                            style={{
+                              minWidth: `${100 / visibleCount}%`,
+                              padding: "0 8px",
+                              boxSizing: "border-box",
+                            }}
+                          >
+                            <img
+                              src={photo.src}
+                              alt={photo.caption}
+                              loading="lazy"
+                              style={{
+                                width: "100%",
+                                height: "220px",
+                                objectFit: "cover",
+                                display: "block",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => setLightboxPhoto(photo)}
+                            />
+                            <p
+                              style={{
+                                textAlign: "center",
+                                fontSize: "12px",
+                                color: "rgba(255,255,255,0.45)",
+                                marginTop: "8px",
+                              }}
                             >
-                              <img
-                                className="life-photo"
-                                src={photo.src}
-                                loading="lazy"
-                                alt={photo.short}
-                              />
-                            </button>
-                            <div className="life-short-caption">{photo.short}</div>
+                              {photo.caption}
+                            </p>
                           </div>
                         ))}
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      className="life-arrow right"
-                      aria-label="Next life photo"
-                      onClick={() => setCarouselIndex((i) => Math.min(photos.length - visibleCount, i + 1))}
-                      disabled={carouselIndex === maxCarouselIndex}
+                    <div
                       style={{
-                        width: "36px",
-                        height: "36px",
-                        zIndex: 10,
                         display: "flex",
-                        alignItems: "center",
                         justifyContent: "center",
-                        color: "white",
-                        background: "rgba(0,0,0,0.45)",
-                        backdropFilter: "blur(4px)",
-                        opacity: carouselIndex >= photos.length - visibleCount ? 0.25 : 1,
-                        pointerEvents: carouselIndex >= photos.length - visibleCount ? "none" : "auto",
+                        gap: "16px",
+                        marginTop: "16px",
                       }}
                     >
-                      →
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
+                        disabled={currentIndex === 0}
+                        style={{
+                          width: "36px",
+                          height: "36px",
+                          borderRadius: "50%",
+                          background: "rgba(255,255,255,0.08)",
+                          border: "1px solid rgba(255,255,255,0.2)",
+                          color: "white",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                          opacity: currentIndex === 0 ? 0.25 : 1,
+                          pointerEvents: currentIndex === 0 ? "none" : "auto",
+                        }}
+                      >
+                        ←
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCurrentIndex((i) => Math.min(i + 1, photos.length - visibleCount))}
+                        disabled={currentIndex >= photos.length - visibleCount}
+                        style={{
+                          width: "36px",
+                          height: "36px",
+                          borderRadius: "50%",
+                          background: "rgba(255,255,255,0.08)",
+                          border: "1px solid rgba(255,255,255,0.2)",
+                          color: "white",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                          opacity: currentIndex >= photos.length - visibleCount ? 0.25 : 1,
+                          pointerEvents: currentIndex >= photos.length - visibleCount ? "none" : "auto",
+                        }}
+                      >
+                        →
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1620,51 +1797,61 @@
                 <div className="portrait fade-slide fade-800 delay-200" aria-label="Portrait placeholder" />
               </div>
             </div>
-            {currentLightboxPhoto && (
-              <div className="life-lightbox" onClick={() => setLightboxIndex(null)}>
+            {lightboxPhoto && (
+              <div
+                onClick={() => setLightboxPhoto(null)}
+                style={{
+                  position: "fixed",
+                  inset: 0,
+                  background: "rgba(0,0,0,0.92)",
+                  zIndex: 10000,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <button
                   type="button"
-                  className="life-lightbox-close"
-                  onClick={() => setLightboxIndex(null)}
-                  aria-label="Close life photo lightbox"
+                  onClick={() => setLightboxPhoto(null)}
+                  style={{
+                    position: "absolute",
+                    top: "20px",
+                    right: "24px",
+                    background: "none",
+                    border: "none",
+                    color: "white",
+                    fontSize: "22px",
+                    cursor: "pointer",
+                  }}
                 >
                   ✕
                 </button>
-                <button
-                  type="button"
-                  className="life-lightbox-nav left"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setLightboxIndex((prev) => (prev === null ? prev : Math.max(0, prev - 1)));
-                  }}
-                  disabled={lightboxIndex === 0}
-                  aria-label="Previous lightbox photo"
-                >
-                  ‹
-                </button>
-                <div className="life-lightbox-inner" onClick={(event) => event.stopPropagation()}>
+                <div onClick={(event) => event.stopPropagation()}>
                   <img
-                    className="life-lightbox-image"
-                    src={currentLightboxPhoto.src}
-                    alt={currentLightboxPhoto.short}
+                    src={lightboxPhoto.src}
+                    alt={lightboxPhoto.caption}
+                    style={{
+                      maxHeight: "70vh",
+                      maxWidth: "85vw",
+                      objectFit: "contain",
+                    }}
                   />
-                  <div className="life-lightbox-short">{currentLightboxPhoto.short}</div>
-                  <div className="life-lightbox-detailed">{currentLightboxPhoto.detailed}</div>
+                  <div style={{ color: "white", fontSize: "16px", marginTop: "16px", textAlign: "center" }}>
+                    {lightboxPhoto.caption}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "13px",
+                      color: "rgba(255,255,255,0.5)",
+                      maxWidth: "480px",
+                      textAlign: "center",
+                      marginTop: "8px",
+                    }}
+                  >
+                    {lightboxPhoto.detail}
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  className="life-lightbox-nav right"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setLightboxIndex((prev) =>
-                      prev === null ? prev : Math.min(photos.length - 1, prev + 1)
-                    );
-                  }}
-                  disabled={lightboxIndex === photos.length - 1}
-                  aria-label="Next lightbox photo"
-                >
-                  ›
-                </button>
               </div>
             )}
           </section>
@@ -1680,7 +1867,7 @@
           if (!window.mapboxgl || !mapContainerRef.current) return;
 
           // TODO: replace with your Mapbox public token
-          const MAPBOX_TOKEN = "YOUR_MAPBOX_PUBLIC_TOKEN";
+          const MAPBOX_TOKEN = "pk.eyJ1IjoiY2hhbmd3b29rMDYiLCJhIjoiY21tNXBsZndqMGFqOTJycHFqemdxeHU3aCJ9.BefiyKZ0Uu00e3E6XWM3dw";
           const hasToken = MAPBOX_TOKEN && MAPBOX_TOKEN !== "YOUR_MAPBOX_PUBLIC_TOKEN";
           setIsMapReady(Boolean(hasToken));
           if (!hasToken) return;
@@ -1843,50 +2030,22 @@
         );
       }
 
-      function BlogSection() {
-        const blogs = [
-          {
-            id: 1,
-            title: "What I learned building an AI voice agent",
-            tag: "ai",
-            date: "Jan 2025",
-          },
-          {
-            id: 2,
-            title: "Why I chose KAIST over other programs",
-            tag: "life",
-            date: "Nov 2024",
-          },
-          {
-            id: 3,
-            title: "Autonomous systems and the future of robotics",
-            tag: "tech",
-            date: "Sep 2024",
-          },
-          {
-            id: 4,
-            title: "The science of high-pressing football",
-            tag: "football",
-            date: "Aug 2024",
-          },
-        ];
-
+      function BlogSection({ blogPosts, onOpenBlog }) {
         return (
           <section id="blog" className="section">
             <div className="section-title">blog</div>
             <div className="list-cards">
-              {blogs.map((blog) => (
+              {blogPosts.map((blog) => (
                 <article key={blog.id} className="list-card">
                   <div className="list-card-left">
-                    <a
+                    <button
+                      type="button"
                       className="list-title"
-                      href={`https://changwook06.github.io/?blogId=${blog.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      onClick={() => onOpenBlog(blog.id)}
                     >
                       {blog.title}
-                    </a>
-                    <span className="mini-pill">{blog.tag}</span>
+                    </button>
+                    <span className="mini-pill">{blog.tags[0]}</span>
                   </div>
                   <div className="list-date">{blog.date}</div>
                 </article>
@@ -1931,58 +2090,44 @@
         );
       }
 
-      function MediaSection() {
-        const items = [
-          {
-            id: 1,
-            title: "Building an AI Voice Agent",
-            type: "video",
-            gradient: "linear-gradient(135deg,#4338ca,#2563eb)",
-          },
-          {
-            id: 2,
-            title: "Demo Day Pitch — Autonomous Systems",
-            type: "video",
-            gradient: "linear-gradient(135deg,#7e22ce,#ec4899)",
-          },
-          {
-            id: 3,
-            title: "Hand-drawn Wireframes to Code",
-            type: "demo",
-            gradient: "linear-gradient(135deg,#0f766e,#22c55e)",
-          },
-          {
-            id: 4,
-            title: "My journey into robotics at KAIST",
-            type: "article",
-            gradient: "linear-gradient(135deg,#f59e0b,#ef4444)",
-          },
-        ];
+      function BlogPostPage({ post, onBack, isLeaving }) {
+        if (!post) {
+          return (
+            <div className={`blog-page ${isLeaving ? "blog-exit" : "blog-enter"}`}>
+              <div className="blog-page-inner">
+                <button type="button" className="blog-back" onClick={onBack}>
+                  ← back to blog
+                </button>
+                <h1 className="blog-post-title">Post not found</h1>
+              </div>
+            </div>
+          );
+        }
 
         return (
-          <section id="media" className="section">
-            <div className="section-title">media</div>
-            <div className="media-grid">
-              {items.map((item) => (
-                <a
-                  key={item.id}
-                  className="media-card"
-                  href={`https://changwook06.github.io/?mediaId=${item.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="media-thumb" style={{ background: item.gradient }} />
-                  <div className="media-body">
-                    <h3 className="media-title">{item.title}</h3>
-                    <div className="media-foot">
-                      <span className="mini-pill">{item.type}</span>
-                      <span>↗</span>
-                    </div>
-                  </div>
-                </a>
-              ))}
+          <div className={`blog-page ${isLeaving ? "blog-exit" : "blog-enter"}`}>
+            <div className="blog-page-inner">
+              <button type="button" className="blog-back" onClick={onBack}>
+                ← back to blog
+              </button>
+              <h1 className="blog-post-title">{post.title}</h1>
+              <div className="blog-post-date">{post.date}</div>
+              <div className="blog-post-tags">
+                {post.tags.map((tag, idx) => (
+                  <React.Fragment key={tag}>
+                    <span className="mini-pill">{tag}</span>
+                    {idx < post.tags.length - 1 && <span className="blog-post-dot">•</span>}
+                  </React.Fragment>
+                ))}
+              </div>
+              {post.image && <img className="blog-post-image" src={post.image} alt={post.title} />}
+              <div className="blog-post-content">
+                {post.body.map((paragraph, idx) => (
+                  <p key={idx}>{paragraph}</p>
+                ))}
+              </div>
             </div>
-          </section>
+          </div>
         );
       }
 
@@ -2058,11 +2203,65 @@
       }
 
       function App() {
+        const blogPosts = [
+          {
+            id: 1,
+            title: "What I learned building an AI voice agent",
+            date: "january 2025",
+            tags: ["ai", "engineering"],
+            excerpt: "Lessons from shipping a realtime voice agent and chasing latency to the edge.",
+            body: [
+              "I started building an AI voice agent thinking the hardest part would be prompt engineering. It turned out the real challenge was timing. Voice feels magical only when the system responds at conversational speed, and that means your margin for delay is tiny. A text chat can tolerate pauses, but in speech even half a second feels awkward. I spent most of the project reducing friction between microphone capture, transcription, model reasoning, and speech synthesis so each stage handed off without blocking.",
+              "Realtime audio processing exposed problems I had ignored in prototypes. Different microphones introduced inconsistent gain levels, background hum, and clipping, which made transcription quality unpredictable. I added lightweight preprocessing, voice activity detection, and chunked streaming so the recognizer could start working before a sentence ended. That reduced perceived latency, but it also created context fragmentation. The model needed enough history to stay coherent while still answering quickly, so I built a rolling context window that prioritized intent and recent entities over raw transcripts.",
+              "The most interesting lesson was how language models handle spoken context differently from typed context. People interrupt themselves, restart thoughts, and use filler words constantly. If you feed those transcripts directly, the model can overfit to noise. I had better results by extracting structured cues first: user goal, constraints, and emotional tone. This gave the assistant a stable internal state and made responses feel more grounded. I also added explicit turn-taking logic so the agent waited for completion confidence before speaking.",
+              "From a UX perspective, small details mattered more than model sophistication. Audible latency cues, confirmation phrasing, and interruption handling changed user trust dramatically. People forgave occasional factual misses if the interaction rhythm felt natural, but they lost patience quickly when timing broke. If I rebuilt it today, I would design around multimodal feedback from day one and invest earlier in observability for audio pipeline timing. Voice interfaces are less about one perfect model and more about orchestrating many imperfect systems into one smooth conversation.",
+            ],
+          },
+          {
+            id: 2,
+            title: "Why I chose KAIST over other programs",
+            date: "november 2024",
+            tags: ["life", "kaist"],
+            excerpt: "How I weighed research culture, location, and long-term technical goals.",
+            body: [
+              "Choosing KAIST was less a single decision and more a process of narrowing what kind of environment I wanted to grow in. I cared about strong technical training, but I also wanted a place where research felt close to students, not gated behind hierarchy. As I compared programs, KAIST stood out because labs felt approachable and project-based learning seemed baked into the culture. I didn’t want to wait years before touching meaningful problems.",
+              "Being in Korea was another major factor. I wanted to challenge myself outside my comfort zone and build fluency in a different academic and cultural context. Daejeon is quieter than bigger cities, which I initially saw as a tradeoff, but it turned into an advantage. The pace made it easier to focus deeply while still being connected to an active tech and startup ecosystem through events, teams, and student communities.",
+              "Academically, KAIST aligned with my interests in aerospace and robotics more directly than most alternatives. I was looking for a place where autonomy, controls, and systems engineering could overlap in practical ways. What surprised me after arriving was how collaborative the campus felt. People were intense about their work, but also generous with help, feedback, and shared resources. That made the transition much smoother than I expected.",
+              "If someone is deciding between KAIST and other programs, I’d suggest thinking beyond rankings. Ask what kind of daily life you want, what pace helps you do your best work, and how much access you’ll have to mentors and projects early on. For me, KAIST fit because it combined rigor with real opportunities to build things now, not later. Looking back, I’d make the same choice again.",
+            ],
+          },
+          {
+            id: 3,
+            title: "Autonomous systems and the future of robotics",
+            date: "september 2024",
+            tags: ["tech", "robotics"],
+            excerpt: "Why autonomy remains hard, and where the most exciting progress is happening.",
+            body: [
+              "Autonomy looks deceptively solved when you watch polished demos in controlled environments. The hard part starts when systems leave simulation and enter the real world, where uncertainty compounds quickly. Lighting shifts, sensor noise, weather, degraded hardware, and human unpredictability create edge cases that no single model can fully anticipate. The simulation-to-reality gap is still one of the defining bottlenecks in robotics, and bridging it requires both better learning methods and stronger systems engineering discipline.",
+              "Sensor fusion is a good example of this complexity. In theory, combining camera, lidar, IMU, and GPS should produce robust state estimation. In practice, each sensor fails differently and at different timescales. Autonomy stacks need probabilistic reasoning that stays stable when one modality becomes unreliable. It is less about perfect sensing and more about graceful degradation. The best systems are designed with explicit uncertainty handling rather than assuming clean, synchronized inputs.",
+              "What makes autonomy difficult is not just perception or planning in isolation, but the coupling between modules under real-time constraints. Decisions must be made quickly with incomplete data, while safety margins remain strict. That means architecture matters: fallback behaviors, monitoring, and runtime validation are as important as model accuracy. The field has matured from chasing benchmark wins to building end-to-end reliability, which I think is the right direction.",
+              "Over the next five years, I’m most excited about hybrid approaches that combine learned representations with classical control and verification. We’ll likely see more domain-adaptive policies, better onboard compute efficiency, and richer simulation pipelines linked to real-world telemetry. The future of robotics is not one breakthrough algorithm; it is robust integration across perception, planning, control, and operations. When that integration works, autonomy stops feeling like a demo and starts feeling like infrastructure.",
+            ],
+          },
+          {
+            id: 4,
+            title: "The science of high-pressing football",
+            date: "august 2024",
+            tags: ["football", "analysis"],
+            excerpt: "A tactical and physical breakdown of pressing systems and why they are beautiful.",
+            body: [
+              "High pressing is often described as intensity, but the real story is coordination. A successful press is a choreographed sequence of body angles, lane coverage, and trigger recognition executed at speed. One player rarely wins the ball alone; the system forces probability in your favor by compressing options and timing pressure in waves. That is why pressing is both physically demanding and cognitively demanding. It is sustained decision-making under fatigue.",
+              "Liverpool under Klopp became the modern reference point because their press was not just aggressive, it was structured. The front line shaped passing options, midfielders stepped to second balls, and the back line held compact distances to keep pressure connected. Their best pressing moments looked chaotic to opponents but were highly patterned internally. The immediate transition after regains made the model even more dangerous, turning defensive actions into attacking advantages within seconds.",
+              "Data analytics now plays a major role in designing and evaluating pressing systems. Teams model pressure events, recoveries, field tilt, and pass direction changes to identify effective triggers. You can quantify whether a press is forcing low-value outlets or merely creating empty running. Video and tracking data together help coaches refine spacing and timing, especially around weak-side rotations and delayed jumps that are hard to assess with intuition alone.",
+              "What makes high pressing beautiful is the collective precision when everything clicks. It is a tactical idea expressed through trust and timing: one player commits because others will close the next lane. Even in an era of positional play and buildup sophistication, pressing remains a powerful equalizer and a statement of identity. When done well, it feels like controlled chaos, and that tension between order and aggression is why I keep studying it.",
+            ],
+          },
+        ];
+
         const navItems = [
           { id: "about", label: "about" },
           { id: "work", label: "work" },
           { id: "blog", label: "blog" },
-          { id: "media", label: "media" },
           { id: "watchlist", label: "watchlist" },
           { id: "places", label: "places" },
           { id: "say-hi", label: "say hi" },
@@ -2072,9 +2271,34 @@
         const [isDarkMode, setIsDarkMode] = useState(true);
         const [diamondFx, setDiamondFx] = useState({ key: 0, active: false, particles: [] });
         const fxTimerRef = useRef(null);
+        const [currentPage, setCurrentPage] = useState({ type: "home" });
+        const [blogLeaving, setBlogLeaving] = useState(false);
+        const [pageLeaving, setPageLeaving] = useState(false);
+        const openBlogTimerRef = useRef(null);
+        const backTimerRef = useRef(null);
+        const blogScrollTimerRef = useRef(null);
 
         useEffect(() => {
-          const ids = ["about", "work", "blog", "media", "watchlist", "places", "say-hi"];
+          const syncFromUrl = () => {
+            const params = new URLSearchParams(window.location.search);
+            const blogIdParam = params.get("blogId");
+            const blogId = blogIdParam ? Number(blogIdParam) : NaN;
+            const match = blogPosts.find((post) => post.id === blogId);
+            if (match) {
+              setCurrentPage({ type: "blog", id: match.id });
+            } else {
+              setCurrentPage({ type: "home" });
+            }
+          };
+
+          syncFromUrl();
+          const onPopState = () => syncFromUrl();
+          window.addEventListener("popstate", onPopState);
+          return () => window.removeEventListener("popstate", onPopState);
+        }, []);
+
+        useEffect(() => {
+          const ids = ["about", "work", "blog", "watchlist", "places", "say-hi"];
           const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
 
           const onScroll = () => {
@@ -2089,13 +2313,54 @@
           onScroll();
           window.addEventListener("scroll", onScroll);
           return () => window.removeEventListener("scroll", onScroll);
-        }, []);
+        }, [currentPage]);
 
         useEffect(() => {
           return () => {
             if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current);
+            if (openBlogTimerRef.current) window.clearTimeout(openBlogTimerRef.current);
+            if (backTimerRef.current) window.clearTimeout(backTimerRef.current);
+            if (blogScrollTimerRef.current) window.clearTimeout(blogScrollTimerRef.current);
           };
         }, []);
+
+        useEffect(() => {
+          if (currentPage.type === "blog") {
+            window.scrollTo(0, 0);
+          }
+        }, [currentPage.type]);
+
+        useEffect(() => {
+          setBlogLeaving(false);
+          setPageLeaving(false);
+        }, [currentPage]);
+
+        const openBlogPost = (id) => {
+          setPageLeaving(true);
+          if (openBlogTimerRef.current) window.clearTimeout(openBlogTimerRef.current);
+          openBlogTimerRef.current = window.setTimeout(() => {
+            setCurrentPage({ type: "blog", id });
+            window.history.pushState({}, "", `?blogId=${id}`);
+            window.scrollTo({ top: 0, behavior: "instant" });
+            setPageLeaving(false);
+          }, 350);
+        };
+
+        const backToHome = () => {
+          setBlogLeaving(true);
+          if (backTimerRef.current) window.clearTimeout(backTimerRef.current);
+          if (blogScrollTimerRef.current) window.clearTimeout(blogScrollTimerRef.current);
+          backTimerRef.current = window.setTimeout(() => {
+            setCurrentPage({ type: "home" });
+            window.history.pushState({}, "", window.location.pathname);
+            blogScrollTimerRef.current = window.setTimeout(() => {
+              document.getElementById("blog")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 50);
+          }, 350);
+        };
+
+        const activePost =
+          currentPage.type === "blog" ? blogPosts.find((post) => post.id === currentPage.id) : null;
 
         return (
           <div className={`app ${isDarkMode ? "theme-dark" : "theme-light"}`}>
@@ -2161,23 +2426,28 @@
               )}
 
               <div className="layout">
-                <Sidebar
-                  items={navItems}
-                  active={active}
-                  onClick={setActive}
-                  mobileOpen={mobileOpen}
-                  setMobileOpen={setMobileOpen}
-                />
+                {currentPage.type === "home" && (
+                  <Sidebar
+                    items={navItems}
+                    active={active}
+                    onClick={setActive}
+                    mobileOpen={mobileOpen}
+                    setMobileOpen={setMobileOpen}
+                  />
+                )}
 
-                <main className="main">
-                  <AboutSection />
-                  <WorkSection />
-                  <BlogSection />
-                  <MediaSection />
-                  <WatchlistSection />
-                  <PlacesSection />
-                  <SayHiSection />
-                </main>
+                {currentPage.type === "home" ? (
+                  <main className={`main ${pageLeaving ? "page-exit" : ""}`}>
+                    <AboutSection />
+                    <WorkSection />
+                    <BlogSection blogPosts={blogPosts} onOpenBlog={openBlogPost} />
+                    <WatchlistSection />
+                    <PlacesSection />
+                    <SayHiSection />
+                  </main>
+                ) : (
+                  <BlogPostPage post={activePost} onBack={backToHome} isLeaving={blogLeaving} />
+                )}
               </div>
             </div>
           </div>
