@@ -2092,92 +2092,261 @@
 
     function ProjectCard({ project }) {
       return (
-        <article className="project-card">
-          <div className="project-preview" style={{ background: project.preview }} />
-          <div className="project-head">
-            <h3 className="project-title">{project.title}</h3>
-            <span className={`badge ${project.badgeClass}`}>{project.badge}</span>
+        <article
+          style={{
+            background: "#0d0d0d",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 0,
+            padding: "24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+          }}
+        >
+          {project.image ? (
+            <img
+              src={project.image}
+              alt={project.title}
+              style={{
+                height: "180px",
+                objectFit: "cover",
+                borderRadius: 0,
+                margin: "-24px -24px 0",
+                width: "calc(100% + 48px)",
+                display: "block",
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                height: "140px",
+                background: "rgba(255,255,255,0.03)",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                margin: "-24px -24px 12px",
+                width: "calc(100% + 48px)",
+              }}
+            />
+          )}
+          <h3
+            style={{
+              fontSize: "15px",
+              fontWeight: 500,
+              color: "rgba(255,255,255,0.88)",
+              fontFamily: "var(--font-sans)",
+              margin: 0,
+            }}
+          >
+            {project.title}
+          </h3>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  fontSize: "10px",
+                  color: "rgba(255,255,255,0.3)",
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {tag}
+              </span>
+            ))}
           </div>
-          <p className="project-desc">{project.description}</p>
-          <div className="card-links">
-            <a className="card-link" href="#">⧉ Source</a>
-            <a className="card-link" href="#">➜ Devpost</a>
-          </div>
+          <p
+            style={{
+              fontSize: "13px",
+              color: "rgba(255,255,255,0.45)",
+              lineHeight: 1.65,
+              margin: 0,
+            }}
+          >
+            {project.description}
+          </p>
+          {(project.link || project.source) && (
+            <div style={{ display: "flex", gap: "16px", marginTop: "2px" }}>
+              {project.link && (
+                <a
+                  href={project.link}
+                  style={{
+                    fontSize: "12px",
+                    color: "rgba(255,255,255,0.4)",
+                    textDecoration: "none",
+                    letterSpacing: "0.04em",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "white")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
+                >
+                  live ↗
+                </a>
+              )}
+              {project.source && (
+                <a
+                  href={project.source}
+                  style={{
+                    fontSize: "12px",
+                    color: "rgba(255,255,255,0.4)",
+                    textDecoration: "none",
+                    letterSpacing: "0.04em",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "white")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
+                >
+                  source ↗
+                </a>
+              )}
+            </div>
+          )}
         </article>
       );
     }
 
     function WorkSection() {
-      const [tab, setTab] = useState("featured");
-      const tabs = ["featured", "all", "projects", "slidedecks"];
+      const [activeTab, setActiveTab] = useState("featured");
+      const [columns, setColumns] = useState(() => {
+        if (typeof window === "undefined") return 3;
+        if (window.innerWidth >= 900) return 3;
+        if (window.innerWidth >= 600) return 2;
+        return 1;
+      });
+      const tabs = [
+        { id: "featured", label: "featured" },
+        { id: "all", label: "all" },
+        { id: "project", label: "projects" },
+        { id: "case-study", label: "case studies" },
+        { id: "misc", label: "misc" },
+      ];
 
-      const projects = useMemo(
-        () => [
-          {
-            title: "Pulseboard",
-            badge: "hackathon winner",
-            badgeClass: "badge-orange",
-            description: "Team planning + AI sprint assistant that maps tasks to outcomes in real time.",
-            preview: "linear-gradient(120deg,#0f172a,#155e75)",
-          },
-          {
-            title: "CampusCart",
-            badge: "project",
-            badgeClass: "badge-gray",
-            description: "Peer delivery marketplace for dorm essentials with trust scoring and route batching.",
-            preview: "linear-gradient(120deg,#3f1d2e,#9a3412)",
-          },
-          {
-            title: "Storyline",
-            badge: "project",
-            badgeClass: "badge-gray",
-            description: "Creator analytics dashboard that merges short-form video trends across platforms.",
-            preview: "linear-gradient(120deg,#082f49,#0369a1)",
-          },
-          {
-            title: "ShipNight",
-            badge: "hackathon winner",
-            badgeClass: "badge-orange",
-            description: "A one-night builder challenge with auto-generated judging rubrics and replay clips.",
-            preview: "linear-gradient(120deg,#14532d,#166534)",
-          },
-          {
-            title: "Nook",
-            badge: "project",
-            badgeClass: "badge-gray",
-            description: "Reading tracker with lightweight social circles and weekly recommendation digests.",
-            preview: "linear-gradient(120deg,#312e81,#4f46e5)",
-          },
-          {
-            title: "RoomTone",
-            badge: "project",
-            badgeClass: "badge-gray",
-            description: "Ambient audio mixer for focused study sessions, tuned to room noise profiles.",
-            preview: "linear-gradient(120deg,#3f3f46,#52525b)",
-          },
-        ],
-        []
-      );
+      // ADD YOUR PROJECTS HERE — duplicate an object below and fill in your details
+      const projects = [
+        {
+          id: 1,
+          title: "Your Project Title",
+          description:
+            "A short description of what this project does and why it matters. Keep it to 2–3 sentences.",
+          tags: ["react", "ai", "typescript"],
+          type: "project",
+          image: null,
+          link: null,
+          source: null,
+        },
+        // --- CASE STUDY TEMPLATE ---
+        // Duplicate this object for each case study you want to add
+        {
+          id: 2,
+          title: "Your Case Study Title",
+          description:
+            "Describe the problem, your process, and the outcome. Case studies go deeper than projects — what did you learn, what decisions did you make, what would you do differently.",
+          tags: ["research", "design", "process"],
+          type: "case-study",
+          image: null,
+          link: null,
+          source: null,
+        },
+        // --- MISC TEMPLATE ---
+        // Duplicate this object for experiments, writing, side projects, random things
+        {
+          id: 3,
+          title: "Your Misc Entry Title",
+          description:
+            "Anything that does not fit neatly elsewhere — experiments, explorations, tools you built for yourself, things you made just to see if you could.",
+          tags: ["experiment", "misc"],
+          type: "misc",
+          image: null,
+          link: null,
+          source: null,
+        },
+      ];
+
+      useEffect(() => {
+        const onResize = () => {
+          if (window.innerWidth >= 900) setColumns(3);
+          else if (window.innerWidth >= 600) setColumns(2);
+          else setColumns(1);
+        };
+        onResize();
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+      }, []);
+
+      const filteredProjects = useMemo(() => {
+        if (activeTab === "all") return projects;
+        if (activeTab === "featured") return projects.filter((p) => p.type === "featured");
+        if (activeTab === "project") return projects.filter((p) => p.type === "project");
+        if (activeTab === "case-study") return projects.filter((p) => p.type === "case-study");
+        if (activeTab === "misc") return projects.filter((p) => p.type === "misc");
+        return projects;
+      }, [activeTab, projects]);
 
       return (
         <section id="work" className="section">
           <div className="section-title fade-slide fade-700 delay-700">work</div>
-          <div className="work-tabs">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "32px",
+              borderBottom: "1px solid rgba(255,255,255,0.07)",
+              paddingBottom: 0,
+            }}
+          >
             {tabs.map((item) => (
               <button
-                key={item}
-                className={`tab ${item === tab ? "active" : ""}`}
-                onClick={() => setTab(item)}
+                type="button"
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: item.id === activeTab ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.35)",
+                  fontSize: "13px",
+                  fontFamily: "var(--font-sans)",
+                  cursor: "pointer",
+                  padding: item.id === activeTab ? "4px 0 3px" : "4px 0",
+                  marginRight: "28px",
+                  letterSpacing: "0.03em",
+                  borderBottom:
+                    item.id === activeTab
+                      ? "1px solid rgba(255,255,255,0.6)"
+                      : "1px solid transparent",
+                }}
+                onMouseEnter={(e) => {
+                  if (item.id !== activeTab) e.currentTarget.style.color = "rgba(255,255,255,0.6)";
+                }}
+                onMouseLeave={(e) => {
+                  if (item.id !== activeTab) e.currentTarget.style.color = "rgba(255,255,255,0.35)";
+                }}
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </div>
-          <div className="work-grid fade-slide fade-700 delay-700">
-            {projects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
+          {filteredProjects.length === 0 ? (
+            <div
+              style={{
+                padding: "48px 0",
+                color: "rgba(255,255,255,0.2)",
+                fontSize: "13px",
+                fontFamily: "var(--font-sans)",
+                letterSpacing: "0.04em",
+              }}
+            >
+              nothing here yet.
+            </div>
+          ) : (
+            <div
+              className="fade-slide fade-700 delay-700"
+              style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+                gap: "18px",
+              }}
+            >
+              {filteredProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          )}
         </section>
       );
     }
@@ -2343,7 +2512,7 @@
         {
           title: "The Hitchhiker's Guide to the Galaxy",
           isbn: "9780345391803",
-          review: '"rick and morty for kids."',
+          review: '"rick and morty kid version."',
         },
         {
           title: "One Flew Over the Cuckoo's Nest",
@@ -2775,7 +2944,7 @@
             "Over the next five years, I’m most excited about hybrid approaches that combine learned representations with classical control and verification. We’ll likely see more domain-adaptive policies, better onboard compute efficiency, and richer simulation pipelines linked to real-world telemetry. The future of robotics is not one breakthrough algorithm; it is robust integration across perception, planning, control, and operations. When that integration works, autonomy stops feeling like a demo and starts feeling like infrastructure.",
           ],
         },
-        
+
       ];
 
       const navItems = [
