@@ -28,13 +28,13 @@
       --icon-bg: rgba(255, 255, 255, 0.06);
       --toggle-border: rgba(255, 255, 255, 0.15);
       --toggle-hover-bg: rgba(255, 255, 255, 0.12);
-        --soft-border: rgba(255, 255, 255, 0.08);
-        --hover-border: #3a3a3a;
-        --overlay-bg: rgba(0, 0, 0, 0.9);
-        --fx-core: rgba(255, 255, 255, 0.95);
-        --fx-soft: rgba(255, 255, 255, 0.8);
-        --fx-ring: rgba(255, 255, 255, 0.6);
-      }
+      --soft-border: rgba(255, 255, 255, 0.08);
+      --hover-border: #3a3a3a;
+      --overlay-bg: rgba(0, 0, 0, 0.9);
+      --fx-core: rgba(255, 255, 255, 0.95);
+      --fx-soft: rgba(255, 255, 255, 0.8);
+      --fx-ring: rgba(255, 255, 255, 0.6);
+    }
 
     *,
     *::before,
@@ -86,13 +86,13 @@
       --icon-bg: rgba(255, 255, 255, 0.05);
       --toggle-border: rgba(255, 255, 255, 0.15);
       --toggle-hover-bg: rgba(255, 255, 255, 0.12);
-        --soft-border: rgba(255, 255, 255, 0.08);
-        --hover-border: #3a3a3a;
-        --overlay-bg: rgba(0, 0, 0, 0.9);
-        --fx-core: rgba(255, 255, 255, 0.95);
-        --fx-soft: rgba(255, 255, 255, 0.8);
-        --fx-ring: rgba(255, 255, 255, 0.6);
-      }
+      --soft-border: rgba(255, 255, 255, 0.08);
+      --hover-border: #3a3a3a;
+      --overlay-bg: rgba(0, 0, 0, 0.9);
+      --fx-core: rgba(255, 255, 255, 0.95);
+      --fx-soft: rgba(255, 255, 255, 0.8);
+      --fx-ring: rgba(255, 255, 255, 0.6);
+    }
 
     .app.theme-light {
       --bg: #f5f5f0;
@@ -107,13 +107,13 @@
       --icon-bg: rgba(0, 0, 0, 0.04);
       --toggle-border: rgba(0, 0, 0, 0.22);
       --toggle-hover-bg: rgba(0, 0, 0, 0.08);
-        --soft-border: rgba(0, 0, 0, 0.12);
-        --hover-border: #bababa;
-        --overlay-bg: rgba(245, 245, 240, 0.9);
-        --fx-core: rgba(0, 0, 0, 0.92);
-        --fx-soft: rgba(0, 0, 0, 0.75);
-        --fx-ring: rgba(0, 0, 0, 0.55);
-      }
+      --soft-border: rgba(0, 0, 0, 0.12);
+      --hover-border: #bababa;
+      --overlay-bg: rgba(245, 245, 240, 0.9);
+      --fx-core: rgba(0, 0, 0, 0.92);
+      --fx-soft: rgba(0, 0, 0, 0.75);
+      --fx-ring: rgba(0, 0, 0, 0.55);
+    }
 
     .canvas-bg {
       position: fixed;
@@ -331,14 +331,14 @@
       font-size: 12px;
     }
 
-      .portrait {
-        width: 100%;
-        height: 430px;
-        border-radius: 14px;
-        border: 1px solid var(--card-border);
-        background: linear-gradient(145deg, #1b1b1b, #232323 40%, #343434);
-        overflow: hidden;
-      }
+    .portrait {
+      width: 100%;
+      height: 430px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      background: linear-gradient(145deg, #1b1b1b, #232323 40%, #343434);
+      overflow: hidden;
+    }
 
     .life-strip {
       margin-top: 24px;
@@ -358,11 +358,11 @@
       overflow: hidden;
     }
 
-      .life-arrow {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+    .life-arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(255, 255, 255, 0.08);
       color: white;
       cursor: pointer;
@@ -370,14 +370,14 @@
       line-height: 1;
       display: flex;
       align-items: center;
-        justify-content: center;
-      }
+      justify-content: center;
+    }
 
-      .theme-light .life-arrow {
-        color: #111;
-        border: 1px solid rgba(0, 0, 0, 0.25);
-        background: rgba(0, 0, 0, 0.08);
-      }
+    .theme-light .life-arrow {
+      color: #111;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.08);
+    }
 
     .life-arrow-row {
       display: flex;
@@ -987,17 +987,17 @@
       animation: diamond-overlay-fade 1100ms linear forwards;
     }
 
-      .shockwave-ring {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        border: 3px solid var(--fx-ring);
-        transform: translate(-50%, -50%);
-        animation: shockwave-expand 400ms ease-out forwards;
-      }
+    .shockwave-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      border: 3px solid var(--fx-ring);
+      transform: translate(-50%, -50%);
+      animation: shockwave-expand 400ms ease-out forwards;
+    }
 
     .shockwave-ring.ring-2 {
       animation-delay: 60ms;
@@ -1016,72 +1016,72 @@
       transform: translate(-50%, -50%);
     }
 
-      .diamond-core {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 112px;
-        height: 112px;
-        border: 2.5px solid var(--fx-core);
-        transform: translate(-50%, -50%) rotate(45deg) scale(0);
-        filter: drop-shadow(0 0 26px var(--fx-core));
-        animation: diamond-core-burst 450ms forwards;
-        animation-delay: 150ms;
-      }
-
-      .diamond-core::after {
-        content: "";
-        position: absolute;
-        inset: 22px;
-        border: 1.5px solid var(--fx-soft);
-      }
-
-      .diamond-shard {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 48px;
-        height: 48px;
-        background: var(--fx-core);
-        clip-path: polygon(50% 0%, 100% 50%, 50% 100%);
-        transform: translate(-50%, -50%) rotate(45deg);
-        opacity: 0;
-        animation: shard-fly 350ms ease-in forwards;
-        animation-delay: 350ms;
+    .diamond-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 112px;
+      height: 112px;
+      border: 2.5px solid var(--fx-core);
+      transform: translate(-50%, -50%) rotate(45deg) scale(0);
+      filter: drop-shadow(0 0 26px var(--fx-core));
+      animation: diamond-core-burst 450ms forwards;
+      animation-delay: 150ms;
     }
 
-      .diamond-shard.shard-tl {
-        --dx: -280px;
-        --dy: -280px;
-      }
+    .diamond-core::after {
+      content: "";
+      position: absolute;
+      inset: 22px;
+      border: 1.5px solid var(--fx-soft);
+    }
 
-      .diamond-shard.shard-tr {
-        --dx: 280px;
-        --dy: -280px;
-      }
+    .diamond-shard {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 48px;
+      height: 48px;
+      background: var(--fx-core);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%);
+      transform: translate(-50%, -50%) rotate(45deg);
+      opacity: 0;
+      animation: shard-fly 350ms ease-in forwards;
+      animation-delay: 350ms;
+    }
 
-      .diamond-shard.shard-bl {
-        --dx: -280px;
-        --dy: 280px;
-      }
+    .diamond-shard.shard-tl {
+      --dx: -280px;
+      --dy: -280px;
+    }
 
-      .diamond-shard.shard-br {
-        --dx: 280px;
-        --dy: 280px;
-      }
+    .diamond-shard.shard-tr {
+      --dx: 280px;
+      --dy: -280px;
+    }
 
-      .diamond-particle {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 4px;
-        height: 4px;
-        background: var(--fx-core);
-        transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) rotate(0deg);
-        opacity: 0;
-        animation: particle-fly var(--duration) ease-out forwards;
-        animation-delay: calc(300ms + var(--delay));
-      }
+    .diamond-shard.shard-bl {
+      --dx: -280px;
+      --dy: 280px;
+    }
+
+    .diamond-shard.shard-br {
+      --dx: 280px;
+      --dy: 280px;
+    }
+
+    .diamond-particle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4px;
+      height: 4px;
+      background: var(--fx-core);
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) rotate(0deg);
+      opacity: 0;
+      animation: particle-fly var(--duration) ease-out forwards;
+      animation-delay: calc(300ms + var(--delay));
+    }
 
     @keyframes shockwave-expand {
       from {
@@ -1309,9 +1309,9 @@
         grid-template-columns: 1fr;
       }
 
-        .portrait {
-          height: 360px;
-        }
+      .portrait {
+        height: 360px;
+      }
 
       .work-grid,
       .watch-grid,
@@ -1373,7 +1373,7 @@
           y,
           vx: rand(-0.18, 0.18),
           vy: rand(-0.18, 0.18),
-          radius: rand(1.5, 3.5),
+          radius: rand(0.8, 1.5),
           parentId,
           seedId,
         });
@@ -1447,7 +1447,7 @@
           ctx.clearRect(0, 0, width, height);
           const dark = isDarkModeRef.current;
           const lineRgb = dark ? "255,255,255" : "0,0,0";
-          const maxOpacity = dark ? 0.35 : 0.15;
+          const maxOpacity = 0.08;
 
           for (let i = 0; i < nodes.length; i += 1) {
             const node = nodes[i];
@@ -1488,9 +1488,8 @@
             ctx.fill();
           }
 
-          ctx.shadowBlur = 6;
-          ctx.shadowColor = dark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.25)";
-          ctx.fillStyle = dark ? "rgba(255,255,255,0.88)" : "rgba(20,20,20,0.8)";
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = dark ? "rgba(255,255,255,0.35)" : "rgba(20,20,20,0.35)";
           for (const node of nodes) {
             ctx.beginPath();
             ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
@@ -1596,35 +1595,35 @@
           src: "assets/friends.jpg",
           caption: "friends",
           detail:
-            "Hanging out with the crew in Daejeon — the people who make KAIST feel like home. Winter 2024.",
+            "hanging out with friends in Daejeon. january 2026.",
         },
         {
           src: "assets/rocket%20club.jpeg",
           caption: "rocket club",
           detail:
-            "Building and launching model rockets with the aerospace club at KAIST. One of the best decisions I've made here. Fall 2024.",
-        },
-        {
-          src: "assets/snow.jpg",
-          caption: "snow day",
-          detail:
-            "First proper snowfall of the season. Everything went quiet and the campus looked unreal. December 2024.",
+            "hard at work on RCS project. learning from avionics team seniors on making PCB boards and circuitry. february 2026.",
         },
         {
           src: "assets/friends%20skating.jpg",
           caption: "skating",
           detail:
-            "Ice skating in the city with friends — nobody could actually skate but that was half the fun. January 2025.",
+            "ice skating for the first time in years near campus with friends. february 2026.",
         },
         {
           src: "assets/karaoke.jpg",
           caption: "karaoke",
           detail:
-            "Late night karaoke session that went way too long. Zero regrets. February 2025.",
+            "went to karaoke with new uni friends. sang some songs my dad likes that i now like. december 2025.",
         },
+        {
+          src: "assets/snow.jpg",
+          caption: "snow day",
+          detail:
+            "first proper snow of the season. Built a snowman and explored a small mountain inside campus. march 2026 ",
+        }
       ];
       const [currentIndex, setCurrentIndex] = useState(0);
-      const [lightboxPhoto, setLightboxPhoto] = useState(null);
+      const [lightboxIndex, setLightboxIndex] = useState(null);
       const [visibleCount, setVisibleCount] = useState(() => {
         if (typeof window === "undefined") return 3;
         if (window.innerWidth >= 900) return 3;
@@ -1652,12 +1651,18 @@
       }, [visibleCount, photos.length]);
 
       useEffect(() => {
-        if (!lightboxPhoto) return;
+        if (lightboxIndex === null) return;
 
         const previousOverflow = document.body.style.overflow;
         document.body.style.overflow = "hidden";
         const onKeyDown = (event) => {
-          if (event.key === "Escape") setLightboxPhoto(null);
+          if (event.key === "Escape") {
+            setLightboxIndex(null);
+          } else if (event.key === "ArrowLeft") {
+            setLightboxIndex((i) => (i === null ? i : Math.max(0, i - 1)));
+          } else if (event.key === "ArrowRight") {
+            setLightboxIndex((i) => (i === null ? i : Math.min(photos.length - 1, i + 1)));
+          }
         };
 
         window.addEventListener("keydown", onKeyDown);
@@ -1665,41 +1670,64 @@
           window.removeEventListener("keydown", onKeyDown);
           document.body.style.overflow = previousOverflow;
         };
-      }, [lightboxPhoto]);
+      }, [lightboxIndex, photos.length]);
 
       return (
         <section id="about" className="section section-about">
           <div className="section-title">about</div>
+
           <div className="about-wrap">
             <div>
               <h1 className="name fade-slide fade-700 delay-150">Changwook Lee</h1>
+
               <div className="fade-slide fade-700 delay-300">
                 <div className="subtitle">
-                  electrical engineering with a big interest in computer science and robotics 
+                  electrical engineering + cs{" "}
                   <a
                     href="https://www.kaist.ac.kr/en/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: "none" }}
                   >
                     <span className="inline-accent"> @kaist</span>
                   </a>
                 </div>
+
                 <ul className="bio-list">
                   <li>
-                    i ship side quests with <TagPill className="tag-green">@hackclub</TagPill> and care a lot
-                    about <TagPill className="tag-indigo">human-centered tooling</TagPill>.
+                    <span className="bullet-label">currently →</span> learning{" "}
+                    <TagPill className="tag-teal">electrical engineering</TagPill> and{" "}
+                    <TagPill className="tag-green">cs</TagPill>.
                   </li>
+
                   <li>
-                    recently obsessed with <TagPill className="tag-teal">ai product loops</TagPill>,
-                    <TagPill className="tag-red">realtime systems</TagPill>, and quick prototypes.
+                    <span className="bullet-label"></span> member of the{" "}
+                    <TagPill className="tag-purple">avionics</TagPill> team in the KAIST
+                    rocketry club{" "}
+                    <a
+                      href="https://www.instagram.com/kaist_thrust"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <TagPill className="tag-yellow">@THRUST</TagPill>
+                    </a>
+                    .
                   </li>
+
                   <li>
-                    probably in a cafe writing,
-                    <TagPill className="tag-yellow">pitching</TagPill>, or editing another launch video.
+                    <span className="bullet-label">future goals →</span> want to be a{" "}
+                    <TagPill className="tag-red">founder</TagPill>.
+                  </li>
+
+                  <li>
+                    <span className="bullet-label">for fun →</span>{" "}
+                    <TagPill className="tag-green">swimming</TagPill> and{" "}
+                    <TagPill className="tag-indigo">podcasts</TagPill>.
                   </li>
                 </ul>
               </div>
+
               <div className="socials fade-slide fade-600 delay-450">
                 <a
                   className="social-link"
@@ -1743,7 +1771,7 @@
                         transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
                       }}
                     >
-                      {photos.map((photo) => (
+                      {photos.map((photo, photoIndex) => (
                         <div
                           key={photo.src}
                           style={{
@@ -1763,7 +1791,7 @@
                               display: "block",
                               cursor: "pointer",
                             }}
-                            onClick={() => setLightboxPhoto(photo)}
+                            onClick={() => setLightboxIndex(photoIndex)}
                           />
                           <p
                             style={{
@@ -1787,64 +1815,64 @@
                       marginTop: "16px",
                     }}
                   >
-                      <button
-                        type="button"
-                        onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
-                        disabled={currentIndex === 0}
-                        style={{
-                          opacity: currentIndex === 0 ? 0.25 : 1,
-                          pointerEvents: currentIndex === 0 ? "none" : "auto",
-                        }}
-                        className="life-arrow"
-                      >
-                        ←
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setCurrentIndex((i) => Math.min(i + 1, photos.length - visibleCount))}
-                        disabled={currentIndex >= photos.length - visibleCount}
-                        style={{
-                          opacity: currentIndex >= photos.length - visibleCount ? 0.25 : 1,
-                          pointerEvents: currentIndex >= photos.length - visibleCount ? "none" : "auto",
-                        }}
-                        className="life-arrow"
-                      >
-                        →
-                      </button>
+                    <button
+                      type="button"
+                      onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
+                      disabled={currentIndex === 0}
+                      style={{
+                        opacity: currentIndex === 0 ? 0.25 : 1,
+                        pointerEvents: currentIndex === 0 ? "none" : "auto",
+                      }}
+                      className="life-arrow"
+                    >
+                      ←
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCurrentIndex((i) => Math.min(i + 1, photos.length - visibleCount))}
+                      disabled={currentIndex >= photos.length - visibleCount}
+                      style={{
+                        opacity: currentIndex >= photos.length - visibleCount ? 0.25 : 1,
+                        pointerEvents: currentIndex >= photos.length - visibleCount ? "none" : "auto",
+                      }}
+                      className="life-arrow"
+                    >
+                      →
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
-              <div>
-                <div className="portrait fade-slide fade-800 delay-200" aria-label="Portrait placeholder">
-                  <img
-                    src="assets/mountain%20with%20dad.jpg"
-                    alt="mountain with dad"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center",
-                      display: "block",
-                    }}
-                  />
-                </div>
-                <div
+            <div>
+              <div className="portrait fade-slide fade-800 delay-200" aria-label="Portrait placeholder">
+                <img
+                  src="assets/mountain%20with%20dad.jpg"
+                  alt="mountain with dad"
                   style={{
-                    marginTop: "8px",
-                    fontSize: "12px",
-                    color: "rgba(255,255,255,0.45)",
-                    textAlign: "center",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    display: "block",
                   }}
-                >
-                  Bukhansan Mountain with Dad, 2025 Fall
-                </div>
+                />
+              </div>
+              <div
+                style={{
+                  marginTop: "8px",
+                  fontSize: "12px",
+                  color: "rgba(255,255,255,0.45)",
+                  textAlign: "center",
+                }}
+              >
+                Bukhansan Mountain with Dad, 2025 Fall
               </div>
             </div>
-          {lightboxPhoto && (
+          </div>
+          {lightboxIndex !== null && (
             <div
-              onClick={() => setLightboxPhoto(null)}
+              onClick={() => setLightboxIndex(null)}
               style={{
                 position: "fixed",
                 inset: 0,
@@ -1858,7 +1886,7 @@
             >
               <button
                 type="button"
-                onClick={() => setLightboxPhoto(null)}
+                onClick={() => setLightboxIndex(null)}
                 style={{
                   position: "absolute",
                   top: "20px",
@@ -1872,18 +1900,96 @@
               >
                 ✕
               </button>
-              <div onClick={(event) => event.stopPropagation()}>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setLightboxIndex((i) => (i === null ? i : Math.max(0, i - 1)));
+                }}
+                disabled={lightboxIndex === 0}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "20px",
+                  transform: "translateY(-50%)",
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  color: "white",
+                  fontSize: "28px",
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: 0,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "background 200ms ease",
+                  opacity: lightboxIndex === 0 ? 0.2 : 1,
+                  pointerEvents: lightboxIndex === 0 ? "none" : "auto",
+                }}
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setLightboxIndex((i) => (i === null ? i : Math.min(photos.length - 1, i + 1)));
+                }}
+                disabled={lightboxIndex === photos.length - 1}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  right: "20px",
+                  transform: "translateY(-50%)",
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  color: "white",
+                  fontSize: "28px",
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: 0,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "background 200ms ease",
+                  opacity: lightboxIndex === photos.length - 1 ? 0.2 : 1,
+                  pointerEvents: lightboxIndex === photos.length - 1 ? "none" : "auto",
+                }}
+              >
+                ›
+              </button>
+              <div
+                onClick={(event) => event.stopPropagation()}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "100%",
+                  maxWidth: "600px",
+                  margin: "0 auto",
+                }}
+              >
                 <img
-                  src={lightboxPhoto.src}
-                  alt={lightboxPhoto.caption}
+                  src={photos[lightboxIndex].src}
+                  alt={photos[lightboxIndex].caption}
                   style={{
                     maxHeight: "70vh",
                     maxWidth: "85vw",
                     objectFit: "contain",
                   }}
                 />
-                <div style={{ color: "white", fontSize: "16px", marginTop: "16px", textAlign: "center" }}>
-                  {lightboxPhoto.caption}
+                <div
+                  style={{
+                    color: "white",
+                    fontSize: "16px",
+                    textAlign: "center",
+                    width: "100%",
+                    marginTop: "16px",
+                  }}
+                >
+                  {photos[lightboxIndex].caption}
                 </div>
                 <div
                   style={{
@@ -1891,10 +1997,11 @@
                     color: "rgba(255,255,255,0.5)",
                     maxWidth: "480px",
                     textAlign: "center",
-                    marginTop: "8px",
+                    width: "100%",
+                    margin: "8px auto 0",
                   }}
                 >
-                  {lightboxPhoto.detail}
+                  {photos[lightboxIndex].detail}
                 </div>
               </div>
             </div>
@@ -2076,182 +2183,236 @@
     }
 
     function BlogSection({ blogPosts, onOpenBlog }) {
+      const [hoveredId, setHoveredId] = useState(null);
       return (
         <section id="blog" className="section">
           <div className="section-title">blog</div>
-          <div className="list-cards">
-            {blogPosts.map((blog) => (
-              <article key={blog.id} className="list-card">
-                <div className="list-card-left">
-                  <button
-                    type="button"
-                    className="list-title"
-                    onClick={() => onOpenBlog(blog.id)}
+          <div>
+            {blogPosts.map((blog, index) => (
+              <div
+                key={blog.id}
+                onClick={() => onOpenBlog(blog.id)}
+                onMouseEnter={() => setHoveredId(blog.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                style={{
+                  borderBottom: "1px solid rgba(255,255,255,0.07)",
+                  borderTop: index === 0 ? "1px solid rgba(255,255,255,0.07)" : "none",
+                  padding: "28px 0",
+                  transition: "background 200ms ease",
+                  background: hoveredId === blog.id ? "rgba(255,255,255,0.02)" : "transparent",
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "0",
+                  cursor: "pointer",
+                }}
+              >
+                <div
+                  style={{
+                    width: "160px",
+                    fontSize: "12px",
+                    color: "rgba(255,255,255,0.28)",
+                    fontFamily: "var(--font-sans)",
+                    textTransform: "lowercase",
+                    flexShrink: 0,
+                    paddingTop: "2px",
+                  }}
+                >
+                  {blog.date}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: 400,
+                      fontFamily: "var(--font-serif)",
+                      color: hoveredId === blog.id ? "white" : "rgba(255,255,255,0.88)",
+                      lineHeight: 1.3,
+                    }}
                   >
                     {blog.title}
-                  </button>
-                  <span className="mini-pill">{blog.tags[0]}</span>
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "12px",
+                      color: "rgba(255,255,255,0.28)",
+                      marginTop: "6px",
+                      letterSpacing: "0.03em",
+                      fontFamily: "var(--font-sans)",
+                    }}
+                  >
+                    {blog.tags.join(" • ")}
+                  </div>
                 </div>
-                <div className="list-date">{blog.date}</div>
-              </article>
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    color: hoveredId === blog.id ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.2)",
+                    fontSize: "14px",
+                    lineHeight: 1,
+                    paddingTop: "4px",
+                  }}
+                >
+                  →
+                </div>
+              </div>
             ))}
           </div>
         </section>
       );
     }
 
-      function WatchlistSection() {
-        const movies = [
-          {
-            title: "Tenet",
-            poster: "https://image.tmdb.org/t/p/original/oRkLA2EkXaRLmK63BkvK74G8tC4.jpg",
-            review: '"i will finally understand it next watch, i mean understood"',
-          },
-          {
-            title: "About Time",
-            poster: "https://image.tmdb.org/t/p/original/ls6zswrOZVhCXQBh96DlbnLBajM.jpg",
-            review: '"truly beautiful. made me call my dad."',
-          },
-          {
-            title: "Uncut Gems",
-            poster: "https://image.tmdb.org/t/p/original/6XN1vxHc7kUSqNWtaQKN45J5x2v.jpg",
-            review: '"most stressful film ever made. the ending was such a surprise"',
-          },
-          {
-            title: "The Aviator",
-            poster: "https://image.tmdb.org/t/p/original/lx4kWcZc3o9PaNxlQpEJZM17XUI.jpg",
-            review: '"leonardo dicaprio is so good it\'s scary"',
-          },
-          {
-            title: "Goodfellas",
-            poster: "https://image.tmdb.org/t/p/w300/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg",
-            review: '"the quintissential scorsese film. everything is perfect."',
-          },
-          {
-            title: "Pulp Fiction",
-            poster: "https://image.tmdb.org/t/p/w300/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
-            review: '"dialogue is music. Uma Thurman is iconic. timeless."',
-          },
-          {
-            title: "Reservoir Dogs",
-            poster: "https://image.tmdb.org/t/p/original/xi8Iu6qyTfyZVDVy60raIOYJJmk.jpg",
-            review: '"just talking guys with guns"',
-          },
-          {
-            title: "Parasite",
-            poster: "https://image.tmdb.org/t/p/w300/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
-            review: '"perfect film"',
-          },
-          {
-            title: "Oppenheimer",
-            poster: "https://image.tmdb.org/t/p/original/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
-            review: '"the bomb"',
-          },
-        ];
-        const books = [
-          {
-            title: "1984",
-            isbn: "9780451524935",
-            review: '"felt more like a metaphor for the current world than a dystopia"',
-          },
-          {
-            title: "Brief Answers to the Big Questions",
-            isbn: "9781984819192",
-            review: '"my dad\'s gift to me."',
-          },
-          {
-            title: "American Psycho",
-            isbn: "9780679735779",
-            review: '"cocaine in words. truly disturbing."',
-          },
-          {
-            title: "Brave New World",
-            isbn: "9780060850524",
-            review: '"kind of lost me in this one."',
-          },
-          {
-            title: "The Plague",
-            isbn: "9780679720218",
-            review: '"covid-19 prediction book."',
-          },
-          {
-            title: "Life 3.0",
-            isbn: "9781101946596",
-            review: `"pretty spot-on ai predictions. wondering if the other predictions will come true too."`,
-          },
-          {
-            title: "The Hitchhiker's Guide to the Galaxy",
-            isbn: "9780345391803",
-            review: '"rick and morty for kids."',
-          },
-          {
-            title: "One Flew Over the Cuckoo's Nest",
-            isbn: "9780143129516",
-            review: '"mcmurphy is needed in today\'s world more than ever."',
-          },
-          {
-            title: "Hamlet",
-            isbn: "9780140707342",
-            review: '"a thought-provoking look at humanity"',
-          }
-        ];
-        const [movieIndex, setMovieIndex] = useState(0);
-        const [bookIndex, setBookIndex] = useState(0);
-        const [hoveredCard, setHoveredCard] = useState(null);
-        const [visibleCount, setVisibleCount] = useState(() => {
-          if (typeof window === "undefined") return 8;
-          if (window.innerWidth >= 900) return 8;
-          if (window.innerWidth >= 600) return 6;
-          return 3;
-        });
-        const gap = 16;
-        const cardWidth = `calc(${100 / visibleCount}% - ${(gap * (visibleCount - 1)) / visibleCount}px)`;
+    function WatchlistSection() {
+      const movies = [
+        {
+          title: "Tenet",
+          poster: "https://image.tmdb.org/t/p/original/oRkLA2EkXaRLmK63BkvK74G8tC4.jpg",
+          review: '"i will finally understand it next watch, i mean understood"',
+        },
+        {
+          title: "About Time",
+          poster: "https://image.tmdb.org/t/p/original/ls6zswrOZVhCXQBh96DlbnLBajM.jpg",
+          review: '"truly beautiful. made me call my dad."',
+        },
+        {
+          title: "Uncut Gems",
+          poster: "https://image.tmdb.org/t/p/original/6XN1vxHc7kUSqNWtaQKN45J5x2v.jpg",
+          review: '"most stressful film ever made. the ending was such a surprise"',
+        },
+        {
+          title: "The Aviator",
+          poster: "https://image.tmdb.org/t/p/original/lx4kWcZc3o9PaNxlQpEJZM17XUI.jpg",
+          review: '"leonardo dicaprio is so good it\'s scary"',
+        },
+        {
+          title: "Goodfellas",
+          poster: "https://image.tmdb.org/t/p/w300/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg",
+          review: '"the quintissential scorsese film. everything is perfect."',
+        },
+        {
+          title: "Pulp Fiction",
+          poster: "https://image.tmdb.org/t/p/w300/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+          review: '"dialogue is music. Uma Thurman is iconic. timeless."',
+        },
+        {
+          title: "Reservoir Dogs",
+          poster: "https://image.tmdb.org/t/p/original/xi8Iu6qyTfyZVDVy60raIOYJJmk.jpg",
+          review: '"just talking guys with guns"',
+        },
+        {
+          title: "Parasite",
+          poster: "https://image.tmdb.org/t/p/w300/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+          review: '"perfect film"',
+        },
+        {
+          title: "Oppenheimer",
+          poster: "https://image.tmdb.org/t/p/original/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+          review: '"the bomb"',
+        },
+      ];
+      const books = [
+        {
+          title: "1984",
+          isbn: "9780451524935",
+          review: '"felt more like a metaphor for the current world than a dystopia"',
+        },
+        {
+          title: "Brief Answers to the Big Questions",
+          isbn: "9781984819192",
+          review: '"my dad\'s gift to me."',
+        },
+        {
+          title: "American Psycho",
+          isbn: "9780679735779",
+          review: '"cocaine in words. truly disturbing."',
+        },
+        {
+          title: "Brave New World",
+          isbn: "9780060850524",
+          review: '"kind of lost me in this one."',
+        },
+        {
+          title: "The Plague",
+          isbn: "9780679720218",
+          review: '"covid-19 prediction book."',
+        },
+        {
+          title: "Life 3.0",
+          isbn: "9781101946596",
+          review: `"pretty spot-on ai predictions. wondering if the other predictions will come true too."`,
+        },
+        {
+          title: "The Hitchhiker's Guide to the Galaxy",
+          isbn: "9780345391803",
+          review: '"rick and morty for kids."',
+        },
+        {
+          title: "One Flew Over the Cuckoo's Nest",
+          isbn: "9780143129516",
+          review: '"mcmurphy is needed in today\'s world more than ever."',
+        },
+        {
+          title: "Hamlet",
+          isbn: "9780140707342",
+          review: '"a thought-provoking look at humanity"',
+        }
+      ];
+      const [movieIndex, setMovieIndex] = useState(0);
+      const [bookIndex, setBookIndex] = useState(0);
+      const [hoveredCard, setHoveredCard] = useState(null);
+      const [visibleCount, setVisibleCount] = useState(() => {
+        if (typeof window === "undefined") return 8;
+        if (window.innerWidth >= 900) return 8;
+        if (window.innerWidth >= 600) return 6;
+        return 3;
+      });
+      const gap = 16;
+      const cardWidth = `calc(${100 / visibleCount}% - ${(gap * (visibleCount - 1)) / visibleCount}px)`;
 
-        useEffect(() => {
-          const onResize = () => {
-            if (window.innerWidth >= 900) setVisibleCount(8);
-            else if (window.innerWidth >= 600) setVisibleCount(6);
-            else setVisibleCount(3);
-          };
-          onResize();
-          window.addEventListener("resize", onResize);
-          return () => window.removeEventListener("resize", onResize);
-        }, []);
+      useEffect(() => {
+        const onResize = () => {
+          if (window.innerWidth >= 900) setVisibleCount(8);
+          else if (window.innerWidth >= 600) setVisibleCount(6);
+          else setVisibleCount(3);
+        };
+        onResize();
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+      }, []);
 
-        useEffect(() => {
-          setMovieIndex((i) => Math.min(i, Math.max(0, movies.length - visibleCount)));
-          setBookIndex((i) => Math.min(i, Math.max(0, books.length - visibleCount)));
-        }, [visibleCount]);
+      useEffect(() => {
+        setMovieIndex((i) => Math.min(i, Math.max(0, movies.length - visibleCount)));
+        setBookIndex((i) => Math.min(i, Math.max(0, books.length - visibleCount)));
+      }, [visibleCount]);
 
-        const renderRow = (label, items, rowIndex, setRowIndex, type, keyPrefix) => {
-          const atStart = rowIndex === 0;
-          const atEnd = rowIndex >= items.length - visibleCount;
-          return (
-            <div>
+      const renderRow = (label, items, rowIndex, setRowIndex, type, keyPrefix) => {
+        const atStart = rowIndex === 0;
+        const atEnd = rowIndex >= items.length - visibleCount;
+        return (
+          <div>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "rgba(255,255,255,0.3)",
+                letterSpacing: "0.1em",
+                textTransform: "lowercase",
+                marginBottom: "14px",
+              }}
+            >
+              {label}
+            </div>
+            <div style={{ width: "100%", overflow: "hidden" }}>
               <div
                 style={{
-                  fontSize: "12px",
-                  color: "rgba(255,255,255,0.3)",
-                  letterSpacing: "0.1em",
-                  textTransform: "lowercase",
-                  marginBottom: "14px",
+                  display: "flex",
+                  gap: `${gap}px`,
+                  transition: "transform 400ms ease",
+                  transform: `translateX(-${rowIndex * (100 / visibleCount)}%)`,
                 }}
               >
-                {label}
-              </div>
-              <div style={{ width: "100%", overflow: "hidden" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: `${gap}px`,
-                    transition: "transform 400ms ease",
-                    transform: `translateX(-${rowIndex * (100 / visibleCount)}%)`,
-                  }}
-                >
-                  {items.map((item, index) => {
-                    const uniqueKey = `${keyPrefix}-${index}`;
-                    const isHovered = hoveredCard === uniqueKey;
-                    return (
+                {items.map((item, index) => {
+                  const uniqueKey = `${keyPrefix}-${index}`;
+                  const isHovered = hoveredCard === uniqueKey;
+                  return (
                     <div
                       key={item.title}
                       style={{
@@ -2370,88 +2531,88 @@
                         {item.review}
                       </div>
                     </div>
-                    );
-                  })}
-                </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "16px",
-                  marginTop: "12px",
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => setRowIndex((i) => Math.max(0, i - 1))}
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 0,
-                    background: "rgba(255,255,255,0.08)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    color: "white",
-                    fontSize: 18,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    opacity: atStart ? 0.25 : 1,
-                    pointerEvents: atStart ? "none" : "auto",
-                  }}
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRowIndex((i) => Math.min(i + 1, items.length - visibleCount))}
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 0,
-                    background: "rgba(255,255,255,0.08)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    color: "white",
-                    fontSize: 18,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    opacity: atEnd ? 0.25 : 1,
-                    pointerEvents: atEnd ? "none" : "auto",
-                  }}
-                >
-                  →
-                </button>
+                  );
+                })}
               </div>
             </div>
-          );
-        };
-
-        return (
-          <section id="watchlist" className="section">
             <div
               style={{
-                fontSize: "28px",
-                fontWeight: 500,
-                fontFamily: "var(--font-sans)",
-                textTransform: "none",
-                marginBottom: "8px",
+                display: "flex",
+                justifyContent: "center",
+                gap: "16px",
+                marginTop: "12px",
               }}
             >
-              watchlist
+              <button
+                type="button"
+                onClick={() => setRowIndex((i) => Math.max(0, i - 1))}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 0,
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  color: "white",
+                  fontSize: 18,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: atStart ? 0.25 : 1,
+                  pointerEvents: atStart ? "none" : "auto",
+                }}
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                onClick={() => setRowIndex((i) => Math.min(i + 1, items.length - visibleCount))}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 0,
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  color: "white",
+                  fontSize: 18,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: atEnd ? 0.25 : 1,
+                  pointerEvents: atEnd ? "none" : "auto",
+                }}
+              >
+                →
+              </button>
             </div>
-            <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.4)", marginBottom: "40px" }}>
-              movies, tv shows and books i'd recommend watching/reading
-            </div>
-            <div style={{ display: "grid", gap: "48px" }}>
-              {renderRow("movies", movies, movieIndex, setMovieIndex, "posters", "movie")}
-              {renderRow("books", books, bookIndex, setBookIndex, "books", "book")}
-            </div>
-          </section>
+          </div>
         );
-      }
+      };
+
+      return (
+        <section id="watchlist" className="section">
+          <div
+            style={{
+              fontSize: "28px",
+              fontWeight: 500,
+              fontFamily: "var(--font-sans)",
+              textTransform: "none",
+              marginBottom: "8px",
+            }}
+          >
+            watchlist
+          </div>
+          <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.4)", marginBottom: "40px" }}>
+            movies and and books i recommend
+          </div>
+          <div style={{ display: "grid", gap: "48px" }}>
+            {renderRow("movies", movies, movieIndex, setMovieIndex, "posters", "movie")}
+            {renderRow("books", books, bookIndex, setBookIndex, "books", "book")}
+          </div>
+        </section>
+      );
+    }
 
     function BlogPostPage({ post, onBack, isLeaving }) {
       if (!post) {
@@ -2536,13 +2697,13 @@
       );
     }
 
-      function MoonIcon() {
-        return (
-          <svg className="theme-icon" viewBox="0 0 18 18" aria-hidden="true">
-            <path d="M11.5 2.6a6.5 6.5 0 1 0 3.9 11.5 6 6 0 1 1-3.9-11.5z" fill="currentColor" />
-          </svg>
-        );
-      }
+    function MoonIcon() {
+      return (
+        <svg className="theme-icon" viewBox="0 0 18 18" aria-hidden="true">
+          <path d="M11.5 2.6a6.5 6.5 0 1 0 3.9 11.5 6 6 0 1 1-3.9-11.5z" fill="currentColor" />
+        </svg>
+      );
+    }
 
     function DiamondIcon() {
       return (
@@ -2562,9 +2723,23 @@
     function App() {
       const blogPosts = [
         {
-          id: 1,
+          id: 4,
+          title: "Learning KiCad on the RCS Team",
+          date: "february 2026",
+          tags: ["hardware", "kaist", "engineering"],
+          excerpt: "A tactical and physical breakdown of pressing systems and why they are beautiful.",
+          body: [
+            "I joined rocket club thinking most of my time would be around launch prep, flight profiles, and the fun cinematic part where something finally leaves the ground. Within a few weeks, it was obvious the real work lived on the electronics table. I opened KiCad for the first time and felt completely lost. The interface felt alien in a way coding tools never did. In software, bad decisions are usually reversible with a quick commit rollback. In hardware, every line you draw has a physical consequence, and there is no debugger for a burnt trace.",
+            "Learning PCB design was its own language. I had to separate schematic capture from board layout in my head, and that took longer than I expected. One is intent, the other is geometry. Then there was the obsessive detail: trace widths for current, return paths, via placement, connector orientation, and not accidentally building a noise generator. Weirdly, I started enjoying that precision. A clean design-rule check became a small personal win. In software, mistakes cost you a recompile. In hardware, a mistake can cost money, two weeks of fabrication lead time, and a very quiet lab meeting.",
+            "RCS work made that lesson sharper. On paper, reaction control systems are elegant: short controlled bursts to stabilize orientation, predictable control loops, tidy equations. In practice, you still have to run that logic on actual hardware with latency, power constraints, sensor noise, and very non-ideal behavior. The simulation looked confident. The board looked skeptical. Translating control math into something physically deployable was the first time I really felt the gap between what should work and what can work.",
+            "The most useful day was a failure day. A board came back from fabrication and refused to behave. No dramatic explosion, just stubborn silence. We went step by step: continuity checks, rail verification, probing with the oscilloscope, swapping assumptions one by one. Eventually we found a footprint mismatch that looked harmless in review and became fatal in reality. It was frustrating, but also clarifying. Hardware debugging forced a level of patience and method that software projects let me avoid by being fast.",
+            "The unexpected part is how much this improved my software thinking. Once you internalize physical constraints, abstractions feel less magical and more earned. You design with failure modes in mind, not just happy paths. You value interfaces because you know what breaks when boundaries are vague. Rocket club is still the most frustrating thing I do at KAIST, and also the most satisfying. Most days it humbles me first, then teaches me something I probably needed to learn anyway.",
+          ],
+        },
+        {
+          id: 3,
           title: "What I learned building an AI voice agent",
-          date: "january 2025",
+          date: "january 2026",
           tags: ["ai", "engineering"],
           excerpt: "Lessons from shipping a realtime voice agent and chasing latency to the edge.",
           body: [
@@ -2576,8 +2751,8 @@
         },
         {
           id: 2,
-          title: "Why I chose KAIST over other programs",
-          date: "november 2024",
+          title: "Why I chose KAIST",
+          date: "november 2025",
           tags: ["life", "kaist"],
           excerpt: "How I weighed research culture, location, and long-term technical goals.",
           body: [
@@ -2588,9 +2763,9 @@
           ],
         },
         {
-          id: 3,
+          id: 1,
           title: "Autonomous systems and the future of robotics",
-          date: "september 2024",
+          date: "october 2025",
           tags: ["tech", "robotics"],
           excerpt: "Why autonomy remains hard, and where the most exciting progress is happening.",
           body: [
@@ -2600,19 +2775,7 @@
             "Over the next five years, I’m most excited about hybrid approaches that combine learned representations with classical control and verification. We’ll likely see more domain-adaptive policies, better onboard compute efficiency, and richer simulation pipelines linked to real-world telemetry. The future of robotics is not one breakthrough algorithm; it is robust integration across perception, planning, control, and operations. When that integration works, autonomy stops feeling like a demo and starts feeling like infrastructure.",
           ],
         },
-        {
-          id: 4,
-          title: "The science of high-pressing football",
-          date: "august 2024",
-          tags: ["football", "analysis"],
-          excerpt: "A tactical and physical breakdown of pressing systems and why they are beautiful.",
-          body: [
-            "High pressing is often described as intensity, but the real story is coordination. A successful press is a choreographed sequence of body angles, lane coverage, and trigger recognition executed at speed. One player rarely wins the ball alone; the system forces probability in your favor by compressing options and timing pressure in waves. That is why pressing is both physically demanding and cognitively demanding. It is sustained decision-making under fatigue.",
-            "Liverpool under Klopp became the modern reference point because their press was not just aggressive, it was structured. The front line shaped passing options, midfielders stepped to second balls, and the back line held compact distances to keep pressure connected. Their best pressing moments looked chaotic to opponents but were highly patterned internally. The immediate transition after regains made the model even more dangerous, turning defensive actions into attacking advantages within seconds.",
-            "Data analytics now plays a major role in designing and evaluating pressing systems. Teams model pressure events, recoveries, field tilt, and pass direction changes to identify effective triggers. You can quantify whether a press is forcing low-value outlets or merely creating empty running. Video and tracking data together help coaches refine spacing and timing, especially around weak-side rotations and delayed jumps that are hard to assess with intuition alone.",
-            "What makes high pressing beautiful is the collective precision when everything clicks. It is a tactical idea expressed through trust and timing: one player commits because others will close the next lane. Even in an era of positional play and buildup sophistication, pressing remains a powerful equalizer and a statement of identity. When done well, it feels like controlled chaos, and that tension between order and aggression is why I keep studying it.",
-          ],
-        },
+        
       ];
 
       const navItems = [
@@ -2725,25 +2888,25 @@
 
           <div className="content-layer">
             <div className="top-left-toggles">
-                <button
-                  className="icon-toggle"
-                  aria-label="Toggle light and dark mode"
-                  onClick={() => setIsDarkMode((prev) => !prev)}
-                >
-                  {isDarkMode ? <MoonIcon /> : <SunIcon />}
-                </button>
+              <button
+                className="icon-toggle"
+                aria-label="Toggle light and dark mode"
+                onClick={() => setIsDarkMode((prev) => !prev)}
+              >
+                {isDarkMode ? <MoonIcon /> : <SunIcon />}
+              </button>
               <button
                 className="icon-toggle"
                 aria-label="Trigger diamond burst"
                 onClick={() => {
-                    const particles = Array.from({ length: 24 }, (_, idx) => ({
-                      id: idx,
-                      angle: Math.round(Math.random() * 360),
-                      dist: Math.round(120 + Math.random() * 220),
-                      spin: Math.round(90 + Math.random() * 270),
-                      duration: Math.round(400 + Math.random() * 300),
-                      delay: Math.round(Math.random() * 120),
-                    }));
+                  const particles = Array.from({ length: 24 }, (_, idx) => ({
+                    id: idx,
+                    angle: Math.round(Math.random() * 360),
+                    dist: Math.round(120 + Math.random() * 220),
+                    spin: Math.round(90 + Math.random() * 270),
+                    duration: Math.round(400 + Math.random() * 300),
+                    delay: Math.round(Math.random() * 120),
+                  }));
                   setDiamondFx((prev) => ({ key: prev.key + 1, active: true, particles }));
                   if (fxTimerRef.current) window.clearTimeout(fxTimerRef.current);
                   fxTimerRef.current = window.setTimeout(() => {
