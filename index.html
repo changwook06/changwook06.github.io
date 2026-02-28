@@ -2100,40 +2100,358 @@
       );
     }
 
-    function WatchlistSection() {
-      const items = [
-        { id: 1, title: "Interstellar", rating: "⭐ 10/10", type: "film" },
-        { id: 2, title: "Severance", rating: "⭐ 9/10", type: "series" },
-        { id: 3, title: "The Social Network", rating: "⭐ 9/10", type: "film" },
-        { id: 4, title: "Oppenheimer", rating: "⭐ 9/10", type: "film" },
-        { id: 5, title: "Succession", rating: "⭐ 10/10", type: "series" },
-        { id: 6, title: "Ex Machina", rating: "⭐ 8/10", type: "film" },
-      ];
+      function WatchlistSection() {
+        const movies = [
+          {
+            title: "Tenet",
+            poster: "https://image.tmdb.org/t/p/original/oRkLA2EkXaRLmK63BkvK74G8tC4.jpg",
+            review: '"i will finally understand it next watch, i mean understood"',
+          },
+          {
+            title: "About Time",
+            poster: "https://image.tmdb.org/t/p/original/ls6zswrOZVhCXQBh96DlbnLBajM.jpg",
+            review: '"truly beautiful. made me call my dad."',
+          },
+          {
+            title: "Uncut Gems",
+            poster: "https://image.tmdb.org/t/p/original/6XN1vxHc7kUSqNWtaQKN45J5x2v.jpg",
+            review: '"most stressful film ever made. the ending was such a surprise"',
+          },
+          {
+            title: "The Aviator",
+            poster: "https://image.tmdb.org/t/p/original/lx4kWcZc3o9PaNxlQpEJZM17XUI.jpg",
+            review: '"leonardo dicaprio is so good it\'s scary"',
+          },
+          {
+            title: "Goodfellas",
+            poster: "https://image.tmdb.org/t/p/w300/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg",
+            review: '"the quintissential scorsese film. everything is perfect."',
+          },
+          {
+            title: "Pulp Fiction",
+            poster: "https://image.tmdb.org/t/p/w300/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+            review: '"dialogue is music. Uma Thurman is iconic. timeless."',
+          },
+          {
+            title: "Reservoir Dogs",
+            poster: "https://image.tmdb.org/t/p/original/xi8Iu6qyTfyZVDVy60raIOYJJmk.jpg",
+            review: '"just talking guys with guns"',
+          },
+          {
+            title: "Parasite",
+            poster: "https://image.tmdb.org/t/p/w300/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+            review: '"perfect film"',
+          },
+          {
+            title: "Oppenheimer",
+            poster: "https://image.tmdb.org/t/p/original/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+            review: '"the bomb"',
+          },
+        ];
+        const books = [
+          {
+            title: "1984",
+            isbn: "9780451524935",
+            review: '"felt more like a metaphor for the current world than a dystopia"',
+          },
+          {
+            title: "Brief Answers to the Big Questions",
+            isbn: "9781984819192",
+            review: '"my dad\'s gift to me."',
+          },
+          {
+            title: "American Psycho",
+            isbn: "9780679735779",
+            review: '"cocaine in words. truly disturbing."',
+          },
+          {
+            title: "Brave New World",
+            isbn: "9780060850524",
+            review: '"kind of lost me in this one."',
+          },
+          {
+            title: "The Plague",
+            isbn: "9780679720218",
+            review: '"covid-19 prediction book."',
+          },
+          {
+            title: "Life 3.0",
+            isbn: "9781101946596",
+            review: `"pretty spot-on ai predictions. wondering if the other predictions will come true too."`,
+          },
+          {
+            title: "The Hitchhiker's Guide to the Galaxy",
+            isbn: "9780345391803",
+            review: '"rick and morty for kids."',
+          },
+          {
+            title: "One Flew Over the Cuckoo's Nest",
+            isbn: "9780143129516",
+            review: '"mcmurphy is needed in today\'s world more than ever."',
+          },
+          {
+            title: "Hamlet",
+            isbn: "9780140707342",
+            review: '"a thought-provoking look at humanity"',
+          }
+        ];
+        const [movieIndex, setMovieIndex] = useState(0);
+        const [bookIndex, setBookIndex] = useState(0);
+        const [hoveredCard, setHoveredCard] = useState(null);
+        const [visibleCount, setVisibleCount] = useState(() => {
+          if (typeof window === "undefined") return 8;
+          if (window.innerWidth >= 900) return 8;
+          if (window.innerWidth >= 600) return 6;
+          return 3;
+        });
+        const gap = 16;
+        const cardWidth = `calc(${100 / visibleCount}% - ${(gap * (visibleCount - 1)) / visibleCount}px)`;
 
-      return (
-        <section id="watchlist" className="section">
-          <div className="section-title">watchlist</div>
-          <div className="watch-grid">
-            {items.map((item) => (
-              <a
-                key={item.id}
-                className="watch-card"
-                href={`https://changwook06.github.io/?watchlistId=${item.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: "none", color: "inherit" }}
+        useEffect(() => {
+          const onResize = () => {
+            if (window.innerWidth >= 900) setVisibleCount(8);
+            else if (window.innerWidth >= 600) setVisibleCount(6);
+            else setVisibleCount(3);
+          };
+          onResize();
+          window.addEventListener("resize", onResize);
+          return () => window.removeEventListener("resize", onResize);
+        }, []);
+
+        useEffect(() => {
+          setMovieIndex((i) => Math.min(i, Math.max(0, movies.length - visibleCount)));
+          setBookIndex((i) => Math.min(i, Math.max(0, books.length - visibleCount)));
+        }, [visibleCount]);
+
+        const renderRow = (label, items, rowIndex, setRowIndex, type, keyPrefix) => {
+          const atStart = rowIndex === 0;
+          const atEnd = rowIndex >= items.length - visibleCount;
+          return (
+            <div>
+              <div
+                style={{
+                  fontSize: "12px",
+                  color: "rgba(255,255,255,0.3)",
+                  letterSpacing: "0.1em",
+                  textTransform: "lowercase",
+                  marginBottom: "14px",
+                }}
               >
-                <h3 className="watch-title">{item.title}</h3>
-                <div className="watch-meta">
-                  <span className="watch-type">{item.type}</span>
-                  <span>{item.rating}</span>
+                {label}
+              </div>
+              <div style={{ width: "100%", overflow: "hidden" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: `${gap}px`,
+                    transition: "transform 400ms ease",
+                    transform: `translateX(-${rowIndex * (100 / visibleCount)}%)`,
+                  }}
+                >
+                  {items.map((item, index) => {
+                    const uniqueKey = `${keyPrefix}-${index}`;
+                    const isHovered = hoveredCard === uniqueKey;
+                    return (
+                    <div
+                      key={item.title}
+                      style={{
+                        width: cardWidth,
+                        flexShrink: 0,
+                        overflow: "hidden",
+                        borderRadius: 0,
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div
+                        onMouseEnter={() => setHoveredCard(uniqueKey)}
+                        onMouseLeave={() => setHoveredCard(null)}
+                        style={{
+                          height: 0,
+                          paddingBottom: "141.4%",
+                          position: "relative",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <img
+                          src={
+                            type === "books"
+                              ? `https://covers.openlibrary.org/b/isbn/${item.isbn}-L.jpg`
+                              : item.poster
+                          }
+                          alt={item.title}
+                          onError={(e) => {
+                            if (type === "books") {
+                              e.currentTarget.style.display = "none";
+                              const fallback = e.currentTarget.nextElementSibling;
+                              if (fallback) fallback.style.display = "flex";
+                              return;
+                            }
+                            e.target.style.display = "none";
+                            e.target.parentNode.style.background = "#111";
+                            e.target.parentNode.style.display = "flex";
+                            e.target.parentNode.style.alignItems = "center";
+                            e.target.parentNode.style.justifyContent = "center";
+                            if (!e.target.parentNode.querySelector("span")) {
+                              const fallback = document.createElement("span");
+                              fallback.innerText = e.target.alt;
+                              fallback.style.cssText =
+                                "font-size:11px;color:rgba(255,255,255,0.5);text-align:center;padding:8px;line-height:1.4;font-family:system-ui";
+                              e.target.parentNode.appendChild(fallback);
+                            }
+                          }}
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            objectPosition: "center top",
+                            display: "block",
+                            transform: isHovered ? "scale(1.07)" : "scale(1)",
+                            transition: "transform 350ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                          }}
+                        />
+                        <div
+                          style={{
+                            display: "none",
+                            background: "#111",
+                            position: "absolute",
+                            inset: 0,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            fontSize: "12px",
+                            color: "rgba(255,255,255,0.65)",
+                            padding: "16px",
+                            fontFamily: "var(--font-sans)",
+                          }}
+                        >
+                          {item.title}
+                        </div>
+                        <div
+                          style={{
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            padding: "24px 10px 10px",
+                            background:
+                              "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
+                            opacity: isHovered ? 1 : 0,
+                            transition: "opacity 300ms ease",
+                            display: "flex",
+                            alignItems: "flex-end",
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: "11px",
+                              color: "rgba(255,255,255,0.9)",
+                              fontFamily: "var(--font-sans)",
+                              fontWeight: 500,
+                              lineHeight: 1.3,
+                              letterSpacing: "0.02em",
+                            }}
+                          >
+                            {item.title}
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          color: "rgba(255,255,255,0.38)",
+                          marginTop: "6px",
+                          lineHeight: "1.4",
+                          fontFamily: "var(--font-sans)",
+                        }}
+                      >
+                        {item.review}
+                      </div>
+                    </div>
+                    );
+                  })}
                 </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      );
-    }
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "16px",
+                  marginTop: "12px",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setRowIndex((i) => Math.max(0, i - 1))}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 0,
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    color: "white",
+                    fontSize: 18,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    opacity: atStart ? 0.25 : 1,
+                    pointerEvents: atStart ? "none" : "auto",
+                  }}
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRowIndex((i) => Math.min(i + 1, items.length - visibleCount))}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 0,
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    color: "white",
+                    fontSize: 18,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    opacity: atEnd ? 0.25 : 1,
+                    pointerEvents: atEnd ? "none" : "auto",
+                  }}
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          );
+        };
+
+        return (
+          <section id="watchlist" className="section">
+            <div
+              style={{
+                fontSize: "28px",
+                fontWeight: 500,
+                fontFamily: "var(--font-sans)",
+                textTransform: "none",
+                marginBottom: "8px",
+              }}
+            >
+              watchlist
+            </div>
+            <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.4)", marginBottom: "40px" }}>
+              movies, tv shows and books i'd recommend watching/reading
+            </div>
+            <div style={{ display: "grid", gap: "48px" }}>
+              {renderRow("movies", movies, movieIndex, setMovieIndex, "posters", "movie")}
+              {renderRow("books", books, bookIndex, setBookIndex, "books", "book")}
+            </div>
+          </section>
+        );
+      }
 
     function BlogPostPage({ post, onBack, isLeaving }) {
       if (!post) {
