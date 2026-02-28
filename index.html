@@ -10,9 +10,13 @@
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
       :root {
         --bg: #000;
         --text: #fff;
+        --font-serif: "Georgia", "Times New Roman", serif;
+        --font-sans: "Inter", system-ui, -apple-system, sans-serif;
         --card-bg: #111;
         --card-border: #222;
         --nav-text: rgba(255, 255, 255, 0.6);
@@ -40,7 +44,10 @@
         min-height: 100%;
         background: transparent;
         color: var(--text);
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        font-family: var(--font-sans);
+        font-size: 15px;
+        line-height: 1.6;
+        font-weight: 400;
       }
 
       body {
@@ -56,6 +63,7 @@
         min-height: 100vh;
         background: var(--bg);
         color: var(--text);
+        font-family: var(--font-sans);
       }
 
       .app.theme-dark {
@@ -208,6 +216,7 @@
         letter-spacing: 0.2em;
         color: var(--muted);
         margin-bottom: 22px;
+        font-weight: 500;
       }
 
       .about-wrap {
@@ -217,7 +226,7 @@
       }
 
       .name {
-        font-family: Georgia, "Times New Roman", serif;
+        font-family: var(--font-serif);
         font-size: clamp(40px, 8vw, 72px);
         line-height: 1.02;
         margin: 0 0 12px;
@@ -250,6 +259,7 @@
         line-height: 1.4;
         border: 1px solid transparent;
         margin: 0 2px;
+        font-weight: 400;
       }
 
       .tag-green {
@@ -308,22 +318,195 @@
 
       .life-strip {
         margin-top: 24px;
+        max-width: 100%;
+        overflow-x: hidden;
+        box-sizing: border-box;
+      }
+
+      .life-carousel-wrap {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      .life-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.45);
+        color: white;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+      }
+
+      .life-arrow.left {
+        left: 8px;
+      }
+
+      .life-arrow.right {
+        right: 8px;
+      }
+
+      .life-arrow:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .life-arrow:disabled {
+        opacity: 0.25;
+        cursor: not-allowed;
+      }
+
+      .life-viewport {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        height: 320px;
       }
 
       .life-track {
         display: flex;
         gap: 12px;
-        overflow-x: auto;
-        padding-bottom: 6px;
+        transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
+        box-sizing: border-box;
+      }
+
+      .life-item {
+        flex: 0 0 auto;
+        box-sizing: border-box;
+      }
+
+      .life-photo-button {
+        border: none;
+        background: transparent;
+        padding: 0;
+        width: 100%;
+        cursor: pointer;
       }
 
       .life-photo {
-        flex: 0 0 190px;
-        height: 112px;
+        width: 100%;
+        height: 200px;
         border-radius: 10px;
         border: 1px solid var(--card-border);
-        background-size: cover;
-        background-position: center;
+        object-fit: cover;
+        display: block;
+      }
+
+      .life-short-caption {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.45);
+        text-align: center;
+        margin-top: 8px;
+        text-transform: lowercase;
+        font-weight: 400;
+      }
+
+      .life-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: rgba(0, 0, 0, 0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 200ms ease-out;
+      }
+
+      .life-lightbox-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .life-lightbox-image {
+        max-height: 75vh;
+        max-width: 88vw;
+        border-radius: 12px;
+        object-fit: contain;
+      }
+
+      .life-lightbox-short {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 500;
+        margin-top: 16px;
+        text-transform: lowercase;
+      }
+
+      .life-lightbox-detailed {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.45);
+        max-width: 480px;
+        text-align: center;
+        line-height: 1.6;
+        margin-top: 8px;
+        font-weight: 400;
+      }
+
+      .life-lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 24px;
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.5);
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .life-lightbox-close:hover {
+        color: #fff;
+      }
+
+      .life-lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 32px;
+        color: #fff;
+        background: none;
+        border: none;
+        cursor: pointer;
+        line-height: 1;
+        padding: 8px 12px;
+      }
+
+      .life-lightbox-nav.left {
+        left: 16px;
+      }
+
+      .life-lightbox-nav.right {
+        right: 16px;
+      }
+
+      .life-lightbox-nav:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       .places-map {
@@ -354,6 +537,9 @@
         font-size: 13px;
         padding: 6px 12px;
         box-shadow: none !important;
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        font-weight: 400;
       }
 
       .mapboxgl-popup-tip {
@@ -424,6 +610,7 @@
       .project-title {
         margin: 0;
         font-size: 17px;
+        font-weight: 500;
       }
 
       .badge {
@@ -447,6 +634,7 @@
         color: var(--subtle-text);
         font-size: 14px;
         line-height: 1.45;
+        font-weight: 400;
       }
 
       .card-links {
@@ -495,6 +683,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-weight: 500;
       }
 
       .list-title:hover {
@@ -508,11 +697,14 @@
         padding: 2px 8px;
         background: rgba(80, 140, 255, 0.2);
         border: 1px solid rgba(80, 140, 255, 0.4);
+        color: rgba(255, 255, 255, 0.45);
+        font-weight: 400;
       }
 
       .list-date {
-        color: var(--muted);
+        color: rgba(255, 255, 255, 0.45);
         font-size: 12px;
+        font-weight: 400;
       }
 
       .watch-grid {
@@ -531,6 +723,7 @@
       .watch-title {
         margin: 0 0 8px;
         font-size: 15px;
+        font-weight: 500;
       }
 
       .watch-meta {
@@ -574,6 +767,7 @@
       .media-title {
         margin: 0 0 8px;
         font-size: 15px;
+        font-weight: 500;
       }
 
       .media-foot {
@@ -812,11 +1006,11 @@
       }
 
       @keyframes shard-fly {
-        from {
+        0% {
           transform: translate(-50%, -50%) rotate(45deg);
           opacity: 0;
         }
-        to {
+        100% {
           transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(225deg);
           opacity: 0;
         }
@@ -859,6 +1053,9 @@
         font-size: 14px;
         width: 100%;
         outline: none;
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        font-weight: 400;
       }
 
       .contact-input:focus,
@@ -880,6 +1077,9 @@
         padding: 8px 18px;
         cursor: pointer;
         transition: background 200ms ease, color 200ms ease;
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        font-weight: 500;
       }
 
       .contact-submit:hover {
@@ -919,6 +1119,12 @@
         .watch-grid,
         .media-grid {
           grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 599px) {
+        .life-photo {
+          height: 200px;
         }
       }
     </style>
@@ -1183,12 +1389,99 @@
 
       function AboutSection() {
         const photos = [
-          "linear-gradient(135deg,#1f2937,#334155)",
-          "linear-gradient(135deg,#3f1d2e,#7c2d12)",
-          "linear-gradient(135deg,#062d2f,#0f766e)",
-          "linear-gradient(135deg,#141e30,#243b55)",
-          "linear-gradient(135deg,#3f3f46,#111827)",
+          {
+            src: "assets/friends.jpg",
+            short: "friends",
+            detailed:
+              "Hanging out with the crew in Daejeon — the people who make KAIST feel like home. Winter 2024.",
+          },
+          {
+            src: "assets/snow.jpg",
+            short: "snow day",
+            detailed:
+              "First proper snowfall of the season. Everything went quiet and the campus looked unreal. December 2024.",
+          },
+          {
+            src: "assets/friends skating.jpg",
+            short: "skating",
+            detailed:
+              "Ice skating in the city with friends — nobody could actually skate but that was half the fun. January 2025.",
+          },
+          {
+            src: "assets/karaoke.jpg",
+            short: "karaoke",
+            detailed:
+              "Late night karaoke session that went way too long. Zero regrets. February 2025.",
+          },
+          {
+            src: "assets/rocket club.jpeg",
+            short: "rocket club",
+            detailed:
+              "Building and launching model rockets with the aerospace club at KAIST. One of the best decisions I've made here. Fall 2024.",
+          },
         ];
+        const viewportRef = useRef(null);
+        const [carouselIndex, setCarouselIndex] = useState(0);
+        const [visibleCount, setVisibleCount] = useState(() => {
+          if (typeof window === "undefined") return 3;
+          if (window.innerWidth < 600) return 1;
+          if (window.innerWidth < 900) return 2;
+          return 3;
+        });
+        const [viewportWidth, setViewportWidth] = useState(0);
+        const [lightboxIndex, setLightboxIndex] = useState(null);
+        const gap = 12;
+
+        useEffect(() => {
+          const getVisibleCount = (width) => {
+            if (width < 600) return 1;
+            if (width < 900) return 2;
+            return 3;
+          };
+
+          const updateCarouselLayout = () => {
+            setVisibleCount(getVisibleCount(window.innerWidth));
+            if (viewportRef.current) {
+              setViewportWidth(viewportRef.current.clientWidth);
+            }
+          };
+
+          updateCarouselLayout();
+          window.addEventListener("resize", updateCarouselLayout);
+          return () => window.removeEventListener("resize", updateCarouselLayout);
+        }, []);
+
+        useEffect(() => {
+          const maxIndex = Math.max(0, photos.length - visibleCount);
+          setCarouselIndex((prev) => Math.min(prev, maxIndex));
+        }, [visibleCount, photos.length]);
+
+        useEffect(() => {
+          if (lightboxIndex === null) return;
+
+          const previousOverflow = document.body.style.overflow;
+          document.body.style.overflow = "hidden";
+          const onKeyDown = (event) => {
+            if (event.key === "Escape") setLightboxIndex(null);
+          };
+
+          window.addEventListener("keydown", onKeyDown);
+          return () => {
+            window.removeEventListener("keydown", onKeyDown);
+            document.body.style.overflow = previousOverflow;
+          };
+        }, [lightboxIndex]);
+
+        const maxCarouselIndex = Math.max(0, photos.length - visibleCount);
+        const itemWidth =
+          viewportWidth > 0
+            ? visibleCount === 3
+              ? 280
+              : visibleCount === 2
+                ? Math.max(260, (viewportWidth - gap) / 2)
+                : viewportWidth
+            : 0;
+        const currentLightboxPhoto = lightboxIndex !== null ? photos[lightboxIndex] : null;
 
         return (
           <section id="about" className="section">
@@ -1249,10 +1542,76 @@
                   <div className="section-title" style={{ marginTop: 30, marginBottom: 12 }}>
                     life
                   </div>
-                  <div className="life-track">
-                    {photos.map((bg, i) => (
-                      <div key={i} className="life-photo" style={{ background: bg }} />
-                    ))}
+                  <div className="life-carousel-wrap">
+                    <button
+                      type="button"
+                      className="life-arrow left"
+                      aria-label="Previous life photo"
+                      onClick={() => setCarouselIndex((prev) => Math.max(0, prev - 1))}
+                      disabled={carouselIndex === 0}
+                      style={{
+                        width: "36px",
+                        height: "36px",
+                        zIndex: 10,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "white",
+                        background: "rgba(0,0,0,0.45)",
+                        backdropFilter: "blur(4px)",
+                        opacity: carouselIndex === 0 ? 0.25 : 1,
+                        pointerEvents: carouselIndex === 0 ? "none" : "auto",
+                      }}
+                    >
+                      ←
+                    </button>
+                    <div className="life-viewport" ref={viewportRef}>
+                      <div
+                        className="life-track"
+                        style={{ transform: `translateX(-${(itemWidth + gap) * carouselIndex}px)` }}
+                      >
+                        {photos.map((photo, i) => (
+                          <div key={photo.src} className="life-item" style={{ width: `${itemWidth}px` }}>
+                            <button
+                              type="button"
+                              className="life-photo-button"
+                              onClick={() => setLightboxIndex(i)}
+                              aria-label={`Open photo ${photo.short}`}
+                            >
+                              <img
+                                className="life-photo"
+                                src={photo.src}
+                                loading="lazy"
+                                alt={photo.short}
+                              />
+                            </button>
+                            <div className="life-short-caption">{photo.short}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="life-arrow right"
+                      aria-label="Next life photo"
+                      onClick={() => setCarouselIndex((i) => Math.min(photos.length - visibleCount, i + 1))}
+                      disabled={carouselIndex === maxCarouselIndex}
+                      style={{
+                        width: "36px",
+                        height: "36px",
+                        zIndex: 10,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "white",
+                        background: "rgba(0,0,0,0.45)",
+                        backdropFilter: "blur(4px)",
+                        opacity: carouselIndex >= photos.length - visibleCount ? 0.25 : 1,
+                        pointerEvents: carouselIndex >= photos.length - visibleCount ? "none" : "auto",
+                      }}
+                    >
+                      →
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1261,6 +1620,53 @@
                 <div className="portrait fade-slide fade-800 delay-200" aria-label="Portrait placeholder" />
               </div>
             </div>
+            {currentLightboxPhoto && (
+              <div className="life-lightbox" onClick={() => setLightboxIndex(null)}>
+                <button
+                  type="button"
+                  className="life-lightbox-close"
+                  onClick={() => setLightboxIndex(null)}
+                  aria-label="Close life photo lightbox"
+                >
+                  ✕
+                </button>
+                <button
+                  type="button"
+                  className="life-lightbox-nav left"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setLightboxIndex((prev) => (prev === null ? prev : Math.max(0, prev - 1)));
+                  }}
+                  disabled={lightboxIndex === 0}
+                  aria-label="Previous lightbox photo"
+                >
+                  ‹
+                </button>
+                <div className="life-lightbox-inner" onClick={(event) => event.stopPropagation()}>
+                  <img
+                    className="life-lightbox-image"
+                    src={currentLightboxPhoto.src}
+                    alt={currentLightboxPhoto.short}
+                  />
+                  <div className="life-lightbox-short">{currentLightboxPhoto.short}</div>
+                  <div className="life-lightbox-detailed">{currentLightboxPhoto.detailed}</div>
+                </div>
+                <button
+                  type="button"
+                  className="life-lightbox-nav right"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setLightboxIndex((prev) =>
+                      prev === null ? prev : Math.min(photos.length - 1, prev + 1)
+                    );
+                  }}
+                  disabled={lightboxIndex === photos.length - 1}
+                  aria-label="Next lightbox photo"
+                >
+                  ›
+                </button>
+              </div>
+            )}
           </section>
         );
       }
@@ -1274,7 +1680,7 @@
           if (!window.mapboxgl || !mapContainerRef.current) return;
 
           // TODO: replace with your Mapbox public token
-          const MAPBOX_TOKEN = "pk.eyJ1IjoiY2hhbmd3b29rMDYiLCJhIjoiY21tNXBsZndqMGFqOTJycHFqemdxeHU3aCJ9.BefiyKZ0Uu00e3E6XWM3dw";
+          const MAPBOX_TOKEN = "YOUR_MAPBOX_PUBLIC_TOKEN";
           const hasToken = MAPBOX_TOKEN && MAPBOX_TOKEN !== "YOUR_MAPBOX_PUBLIC_TOKEN";
           setIsMapReady(Boolean(hasToken));
           if (!hasToken) return;
@@ -1313,6 +1719,7 @@
             const onEnter = () => {
               popup.setLngLat(place.coords).addTo(map);
             };
+
             const onLeave = () => {
               popup.remove();
             };
